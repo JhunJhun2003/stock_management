@@ -30,13 +30,25 @@ class Setting extends Model
         ];
     }
 
-    // Helper method to get single setting
+    /**
+     * Get settings (singleton pattern).
+     */
     public static function getSettings()
     {
-        return self::first() ?? self::create([
-            'shop_name' => 'My POS Shop',
-            'currency' => '$',
-            'currency_code' => 'MMK',
-        ]);
+        $settings = self::first();
+        
+        if (!$settings) {
+            $settings = self::create([
+                'shop_name' => 'My POS Shop',
+                'currency' => 'Ks.',
+                'currency_code' => 'MMK',
+                'address' => 'Yangon, Myanmar',
+                'phone' => '+95 9 123456789',
+                'email' => 'shop@example.com',
+                'tax_rate' => 0,
+            ]);
+        }
+        
+        return $settings;
     }
 }
