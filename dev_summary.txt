@@ -4,3 +4,114 @@ php artisan migrate
 php artisan serve
 composer require laravel/breeze --dev
 php artisan breeze:install
+Created 
+app/
+├── DTOs/
+├── Interfaces/
+├── Mappers/
+├── Repositories/
+├── Services/
+
+php artisan make:model Product -m
+migration file modified 
+public function up(): void
+{
+    Schema::create('products', function (Blueprint $table) {
+        $table->id();
+        $table->string('code')->unique();
+        $table->string('name');
+        $table->integer('stock');
+        $table->decimal('price', 10, 2);
+        $table->timestamps();
+    });
+}
+
+php artisan migrate
+php artisan make:controller ProductController
+
+create 
+app/Interfaces/ProductRepositoryInterface.php
+
+Create:
+app/Repositories/ProductRepository.php
+
+Create:
+app/Services/ProductService.php
+
+Open:
+app/Providers/AppServiceProvider.php
+
+
+php artisan make:migration add_is_admin_to_users_table
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_admin')->default(false)->after('email');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('is_admin');
+        });
+    }
+};
+php artisan migrate
+modified the user model 
+php artisan make:middleware AdminMiddleware
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AdminMiddleware
+{
+    public function handle(Request $request, Closure $next)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if (!Auth::user()->isAdmin()) {
+            abort(403, 'Unauthorized - Admin access required.');
+        }
+
+        return $next($request);
+    }
+}
+
+php artisan make:middleware SellerMiddleware
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class SellerMiddleware
+{
+    public function handle(Request $request, Closure $next)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        // Allow both admin and seller to access
+        return $next($request);
+    }
+}
+
+modified the web.php

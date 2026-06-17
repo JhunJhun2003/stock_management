@@ -1,0 +1,34 @@
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        min-height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .login-card {
+        width: 100%;
+        max-width: 900px;
+        background: white;
+
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+        overflow: hidden;
+      }
+
+      .brand-section {
+        background-color: #eff6ff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 48px;
+      }
+
+      .form-section {
+        padding: 48px;
+      }

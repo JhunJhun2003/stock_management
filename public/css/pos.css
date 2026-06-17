@@ -1,0 +1,156 @@
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+      }
+
+      .sidebar {
+        background-color: #0b192c;
+        min-height: 100vh;
+        color: #94a3b8;
+        padding-top: 0 !important;
+      }
+
+      .sidebar-brand {
+        padding: 24px 8px;
+        border-bottom: 1px solid #1e293b;
+        margin-bottom: 16px;
+        width: 100%;
+      }
+
+      .sidebar .nav-item {
+        width: 100%;
+        margin-bottom: 4px; 
+      }
+
+      .sidebar .nav-link {
+        color: #94a3b8 !important; 
+        font-size: 14px; 
+        padding: 8px 16px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 12px;       
+        border-radius: 6px;
+        transition: all 0.2s ease-in-out;
+        border-left: 3px solid transparent;
+      }
+
+      .sidebar .nav-link i {
+        color: inherit !important;
+      }
+
+      .sidebar .nav-link:hover {
+        color: #ffffff !important; 
+        background-color: rgba(255, 255, 255, 0.08) !important;
+      }
+
+      .sidebar .nav-link:hover i {
+        color: #ffffff !important; 
+      }
+
+      .sidebar .nav-link.active {
+        color: #ffffff !important; 
+        background-color: #3b82f6 !important; 
+        font-weight: 600;
+        border-left: 3px solid #60a5fa;
+      }
+
+      .sidebar .nav-link.active i {
+        color: #ffffff !important; 
+      }
+
+      .sidebar .nav-link.text-danger, .sidebar .nav-link.text-danger i {
+        color: #dc3545 !important;
+      }
+
+      .sidebar .nav-link.text-danger:hover {
+        background-color: rgba(220,53,69,0.15) !important; 
+        color: #ff4d5e !important;
+      }
+
+      .sidebar .nav-link.text-danger:hover i {
+        color: #ff4d5e !important;
+      }
+
+      .sidebar-logout-container {
+        border-top: 1px solid #1e293b !important;
+        padding: 16px 8px !important; 
+        margin: 0 -16px;
+      }
+
+      .profile-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e2e8f0;
+      }
+
+      .product-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .product-card:hover {
+        border-color: #3b82f6;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .paySlip {
+        background: white;
+        border-left: 1px solid #e2e8f0;
+        height: auto;
+        position: sticky;
+        top: 0;
+      }
+
+      #paySlipArea {
+        display: none;
+      }
+
+      @media print {
+        body > div.container-fluid, .modal-backdrop, #paymentModal {
+          display: none !important;
+        }
+
+        body * {
+          visibility: hidden;
+          background: transparent !important;
+        }
+
+        @page {
+          size: 80mm auto;
+          margin: 0mm;
+        }
+
+        #paySlipArea, #paySlipArea * {
+          visibility: visible;
+        }
+
+        #paySlipArea {
+          width: 80mm;
+          padding: 5mm;
+          margin: 0;
+
+          background: #fff;
+          color: #000 !important;
+
+          font-family: "Courier New", Courier, monospace;
+          font-size: 13px;
+
+          display: block !important;
+
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+
+        .receipt-dash {
+          border-top: 1px dashed #000;
+          margin: 5px 0;
+        }
+      }
