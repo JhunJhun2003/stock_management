@@ -14,7 +14,10 @@ class SellerMiddleware
             return redirect()->route('login');
         }
 
-        // Allow both admin and seller to access
+        if (!Auth::user()->isSeller()) {
+            return redirect()->route('dashboard');
+        }
+
         return $next($request);
     }
 }

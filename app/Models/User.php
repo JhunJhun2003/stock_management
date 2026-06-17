@@ -22,14 +22,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_admin' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_admin' => 'boolean',
+    ];
 
     // Relationships
     public function sales()
@@ -40,12 +37,12 @@ class User extends Authenticatable
     // Helper methods
     public function isAdmin(): bool
     {
-        return $this->is_admin === true;
+        return (bool) $this->is_admin;
     }
 
     public function isSeller(): bool
     {
-        return $this->is_admin === false;
+        return !$this->isAdmin();
     }
 
 
