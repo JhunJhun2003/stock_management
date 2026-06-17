@@ -2,103 +2,90 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ProductService;
+use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    protected $productService;
-
-    public function __construct(ProductService $productService)
+    /**
+     * Display a listing of products.
+     */
+    public function index()
     {
-        $this->productService = $productService;
+        $products = Product::latest()->paginate(10);
+        return view('pos.product_management', compact('products'));
     }
 
-    public function index(): JsonResponse
-    {
-        $products = $this->productService->getAllProducts();
-        return response()->json($products);
-    }
-
-    public function store(Request $request): JsonResponse
+    /**
+     * Store a newly created product.
+     */
+    public function store(Request $request)
     {
         $validated = $request->validate([
-            'code' => 'required|string|unique:products,code',
-            'name' => 'required|string|max:255',
-            'stock' => 'required|integer|min:0',
+            'product_code' => 'required|string|unique:products',
+            'product_name' => 'required|string|max:255',
+            'category' => 'nullable|string|max:100',
             'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'description' => 'nullable|string',
+            'is_active' => 'boolean',
         ]);
 
-        try {
-            $product = $this->productService->createProduct($validated);
-            return response()->json($product, 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
+        $product = Product::create([
+            'product_code' => $validated['product_code'],
+            'product_name' => $validated['product_name'],
+            'category' => $validated['category'],
+            'price' => $validated['price'],
+            'stock' => $validated['stock'],
+            'description' => $validated['description'],
+            'is_active' => $validated['is_active'] ?? true,
+        ]);
+
+        return redirect()->route('products.index')
+            ->with('success', 'Product created successfully!');
     }
 
-    public function show($id): JsonResponse
+    /**
+     * Update the specified product.
+     */
+    public function update(Request $request, $id)
     {
-        $product = $this->productService->getProductById($id);
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
-        return response()->json($product);
-    }
+        $product = Product::findOrFail($id);
 
-    public function update(Request $request, $id): JsonResponse
-    {
         $validated = $request->validate([
-            'code' => 'sometimes|string|unique:products,code,' . $id,
-            'name' => 'sometimes|string|max:255',
-            'stock' => 'sometimes|integer|min:0',
-            'price' => 'sometimes|numeric|min:0',
+            'product_code' => 'required|string|unique:products,product_code,' . $id,
+            'product_name' => 'required|string|max:255',
+            'category' => 'nullable|string|max:100',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'description' => 'nullable|string',
+            'is_active' => 'boolean',
         ]);
 
-        try {
-            $updated = $this->productService->updateProduct($id, $validated);
-            if (!$updated) {
-                return response()->json(['error' => 'Product not found'], 404);
-            }
-            return response()->json(['message' => 'Product updated successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
-    }
-
-    public function destroy($id): JsonResponse
-    {
-        $deleted = $this->productService->deleteProduct($id);
-        if (!$deleted) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
-        return response()->json(['message' => 'Product deleted successfully']);
-    }
-
-    public function updateStock(Request $request, $id): JsonResponse
-    {
-        $validated = $request->validate([
-            'quantity' => 'required|integer|not_in:0',
+        $product->update([
+            'product_code' => $validated['product_code'],
+            'product_name' => $validated['product_name'],
+            'category' => $validated['category'],
+            'price' => $validated['price'],
+            'stock' => $validated['stock'],
+            'description' => $validated['description'],
+            'is_active' => $validated['is_active'] ?? true,
         ]);
 
-        try {
-            $updated = $this->productService->updateStock($id, $validated['quantity']);
-            if (!$updated) {
-                return response()->json(['error' => 'Product not found'], 404);
-            }
-            return response()->json(['message' => 'Stock updated successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
+        return redirect()->route('products.index')
+            ->with('success', 'Product updated successfully!');
     }
 
-    public function getByCode($code): JsonResponse
+    /**
+     * Remove the specified product.
+     */
+    public function destroy($id)
     {
-        $product = $this->productService->getProductByCode($code);
-        if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
-        return response()->json($product);
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return redirect()->route('products.index')
+            ->with('success', 'Product deleted successfully!');
     }
 }
