@@ -1,0 +1,6 @@
+create the laravel project
+database connection prepare
+php artisan migrate
+php artisan serve
+composer require laravel/breeze --dev
+php artisan breeze:install
