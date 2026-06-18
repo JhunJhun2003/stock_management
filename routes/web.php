@@ -6,6 +6,8 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\SellerDashboardController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\SalesHistoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,18 +19,9 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/dashboard', function () {
-    if (Auth::user()->isSeller()) {
-        return redirect()->route('seller.dashboard');
-    }
-
-    return view('pos.dashboard', [
-        'totalSales' => 100000,
-        'totalOrders' => 100,
-        'totalProducts' => \App\Models\Product::count(),
-        'totalUsers' => \App\Models\User::count(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // Admin-only routes
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -61,15 +54,15 @@ Route::middleware(['auth', 'seller'])->group(function () {
     Route::post('/pos/checkout', [PosController::class, 'checkout'])
         ->name('pos.checkout');
 
-    Route::get('/sales-history', function () {
-        return view('pos.sale_history');
-    })->name('sales.history');
+    Route::get('/sales-history', [SalesHistoryController::class, 'index'])
+        ->name('sales.history');
 });
 
 // Shared authenticated routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings/password', [SettingsController::class, 'changePassword'])->name('settings.password');
+    Route::get('/sales/{id}', [SalesHistoryController::class, 'show'])->name('sales.show');
 });
 
 require __DIR__.'/auth.php';

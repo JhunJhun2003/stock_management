@@ -7,6 +7,8 @@ use App\Interfaces\ProductRepositoryInterface;
 use App\Interfaces\SaleRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class SaleService
 {
@@ -91,5 +93,40 @@ class SaleService
 
             return $sale->load('saleDetails.product');
         });
+    }
+
+    public function getSaleById(int $id): ?Sale
+    {
+        return $this->saleRepository->getById($id);
+    }
+
+    public function getRecentSalesByUser(int $userId, int $limit = 10): Collection
+    {
+        return $this->saleRepository->getRecentByUser($userId, $limit);
+    }
+
+    public function getFilteredSales(array $filters, int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->saleRepository->getFilteredSales($filters, $perPage);
+    }
+
+    public function getSalesSummary(array $filters): array
+    {
+        return $this->saleRepository->getSalesSummary($filters);
+    }
+
+    public function getBestSellingProducts(int $limit = 10): Collection
+    {
+        return $this->saleRepository->getBestSellingProducts($limit);
+    }
+
+    public function getStaffPerformance(string $fromDate, string $toDate, int $limit = 10): Collection
+    {
+        return $this->saleRepository->getStaffPerformance($fromDate, $toDate, $limit);
+    }
+
+    public function getSalesChartData(string $period, ?int $userId = null): array
+    {
+        return $this->saleRepository->getSalesChartData($period, $userId);
     }
 }

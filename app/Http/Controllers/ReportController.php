@@ -3,48 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Sale;
-use App\Models\SaleDetail;
-use App\Models\Product;
-use App\Models\User;
+use App\Services\ProductService;
+use App\Services\SaleService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
+    public function __construct(
+        protected SaleService $saleService,
+        protected ProductService $productService,
+        protected UserService $userService
+    ) {}
+
     public function index(Request $request)
     {
         $fromDate = $request->get('from_date', now()->startOfMonth()->format('Y-m-d'));
         $toDate = $request->get('to_date', now()->format('Y-m-d'));
         $reportType = $request->get('report_type', 'sales');
-        $sellerId = $request->get('seller_id', ''); // Get seller filter
+        $sellerId = $request->get('seller_id', '');
+        $invoiceNumber = $request->get('invoice_number', '');
 
-        // Base query for sales
-        $salesQuery = Sale::with(['user', 'saleDetails'])
-            ->whereBetween('sale_date', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59']);
+        $filters = [
+            'from_date' => $fromDate,
+            'to_date' => $toDate,
+            'seller_id' => $sellerId,
+            'invoice_number' => $invoiceNumber
+        ];
 
-        // Apply seller filter if selected
-        if (!empty($sellerId)) {
-            $salesQuery->where('user_id', $sellerId);
-        }
+        // Eager-loaded paginated sales
+        $sales = $this->saleService->getFilteredSales($filters, 15);
 
-        // Get sales data
-        $sales = $salesQuery->orderBy('sale_date', 'desc')->paginate(15);
-
-        // Calculate statistics
-        $totalSales = $salesQuery->sum('total_amount') ?? 0;
-        $totalOrders = $salesQuery->count() ?? 0;
-        $totalItemsSold = SaleDetail::whereIn('sale_id', $salesQuery->pluck('id'))
-            ->sum('quantity') ?? 0;
+        // Calculate statistics via SaleService
+        $summary = $this->saleService->getSalesSummary($filters);
+        $totalSales = $summary['total_sales'];
+        $totalOrders = $summary['total_orders'];
+        $totalItemsSold = $summary['total_items_sold'];
+        $totalCost = $summary['total_cost'];
+        $netProfit = $summary['net_profit'];
         $averageSale = $totalOrders > 0 ? $totalSales / $totalOrders : 0;
 
         // Get all sellers for the dropdown filter
-        // $sellers = User::where('role', 'seller')
-        //     ->orWhere('role', 'staff')
-        //     ->orWhere('is_admin', false)
-        //     ->orderBy('name')
-        //     ->get();
-        $sellers = User::where('is_admin', false)->orderBy('name')->get();
+        $sellers = $this->userService->getAllUsers()->filter(fn($u) => !$u->isAdmin())->values();
 
         // Get additional data based on report type
         $reportData = [];
@@ -52,26 +52,10 @@ class ReportController extends Controller
         
         if ($reportType === 'products') {
             $reportTitle = 'Product Report - Best Selling Products';
-            // $reportData = Product::withCount('saleDetails as total_sold')
-            //     ->withSum('saleDetails as total_revenue', 'subtotal')
-            //     ->orderBy('total_sold', 'desc')
-            //     ->limit(10)
-            //     ->get();
-            $reportData = Product::withCount('saleDetails as total_sold')
-                ->withSum('saleDetails as total_revenue', 'subtotal')
-                ->orderBy('total_sold', 'desc')
-                ->limit(10)
-                ->get();
+            $reportData = $this->saleService->getBestSellingProducts(10);
         } elseif ($reportType === 'users') {
             $reportTitle = 'User Report - Staff Performance';
-            $reportData = User::withCount('sales as total_sales')
-                ->withSum('sales as total_revenue', 'total_amount')
-                ->whereHas('sales', function($query) use ($fromDate, $toDate) {
-                    $query->whereBetween('sale_date', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59']);
-                })
-                ->orderBy('total_revenue', 'desc')
-                ->limit(10)
-                ->get();
+            $reportData = $this->saleService->getStaffPerformance($fromDate, $toDate, 10);
         }
 
         return view('pos.report', compact(
@@ -79,6 +63,8 @@ class ReportController extends Controller
             'totalSales',
             'totalOrders',
             'totalItemsSold',
+            'totalCost',
+            'netProfit',
             'averageSale',
             'fromDate',
             'toDate',
@@ -86,7 +72,8 @@ class ReportController extends Controller
             'reportData',
             'reportTitle',
             'sellers',
-            'sellerId'
+            'sellerId',
+            'invoiceNumber'
         ));
     }
 
@@ -96,37 +83,46 @@ class ReportController extends Controller
         $toDate = $request->get('to_date', now()->format('Y-m-d'));
         $reportType = $request->get('report_type', 'sales');
         $sellerId = $request->get('seller_id', '');
+        $invoiceNumber = $request->get('invoice_number', '');
 
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="' . $reportType . '_report_' . date('Y-m-d') . '.csv"',
         ];
 
-        $callback = function() use ($reportType, $fromDate, $toDate, $sellerId) {
+        $callback = function() use ($reportType, $fromDate, $toDate, $sellerId, $invoiceNumber) {
             $handle = fopen('php://output', 'w');
             
             if ($reportType === 'sales') {
-                // Sales Report CSV
+                // Sales Report CSV with Sales, Cost, and Profit
                 fputcsv($handle, [
-                    'Invoice Number', 'Date', 'User', 'Total Amount', 'Payment Method', 'Items Count'
+                    'Invoice Number', 'Date', 'User', 'Sales Amount', 'Cost Amount', 'Net Profit', 'Payment Method', 'Items Count'
                 ]);
 
-                $salesQuery = Sale::with(['user', 'saleDetails'])
-                    ->whereBetween('sale_date', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59']);
-                
-                // Apply seller filter if selected
-                if (!empty($sellerId)) {
-                    $salesQuery->where('user_id', $sellerId);
-                }
+                $filters = [
+                    'from_date' => $fromDate,
+                    'to_date' => $toDate,
+                    'seller_id' => $sellerId,
+                    'invoice_number' => $invoiceNumber
+                ];
 
-                $sales = $salesQuery->orderBy('sale_date', 'desc')->get();
+                // Get all matching sales
+                $sales = $this->saleService->getFilteredSales($filters, 10000); // large perPage to get all records
 
                 foreach ($sales as $sale) {
+                    $saleCost = 0;
+                    foreach ($sale->saleDetails as $detail) {
+                        $saleCost += $detail->quantity * ($detail->product->cost ?? 0);
+                    }
+                    $saleProfit = $sale->total_amount - $saleCost;
+
                     fputcsv($handle, [
                         $sale->invoice_number,
                         $sale->sale_date->format('Y-m-d H:i'),
                         $sale->user->name ?? 'N/A',
                         $sale->total_amount,
+                        $saleCost,
+                        $saleProfit,
                         $sale->payment_method ?? 'cash',
                         $sale->saleDetails->sum('quantity') ?? 0
                     ]);
@@ -135,15 +131,11 @@ class ReportController extends Controller
                 // Product Report CSV
                 fputcsv($handle, ['Product Name', 'Total Sold', 'Total Revenue', 'Average Price']);
 
-                $products = Product::withCount('saleDetails as total_sold')
-                    ->withSum('saleDetails as total_revenue', 'subtotal')
-                    ->orderBy('total_sold', 'desc')
-                    ->limit(10)
-                    ->get();
+                $products = $this->saleService->getBestSellingProducts(100);
 
                 foreach ($products as $product) {
                     fputcsv($handle, [
-                        $product->name,
+                        $product->product_name,
                         $product->total_sold ?? 0,
                         $product->total_revenue ?? 0,
                         $product->price
@@ -153,20 +145,7 @@ class ReportController extends Controller
                 // User Report CSV
                 fputcsv($handle, ['Staff Name', 'Total Sales', 'Total Revenue', 'Avg. Sale']);
 
-                $usersQuery = User::withCount('sales as total_sales')
-                    ->withSum('sales as total_revenue', 'total_amount')
-                    ->whereHas('sales', function($query) use ($fromDate, $toDate) {
-                        $query->whereBetween('sale_date', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59']);
-                    });
-
-                // Apply seller filter if selected
-                if (!empty($sellerId)) {
-                    $usersQuery->where('id', $sellerId);
-                }
-
-                $users = $usersQuery->orderBy('total_revenue', 'desc')
-                    ->limit(10)
-                    ->get();
+                $users = $this->saleService->getStaffPerformance($fromDate, $toDate, 100);
 
                 foreach ($users as $user) {
                     fputcsv($handle, [

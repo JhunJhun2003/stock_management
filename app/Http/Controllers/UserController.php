@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public function __construct(
+        protected UserService $userService
+    ) {}
+
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $users = $this->userService->getPaginatedUsers(10);
         return view('pos.user_management', compact('users'));
     }
 
@@ -25,11 +28,11 @@ class UserController extends Controller
             'is_admin' => 'required|in:0,1',
         ]);
 
-        $user = User::create([
+        $this->userService->createUser([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'is_admin' => $validated['is_admin'],
+            'password' => $validated['password'],
+            'is_admin' => (bool)$validated['is_admin'],
         ]);
 
         return redirect()->route('users.index')
@@ -38,28 +41,23 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => [
                 'required',
                 'email',
-                Rule::unique('users')->ignore($user->id),
+                Rule::unique('users')->ignore($id),
             ],
             'password' => 'nullable|string|min:8',
             'is_admin' => 'required|in:0,1',
         ]);
 
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-        $user->is_admin = $validated['is_admin'];
-
-        if (!empty($validated['password'])) {
-            $user->password = Hash::make($validated['password']);
-        }
-
-        $user->save();
+        $this->userService->updateUser($id, [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'] ?? null,
+            'is_admin' => (bool)$validated['is_admin'],
+        ]);
 
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully!');
@@ -67,14 +65,12 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        
-        if ($user->id === auth()->id()) {
+        if ((int)$id === auth()->id()) {
             return redirect()->route('users.index')
                 ->with('error', 'You cannot delete your own account!');
         }
 
-        $user->delete();
+        $this->userService->deleteUser($id);
 
         return redirect()->route('users.index')
             ->with('success', 'User deleted successfully!');
