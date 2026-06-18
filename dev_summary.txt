@@ -115,3 +115,11 @@ class SellerMiddleware
 }
 
 modified the web.php
+
+
+
+Sales Report: Shows all individual sales transactions
+
+Product Report: Shows which products are selling best
+
+User Report: Shows which staff members are performing best
