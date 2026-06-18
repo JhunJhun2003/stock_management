@@ -123,3 +123,16 @@ Sales Report: Shows all individual sales transactions
 Product Report: Shows which products are selling best
 
 User Report: Shows which staff members are performing best
+
+
+The Backup & Restore system allows you to:
+
+Create backups of your database (export SQL file)
+
+Store backups on the server
+
+Restore from a backup (import SQL file)
+
+Download backup files
+
+Delete old backup files

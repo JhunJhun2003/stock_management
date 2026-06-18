@@ -113,40 +113,41 @@
       }
 
       @media print {
-        body > div.container-fluid, .modal-backdrop, #paymentModal {
+        body > *:not(#paySlipArea) {
           display: none !important;
         }
 
-        body * {
-          visibility: hidden;
-          background: transparent !important;
+        .modal, .modal-backdrop {
+          display: none !important;
         }
 
-        @page {
-          size: 80mm auto;
-          margin: 0mm;
-        }
-
-        #paySlipArea, #paySlipArea * {
-          visibility: visible;
+        html, body {
+          width: 80mm;
+          margin: 0;
+          padding: 0;
+          background: #fff;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
 
         #paySlipArea {
-          width: 80mm;
-          padding: 5mm;
-          margin: 0;
-
-          background: #fff;
-          color: #000 !important;
-
-          font-family: "Courier New", Courier, monospace;
-          font-size: 13px;
-
           display: block !important;
+          width: 80mm;
+          max-width: 80mm;
+          padding: 4mm;
+          margin: 0 auto;
+          background: #fff !important;
+          color: #000 !important;
+          font-family: "Courier New", Courier, monospace;
+          font-size: 12px;
+          line-height: 1.4;
+          box-sizing: border-box;
+        }
 
-          position: absolute;
-          left: 0;
-          top: 0;
+        #paySlipArea * {
+          visibility: visible;
+          background: transparent !important;
+          color: #000 !important;
         }
 
         .receipt-dash {
