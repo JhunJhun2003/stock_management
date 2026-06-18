@@ -3,15 +3,22 @@
 namespace App\Services;
 
 use App\Interfaces\ProductRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
+use InvalidArgumentException;
 
 class ProductService
 {
-    protected $productRepository;
+    public const LOW_STOCK_THRESHOLD = 5;
 
-    public function __construct(ProductRepositoryInterface $productRepository)
+    public function __construct(
+        protected ProductRepositoryInterface $productRepository
+    ) {}
+
+    public function getPaginatedProducts(int $perPage = 10): LengthAwarePaginator
     {
-        $this->productRepository = $productRepository;
+        return $this->productRepository->paginate($perPage);
     }
 
     public function getAllProducts(): Collection
@@ -24,26 +31,40 @@ class ProductService
         return $this->productRepository->getById($id);
     }
 
+    public function getActiveProductsForPos(): Collection
+    {
+        return $this->productRepository->getActiveForPos();
+    }
+
+    public function getLowStockProducts(): Collection
+    {
+        return $this->productRepository->getLowStock(self::LOW_STOCK_THRESHOLD);
+    }
+
+    public function getCategories(): SupportCollection
+    {
+        return $this->productRepository->getCategories();
+    }
+
     public function createProduct(array $data): object
     {
-        // Validate unique code before creating
-        if ($this->productRepository->findByCode($data['code'])) {
-            throw new \Exception('Product code already exists');
+        if ($this->productRepository->findByCode($data['product_code'])) {
+            throw new InvalidArgumentException('Product code already exists.');
         }
-        
+
         return $this->productRepository->create($data);
     }
 
     public function updateProduct($id, array $data): bool
     {
-        // If code is being updated, check uniqueness
-        if (isset($data['code'])) {
-            $existing = $this->productRepository->findByCode($data['code']);
+        if (isset($data['product_code'])) {
+            $existing = $this->productRepository->findByCode($data['product_code']);
+
             if ($existing && $existing->id != $id) {
-                throw new \Exception('Product code already exists');
+                throw new InvalidArgumentException('Product code already exists.');
             }
         }
-        
+
         return $this->productRepository->update($id, $data);
     }
 
@@ -52,16 +73,8 @@ class ProductService
         return $this->productRepository->delete($id);
     }
 
-    public function getProductByCode($code): ?object
+    public function getProductByCode(string $code): ?object
     {
         return $this->productRepository->findByCode($code);
-    }
-
-    public function updateStock($id, $quantity): bool
-    {
-        if ($quantity == 0) {
-            throw new \Exception('Quantity must be non-zero');
-        }
-        return $this->productRepository->updateStock($id, $quantity);
     }
 }

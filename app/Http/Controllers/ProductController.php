@@ -3,23 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
+use InvalidArgumentException;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of products.
-     */
+    public function __construct(
+        protected ProductService $productService
+    ) {}
+
     public function index()
     {
-        $products = Product::latest()->paginate(10);
-        return view('pos.product_management', compact('products'));
+        $products = $this->productService->getPaginatedProducts(10);
+        $lowStockProducts = $this->productService->getLowStockProducts();
+
+        return view('pos.product_management', compact('products', 'lowStockProducts'));
     }
 
-    /**
-     * Store a newly created product.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,63 +28,66 @@ class ProductController extends Controller
             'product_name' => 'required|string|max:255',
             'category' => 'nullable|string|max:100',
             'price' => 'required|numeric|min:0',
+            'cost' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
 
-        $product = Product::create([
-            'product_code' => $validated['product_code'],
-            'product_name' => $validated['product_name'],
-            'category' => $validated['category'],
-            'price' => $validated['price'],
-            'stock' => $validated['stock'],
-            'description' => $validated['description'],
-            'is_active' => $validated['is_active'] ?? true,
-        ]);
+        try {
+            $this->productService->createProduct([
+                'product_code' => $validated['product_code'],
+                'product_name' => $validated['product_name'],
+                'category' => $validated['category'],
+                'price' => $validated['price'],
+                'cost' => $validated['cost'],
+                'stock' => $validated['stock'],
+                'description' => $validated['description'],
+                'is_active' => $validated['is_active'] ?? true,
+            ]);
+        } catch (InvalidArgumentException $e) {
+            return redirect()->route('products.index')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('products.index')
             ->with('success', 'Product created successfully!');
     }
 
-    /**
-     * Update the specified product.
-     */
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
-
         $validated = $request->validate([
             'product_code' => 'required|string|unique:products,product_code,' . $id,
             'product_name' => 'required|string|max:255',
             'category' => 'nullable|string|max:100',
             'price' => 'required|numeric|min:0',
+            'cost' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
 
-        $product->update([
-            'product_code' => $validated['product_code'],
-            'product_name' => $validated['product_name'],
-            'category' => $validated['category'],
-            'price' => $validated['price'],
-            'stock' => $validated['stock'],
-            'description' => $validated['description'],
-            'is_active' => $validated['is_active'] ?? true,
-        ]);
+        try {
+            $this->productService->updateProduct($id, [
+                'product_code' => $validated['product_code'],
+                'product_name' => $validated['product_name'],
+                'category' => $validated['category'],
+                'price' => $validated['price'],
+                'cost' => $validated['cost'],
+                'stock' => $validated['stock'],
+                'description' => $validated['description'],
+                'is_active' => $validated['is_active'] ?? true,
+            ]);
+        } catch (InvalidArgumentException $e) {
+            return redirect()->route('products.index')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('products.index')
             ->with('success', 'Product updated successfully!');
     }
 
-    /**
-     * Remove the specified product.
-     */
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
+        $this->productService->deleteProduct($id);
 
         return redirect()->route('products.index')
             ->with('success', 'Product deleted successfully!');

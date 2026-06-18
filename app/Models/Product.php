@@ -9,11 +9,14 @@ class Product extends Model
 {
     use HasFactory;
 
+    public const LOW_STOCK_THRESHOLD = 5;
+
     protected $fillable = [
         'product_code',
         'product_name',
         'category',
         'price',
+        'cost',
         'stock',
         'image',
         'description',
@@ -24,6 +27,7 @@ class Product extends Model
     {
         return [
             'price' => 'decimal:2',
+            'cost' => 'decimal:2',
             'is_active' => 'boolean',
         ];
     }
@@ -57,5 +61,28 @@ class Product extends Model
     public function getFormattedPriceAttribute()
     {
         return number_format($this->price, 2);
+    }
+
+    public function isLowStock(): bool
+    {
+        return $this->stock > 0 && $this->stock < self::LOW_STOCK_THRESHOLD;
+    }
+
+    public function isOutOfStock(): bool
+    {
+        return $this->stock <= 0;
+    }
+
+    public function getStockStatus(): string
+    {
+        if ($this->isOutOfStock()) {
+            return 'out_of_stock';
+        }
+
+        if ($this->isLowStock()) {
+            return 'low_stock';
+        }
+
+        return 'in_stock';
     }
 }

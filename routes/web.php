@@ -58,6 +58,9 @@ Route::middleware(['auth', 'seller'])->group(function () {
     Route::get('/pos', [PosController::class, 'index'])
         ->name('pos.index');
 
+    Route::post('/pos/checkout', [PosController::class, 'checkout'])
+        ->name('pos.checkout');
+
     Route::get('/sales-history', function () {
         return view('pos.sale_history');
     })->name('sales.history');
