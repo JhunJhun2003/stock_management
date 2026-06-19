@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Name - Sales (POS)</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    {{-- <link rel="stylesheet" href="pos.css"> --}}
+    <link href="{{ asset('css/pos.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+
+<body>
+    <div id="paySlipArea">
+        <div class="text-center">
+            <h5 class="fw-bold mb-0">POS Name</h5>
+            <p class="small mb-1"> No.123, Yangon <br> Ph: 09-123456789 </p>
+            <div class="receipt-dash"></div>
+        </div>
+
+        <div class="small my-2">
+            <div><strong>Date:</strong> <span id="rDate">{{ now()->format('d-M-Y') }}</span></div>
+            <div><strong>Receipt No:</strong> <span id="rInvoice">-</span></div>
+            <div><strong>Customer:</strong> <span id="rCustomer">-</span></div>
+            <div><strong>Cashier:</strong> <span id="rCashier">{{ Auth::user()->name }}</span></div>
+        </div>
+
+        <div class="receipt-dash"></div>
+
+        <table class="w-100 small my-2">
+            <thead>
+                <tr>
+                    <th class="text-start">Item</th>
+                    <th class="text-center">Qty</th>
+                    <th class="text-end">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="receiptItems"></tbody>
+        </table>
+
+        <div class="receipt-dash"></div>
+
+        <div class="d-flex justify-content-between small my-1">
+            <span>Subtotal:</span><span id="rSubtotal">Ks. 0</span>
+        </div>
+
+        <div class="d-flex justify-content-between small my-1">
+            <span>Discount:</span><span id="rDiscount">Ks. 0</span>
+        </div>
+
+        <div class="d-flex justify-content-between fw-bold my-1">
+            <span>TOTAL:</span><span id="rTotal">Ks. 0</span>
+        </div>
+
+        <div class="receipt-dash"></div>
+
+        <div class="small my-1">
+            <div><strong>Pay Method:</strong> <span id="billingMethod">Cash</span></div>
+            <div id="receivedLine">
+                <strong>Received:</strong> Ks. <span id="rReceived">5,000</span>
+            </div>
+
+            <div id="rChangeRow">
+                <strong>Change Due:</strong> Ks. <span id="rChange">800</span>
+            </div>
+        </div>
+
+        <div class="receipt-dash"></div>
+
+        <div class="text-center small mt-3">
+            <p class="mb-0">Thank You! Please Come Again</p>
+            <small style="font-size: 10px">Powered by My POS System</small>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-3">
+                <div>
+                    <div class="sidebar-brand d-flex align-items-center justify-content-center gap-2">
+                        <img src="{{ asset('img/logo.png') }}" alt="Logo"
+                            style="width: 32px; height: auto; object-fit: contain;">
+                        <h5 class="fw-bold text-white m-0">POS Name</h5>
+                    </div>
+
+                    <ul class="nav flex-column gap-1">
+                        <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
+                            <a class="nav-link text-white" href="{{ route('dashboard') }}">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
+                            <a class="nav-link text-white" href="{{ route('users.index') }}">
+                                <i class="bi bi-people"></i> User Management
+                            </a>
+                        </li>
+                        <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
+                            <a class="nav-link text-white" href="{{ route('products.index') }}">
+                                <i class="bi bi-box-seam"></i> Product Management
+                            </a>
+                        </li>
+                        <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
+                            <a class="nav-link text-white" href="{{ route('reports.index') }}">
+                                <i class="bi bi-graph-up"></i> Reports
+                            </a>
+                        </li>
+                        <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
+                            <a class="nav-link text-white" href="{{ route('settings.index') }}">
+                                <i class="bi bi-gear"></i> Settings
+                            </a>
+                        </li>
+
+                        <li class="nav-item seller-only {{ Auth::user()->isSeller() ? 'show' : '' }}">
+                            <a class="nav-link text-white" href="{{ route('seller.dashboard') }}">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item seller-only {{ Auth::user()->isSeller() ? 'show' : '' }}">
+                            <a class="nav-link text-white {{ request()->routeIs('pos.index') ? 'active' : '' }}"
+                                href="{{ route('pos.index') }}">
+                                <i class="bi bi-cpu"></i> POS (Sales)
+                            </a>
+                        </li>
+                        <li class="nav-item seller-only {{ Auth::user()->isSeller() ? 'show' : '' }}">
+                            <a class="nav-link text-white" href="{{ route('sales.history') }}">
+                                <i class="bi bi-receipt"></i> Sales History
+                            </a>
+                        </li>
+                        <li class="nav-item seller-only {{ Auth::user()->isSeller() ? 'show' : '' }}">
+                            <a class="nav-link text-white" href="{{ route('settings.index') }}">
+                                <i class="bi bi-gear"></i> Settings
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-logout-container">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="logout-btn">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-3 main-container">
+                <div class="row">
+
+                      <div
+                          class="d-flex justify-content-end align-items-center mb-2 bg-white p-1 rounded-3 shadow-sm border">
+                          {{-- <div>POS</div> --}}
+                          <div class="d-flex align-items-center gap-3 me-3">
+                              <div class="text-end">
+                                  <div class="fw-medium text-dark" id="userTitle" style="font-size: 12px">
+                                      {{ Auth::user()->name }}</div>
+                                  <small class="text-muted" id="userRoleBadge"
+                                      style="font-size: 12px">{{ Auth::user()->isAdmin() ? 'Administrator' : 'Sales Person' }}</small>
+                              </div>
+
+                          </div>
+                      </div>
+
+                    <div class="col-md-9 py-3">
+
+                        <div class="d-flex mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                                <input type="text" class="form-control" id="productSearch"
+                                    placeholder="Type / Scan Product Code">
+                            </div>
+                        </div>
+
+                        <ul class="nav nav-pills mb-4 gap-2" id="categoryFilters">
+                            <li class="nav-item">
+                                <a class="nav-link active btn-sm category-filter" href="#"
+                                    data-category="all">All</a>
+                            </li>
+                            @foreach ($categories as $category)
+                                <li class="nav-item">
+                                    <a class="nav-link bg-white border btn-sm category-filter" href="#"
+                                        data-category="{{ $category }}">{{ ucfirst($category) }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+
+                        <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+                            <table class="table table-hover align-middle border">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Product Code</th>
+                                        <th>Product Name</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productTableBody">
+                                    @forelse($products as $product)
+                                        <tr class="product-item" role="button" data-id="{{ $product->id }}"
+                                            data-code="{{ $product->product_code }}"
+                                            data-name="{{ $product->product_name }}"
+                                            data-search-name="{{ strtolower($product->product_name) }}"
+                                            data-category="{{ $product->category }}"
+                                            data-price="{{ $product->price }}" data-stock="{{ $product->stock }}">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td><span class="fw-bold">{{ $product->product_code }}</span></td>
+                                            <td>{{ $product->product_name }}</td>
+                                            <td class="fw-medium">Ks. {{ number_format($product->price, 0) }}</td>
+                                            <td>
+                                                @if ($product->stock <= 0)
+                                                    <span class="badge bg-danger">Out of Stock</span>
+                                                @elseif($product->isLowStock())
+                                                    <span class="badge bg-warning text-dark">{{ $product->stock }}
+                                                        (Low)
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-success">{{ $product->stock }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-end">
+                                                <button class="btn btn-sm btn-primary add-to-cart-btn" type="button"
+                                                    {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                                                    <i class="bi bi-plus"></i> Add
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted py-3">No products
+                                                available.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 paySlip p-3 mt-3 border d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="fw-bold mb-0">Current Sale</h6>
+                                <button class="btn btn-sm btn-outline-danger py-0" id="clearCartBtn"
+                                    type="button">Clear</button>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle mb-0" style="font-size: 14px">
+                                    <thead>
+                                        <tr class="text-muted">
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cartBody">
+                                        <tr id="emptyCartRow">
+                                            <td colspan="4" class="text-muted text-center small">No items in cart
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="border-top pt-3">
+                            <div class="d-flex justify-content-between small mb-1">
+                                <span>Subtotal</span><span id="cartSubtotal">Ks. 0</span>
+                            </div>
+
+                            <div class="d-flex justify-content-between small mb-1 align-items-center">
+                                <span>Customer Name</span>
+                                <input type="text" class="form-control form-control-sm text-end w-50"
+                                    id="customerNameInput" placeholder="Walk-in Customer">
+                            </div>
+
+                            <div class="d-flex justify-content-between small mb-1 align-items-center">
+                                <span>Discount</span>
+                                <input type="number" class="form-control form-control-sm text-end w-50"
+                                    id="discountInput" value="0" min="0" step="1">
+                            </div>
+
+                            <div class="d-flex justify-content-between fw-bold h5 my-2 text-success">
+                                <span>Total</span><span id="cartTotal">Ks. 0</span>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col-8">
+                                    <button class="btn btn-success w-100 py-2 small fw-bold" id="payBtn"
+                                        data-bs-toggle="modal" data-bs-target="#paymentModal" type="button"
+                                        disabled> Pay & Save </button>
+                                </div>
+
+                                <div class="col-4">
+                                    <button class="btn btn-primary w-100 py-2 small" id="holdBtn" type="button"
+                                        disabled>Hold</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header bg-light border-0 py-3">
+                        <h6 class="modal-title fw-bold text-dark">
+                            <i class="bi bi-wallet2 text-primary me-2"></i>Process Payment
+                        </h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+
+                    <form id="paymentForm">
+                        <div class="modal-body p-4 pt-2">
+                            <div class="text-center mb-3 p-3 bg-success-subtle rounded-3">
+                                <span class="text-muted small d-block text-uppercase fw-medium mb-1">Total
+                                    Payable</span>
+                                <h3 class="fw-bold text-success mb-0" id="modalTotal">Ks. 0</h3>
+                            </div>
+
+                            <div class="mb-3 d-none">
+                                <label class="form-label small fw-medium text-muted mb-2">Payment Method</label>
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <input type="radio" class="btn-check" name="payMethod" id="payCash"
+                                            checked value="cash">
+                                        <label class="btn btn-outline-primary w-100 py-2 btn-sm" for="payCash">
+                                            <i class="bi bi-cash d-block mb-1 fs-5"></i> Cash
+                                        </label>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <input type="radio" class="btn-check" name="payMethod" id="payKPay"
+                                            value="kpay">
+                                        <label class="btn btn-outline-primary w-100 py-2 btn-sm" for="payKPay">
+                                            <i class="bi bi-qr-code d-block mb-1 fs-5"></i> KPay
+                                        </label>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <input type="radio" class="btn-check" name="payMethod" id="payCard"
+                                            value="card">
+                                        <label class="btn btn-outline-primary w-100 py-2 btn-sm" for="payCard">
+                                            <i class="bi bi-credit-card d-block mb-1 fs-5"></i> Card
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="text-secondary my-3">
+
+                            <div id="cashSection">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-medium text-muted">Cash Received (Ks.)</label>
+                                    <input type="number"
+                                        class="form-control form-control-lg fw-bold text-end text-primary"
+                                        id="cashReceived" value="0" step="100" min="0">
+                                </div>
+
+                                <div
+                                    class="d-flex justify-content-between align-items-center p-2 bg-light rounded-2 border mb-4">
+                                    <span class="small fw-medium text-muted">Change Due:</span>
+                                    <span class="fw-bold text-success h5 mb-0" id="changeAmountDisplay">Ks. 0</span>
+                                </div>
+                            </div>
+
+                            <div id="forkpay" style="display: none">
+                                <div class="text-center p-3 border rounded-3 bg-light mb-3">
+                                    <i class="bi bi-qr-code-scan display-4 text-primary d-block mb-2"></i>
+                                    <span class="fw-bold d-block small">Scan KPay QR Code</span>
+                                    <span class="text-muted small" style="font-size: 14px">POS Name</span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label small fw-medium text-muted">Transaction ID (last 6
+                                        no)</label>
+                                    <input type="text" class="form-control text-center fw-bold"
+                                        placeholder="e.g., 123456" maxlength="6">
+                                </div>
+                            </div>
+
+                            <div id="cardSection" style="display: none">
+                                <div class="text-center p-4 border rounded-3 bg-light mb-4">
+                                    <i class="bi bi-vimeo text-info display-4 d-block mb-2"></i>
+                                    <span class="fw-bold d-block small text-warning"><i
+                                            class="bi bi-info-circle me-1"></i>Waiting for Terminal...</span>
+                                    <span class="text-muted small d-block mt-1" style="font-size: 14px">Please swipe
+                                        or tap card on the POS machine.</span>
+                                </div>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col-5">
+                                    <button type="button" class="btn btn-light btn-sm w-100 py-2"
+                                        data-bs-dismiss="modal"> Cancel </button>
+                                </div>
+
+                                <div class="col-7">
+                                    <button type="button" class="btn btn-success btn-sm w-100 py-2 fw-bold"
+                                        id="confirmPaymentBtn">
+                                        <i class="bi bi-printer me-1"></i> Confirm & Print
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function() {
+                const isAdmin = {{ Auth::user()->isAdmin() ? 'true' : 'false' }};
+                const checkoutUrl = @json(route('pos.checkout'));
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+                if (isAdmin) {
+                    document.querySelectorAll(".seller-only").forEach(el => el.style.setProperty("display", "none",
+                        "important"));
+                    document.querySelectorAll(".admin-only").forEach(el => el.style.setProperty("display", "block",
+                        "important"));
+                } else {
+                    document.querySelectorAll(".admin-only").forEach(el => el.style.setProperty("display", "none",
+                        "important"));
+                    document.querySelectorAll(".seller-only").forEach(el => el.style.setProperty("display", "block",
+                        "important"));
+                }
+
+                const cart = {};
+                let activeCategory = 'all';
+
+                const productSearch = document.getElementById('productSearch');
+                const cartBody = document.getElementById('cartBody');
+                const cartSubtotalEl = document.getElementById('cartSubtotal');
+                const cartTotalEl = document.getElementById('cartTotal');
+                const discountInput = document.getElementById('discountInput');
+                const payBtn = document.getElementById('payBtn');
+                const modalTotal = document.getElementById('modalTotal');
+                const cashInput = document.getElementById('cashReceived');
+                const changeDisplay = document.getElementById('changeAmountDisplay');
+                const confirmBtn = document.getElementById('confirmPaymentBtn');
+
+                function formatMoney(amount) {
+                    return 'Ks. ' + Number(amount).toLocaleString();
+                }
+
+                function getSubtotal() {
+                    return Object.values(cart).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                }
+
+                function getDiscount() {
+                    return Math.max(0, parseFloat(discountInput.value) || 0);
+                }
+
+                function getTotal() {
+                    return Math.max(0, getSubtotal() - getDiscount());
+                }
+
+                function updateTotals() {
+                    const subtotal = getSubtotal();
+                    const discount = getDiscount();
+                    const total = getTotal();
+
+                    cartSubtotalEl.textContent = formatMoney(subtotal);
+                    cartTotalEl.textContent = formatMoney(total);
+                    modalTotal.textContent = formatMoney(total);
+
+                    const hasItems = Object.keys(cart).length > 0;
+                    payBtn.disabled = !hasItems;
+                    document.getElementById('holdBtn').disabled = !hasItems;
+
+                    if (cashInput) {
+                        const received = parseFloat(cashInput.value) || 0;
+                        const change = received - total;
+                        if (change >= 0) {
+                            changeDisplay.textContent = formatMoney(change);
+                            changeDisplay.className = 'fw-bold text-success h5 mb-0';
+                        } else {
+                            changeDisplay.textContent = 'Insufficient Cash';
+                            changeDisplay.className = 'fw-bold text-danger small mb-0';
+                        }
+                    }
+                }
+
+                function renderCart() {
+                    cartBody.innerHTML = '';
+                    const items = Object.values(cart);
+
+                    if (items.length === 0) {
+                        cartBody.innerHTML =
+                            '<tr><td colspan="4" class="text-muted text-center small">No items in cart</td></tr>';
+                        updateTotals();
+                        return;
+                    }
+
+                    items.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+              <td>${item.name}</td>
+              <td>
+                <div class="d-flex align-items-center gap-1">
+                  <button type="button" class="btn btn-sm btn-light py-0 px-1 qty-minus" data-id="${item.id}">-</button>
+                  <span>${item.quantity}</span>
+                  <button type="button" class="btn btn-sm btn-light py-0 px-1 qty-plus" data-id="${item.id}">+</button>
+                </div>
+              </td>
+              <td>${formatMoney(item.price * item.quantity)}</td>
+              <td><button type="button" class="btn btn-sm btn-link text-danger p-0 remove-item" data-id="${item.id}"><i class="bi bi-x-lg"></i></button></td>
+            `;
+                        cartBody.appendChild(row);
+                    });
+
+                    updateTotals();
+                }
+
+                function addToCart(productEl) {
+                    const id = productEl.dataset.id;
+                    const stock = parseInt(productEl.dataset.stock, 10);
+                    const name = productEl.dataset.name;
+                    const price = parseFloat(productEl.dataset.price);
+
+                    if (!cart[id]) {
+                        cart[id] = {
+                            id,
+                            name,
+                            price,
+                            quantity: 0,
+                            stock
+                        };
+                    }
+
+                    if (cart[id].quantity >= stock) {
+                        alert(`Only ${stock} unit(s) available for ${name}.`);
+                        return;
+                    }
+
+                    cart[id].quantity += 1;
+                    renderCart();
+                }
+
+                document.querySelectorAll('.product-item').forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        if (e.target.closest('button') || parseInt(this.dataset.stock, 10) > 0) {
+                            addToCart(this);
+                        }
+                    });
+                });
+
+                cartBody.addEventListener('click', function(e) {
+                    const minusBtn = e.target.closest('.qty-minus');
+                    const plusBtn = e.target.closest('.qty-plus');
+                    const removeBtn = e.target.closest('.remove-item');
+
+                    if (minusBtn) {
+                        const id = minusBtn.dataset.id;
+                        if (cart[id].quantity > 1) {
+                            cart[id].quantity -= 1;
+                        } else {
+                            delete cart[id];
+                        }
+                        renderCart();
+                    }
+
+                    if (plusBtn) {
+                        const id = plusBtn.dataset.id;
+                        const productEl = document.querySelector(`.product-item[data-id="${id}"]`);
+                        if (productEl) {
+                            addToCart(productEl);
+                        }
+                    }
+
+                    if (removeBtn) {
+                        delete cart[removeBtn.dataset.id];
+                        renderCart();
+                    }
+                });
+
+                document.getElementById('clearCartBtn').addEventListener('click', function() {
+                    Object.keys(cart).forEach(key => delete cart[key]);
+                    renderCart();
+                });
+
+                discountInput.addEventListener('input', updateTotals);
+
+                productSearch.addEventListener('input', filterProducts);
+                productSearch.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const query = productSearch.value.trim().toLowerCase();
+                        const match = Array.from(document.querySelectorAll('.product-item')).find(item =>
+                            item.dataset.code.toLowerCase() === query
+                        );
+                        if (match && match.style.display !== 'none') {
+                            addToCart(match);
+                            productSearch.value = '';
+                            filterProducts();
+                        }
+                    }
+                });
+
+                document.querySelectorAll('.category-filter').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        document.querySelectorAll('.category-filter').forEach(el => {
+                            el.classList.remove('active');
+                            el.classList.add('bg-white', 'border');
+                        });
+                        this.classList.add('active');
+                        this.classList.remove('bg-white', 'border');
+                        activeCategory = this.dataset.category;
+                        filterProducts();
+                    });
+                });
+
+                function filterProducts() {
+                    const query = productSearch.value.trim().toLowerCase();
+
+                    document.querySelectorAll('.product-item').forEach(item => {
+                        const matchesCategory = activeCategory === 'all' || item.dataset.category ===
+                            activeCategory;
+                        const matchesSearch = !query ||
+                            item.dataset.searchName.includes(query) ||
+                            item.dataset.code.toLowerCase().includes(query);
+
+                        item.style.display = matchesCategory && matchesSearch ? '' : 'none';
+                    });
+                }
+
+                const payCash = document.getElementById('payCash');
+                const cashSection = document.getElementById('cashSection');
+                const forkpay = document.getElementById('forkpay');
+                const cardSection = document.getElementById('cardSection');
+
+                function toggleSections(method) {
+                    cashSection.style.display = method === 'cash' ? 'block' : 'none';
+                    forkpay.style.display = method === 'kpay' ? 'block' : 'none';
+                    cardSection.style.display = method === 'card' ? 'block' : 'none';
+                }
+
+                document.querySelectorAll('input[name="payMethod"]').forEach((radio) => {
+                    radio.addEventListener('change', (e) => toggleSections(e.target.value));
+                });
+
+                document.getElementById('paymentModal').addEventListener('show.bs.modal', function() {
+                    cashInput.value = getTotal();
+                    updateTotals();
+                });
+
+                if (cashInput) {
+                    cashInput.addEventListener('input', updateTotals);
+                }
+
+                if (confirmBtn) {
+                    confirmBtn.addEventListener('click', async function() {
+                        const selectedMethod = document.querySelector('input[name="payMethod"]:checked')
+                            .value;
+                        const total = getTotal();
+                        const paymentAmount = selectedMethod === 'cash' ?
+                            parseFloat(cashInput.value) || 0 :
+                            total;
+
+                        if (selectedMethod === 'cash' && paymentAmount < total) {
+                            alert('Payment amount is less than total.');
+                            return;
+                        }
+
+                        const payload = {
+                            items: Object.values(cart).map(item => ({
+                                product_id: parseInt(item.id, 10),
+                                quantity: item.quantity,
+                            })),
+                            payment_method: selectedMethod,
+                            payment_amount: paymentAmount,
+                            discount: getDiscount(),
+                            customer_name: document.getElementById('customerNameInput').value.trim() || null,
+                        };
+
+                        confirmBtn.disabled = true;
+
+                        try {
+                            const response = await fetch(checkoutUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': csrfToken,
+                                    'Accept': 'application/json',
+                                },
+                                body: JSON.stringify(payload),
+                            });
+
+                            const data = await response.json();
+
+                            if (!response.ok) {
+                                alert(data.message || 'Checkout failed.');
+                                return;
+                            }
+
+                            fillReceipt(data.sale, selectedMethod, paymentAmount);
+                            bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+
+                            setTimeout(function() {
+                                window.print();
+                                alert(
+                                    'Transaction saved! Cart will now reset for the next customer.'
+                                    );
+                                Object.keys(cart).forEach(key => delete cart[key]);
+                                document.getElementById('customerNameInput').value = '';
+                                discountInput.value = 0;
+                                renderCart();
+                                location.reload();
+                            }, 300);
+                        } catch (error) {
+                            alert('Something went wrong. Please try again.');
+                        } finally {
+                            confirmBtn.disabled = false;
+                        }
+                    });
+                }
+
+                function fillReceipt(sale, method, paymentAmount) {
+                    document.getElementById('rDate').textContent = sale.sale_date;
+                    document.getElementById('rInvoice').textContent = sale.invoice_number;
+                    document.getElementById('rCustomer').textContent = sale.customer_name || 'Walk-in';
+
+                    const receiptItems = document.getElementById('receiptItems');
+                    receiptItems.innerHTML = sale.items.map(item => `
+            <tr>
+              <td>${item.name}</td>
+              <td class="text-center">${item.quantity}</td>
+              <td class="text-end">${formatMoney(item.subtotal)}</td>
+            </tr>
+          `).join('');
+
+                    document.getElementById('rSubtotal').textContent = formatMoney(parseFloat(sale.total_amount) +
+                        getDiscount());
+                    document.getElementById('rDiscount').textContent = formatMoney(getDiscount());
+                    document.getElementById('rTotal').textContent = formatMoney(sale.total_amount);
+
+                    const billingMethod = document.getElementById('billingMethod');
+                    const receivedLine = document.getElementById('receivedLine');
+                    const rChangeRow = document.getElementById('rChangeRow');
+
+                    billingMethod.textContent = method === 'cash' ? 'Cash' : (method === 'kpay' ? 'KPay' : 'Card');
+
+                    if (method === 'cash') {
+                        receivedLine.style.display = 'block';
+                        rChangeRow.style.display = 'block';
+                        document.getElementById('rReceived').textContent = Number(paymentAmount).toLocaleString();
+                        document.getElementById('rChange').textContent = Number(sale.change_amount).toLocaleString();
+                    } else {
+                        receivedLine.style.display = 'none';
+                        rChangeRow.style.display = 'none';
+                    }
+                }
+
+                renderCart();
+            });
+        </script>
+</body>
+
+</html>
