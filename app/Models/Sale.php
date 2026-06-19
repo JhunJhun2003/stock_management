@@ -11,8 +11,10 @@ class Sale extends Model
 
     protected $fillable = [
         'user_id',
+        'customer_name',
         'invoice_number',
         'total_amount',
+        'discount',
         'payment_amount',
         'change_amount',
         'payment_method',
@@ -24,6 +26,7 @@ class Sale extends Model
     {
         return [
             'total_amount' => 'decimal:2',
+            'discount' => 'decimal:2',
             'payment_amount' => 'decimal:2',
             'change_amount' => 'decimal:2',
             'sale_date' => 'datetime',

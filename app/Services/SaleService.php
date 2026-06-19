@@ -17,13 +17,13 @@ class SaleService
         protected ProductRepositoryInterface $productRepository
     ) {}
 
-    public function processCheckout(int $userId, array $items, string $paymentMethod, float $paymentAmount, float $discount = 0): Sale
+    public function processCheckout(int $userId, array $items, string $paymentMethod, float $paymentAmount, float $discount = 0, ?string $customerName = null): Sale
     {
         if (empty($items)) {
             throw new InvalidArgumentException('Cart is empty.');
         }
 
-        return DB::transaction(function () use ($userId, $items, $paymentMethod, $paymentAmount, $discount) {
+        return DB::transaction(function () use ($userId, $items, $paymentMethod, $paymentAmount, $discount, $customerName) {
             $totalAmount = 0;
             $lineItems = [];
 
@@ -71,8 +71,10 @@ class SaleService
 
             $sale = $this->saleRepository->create([
                 'user_id' => $userId,
+                'customer_name' => $customerName,
                 'invoice_number' => Sale::generateInvoiceNumber(),
                 'total_amount' => $totalAmount,
+                'discount' => $discount,
                 'payment_amount' => $paymentAmount,
                 'change_amount' => $changeAmount,
                 'payment_method' => $paymentMethod,

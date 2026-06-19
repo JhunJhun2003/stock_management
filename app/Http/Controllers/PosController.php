@@ -33,6 +33,7 @@ class PosController extends Controller
             'payment_method' => 'required|in:cash,kpay,card',
             'payment_amount' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
+            'customer_name' => 'nullable|string|max:255',
         ]);
 
         try {
@@ -41,7 +42,8 @@ class PosController extends Controller
                 $validated['items'],
                 $validated['payment_method'],
                 (float) $validated['payment_amount'],
-                (float) ($validated['discount'] ?? 0)
+                (float) ($validated['discount'] ?? 0),
+                $validated['customer_name'] ?? null
             );
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
@@ -55,6 +57,8 @@ class PosController extends Controller
                 'payment_amount' => $sale->payment_amount,
                 'change_amount' => $sale->change_amount,
                 'payment_method' => $sale->payment_method,
+                'customer_name' => $sale->customer_name,
+                'discount' => (float)$sale->discount,
                 'sale_date' => $sale->sale_date->format('d-M-Y h:i A'),
                 'cashier' => Auth::user()->name,
                 'items' => $sale->saleDetails->map(fn ($detail) => [

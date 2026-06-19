@@ -96,7 +96,7 @@ class ReportController extends Controller
             if ($reportType === 'sales') {
                 // Sales Report CSV with Sales, Cost, and Profit
                 fputcsv($handle, [
-                    'Invoice Number', 'Date', 'User', 'Sales Amount', 'Cost Amount', 'Net Profit', 'Payment Method', 'Items Count'
+                    'Invoice Number', 'Date', 'Customer Name', 'User', 'Subtotal', 'Discount', 'Sales Amount', 'Cost Amount', 'Net Profit', 'Payment Method', 'Items Count'
                 ]);
 
                 $filters = [
@@ -119,7 +119,10 @@ class ReportController extends Controller
                     fputcsv($handle, [
                         $sale->invoice_number,
                         $sale->sale_date->format('Y-m-d H:i'),
+                        $sale->customer_name ?? 'Walk-in',
                         $sale->user->name ?? 'N/A',
+                        $sale->total_amount + $sale->discount,
+                        $sale->discount,
                         $sale->total_amount,
                         $saleCost,
                         $saleProfit,

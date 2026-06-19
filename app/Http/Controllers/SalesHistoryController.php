@@ -58,11 +58,12 @@ class SalesHistoryController extends Controller
             'invoice_number' => $sale->invoice_number,
             'sale_date' => $sale->sale_date->format('d-M-Y h:i A'),
             'cashier' => $sale->user->name ?? 'N/A',
+            'customer_name' => $sale->customer_name,
             'payment_method' => $sale->payment_method,
             'total_amount' => (float)$sale->total_amount,
             'payment_amount' => (float)$sale->payment_amount,
             'change_amount' => (float)$sale->change_amount,
-            'discount' => 0.0, // We can compute it if needed, or if stored
+            'discount' => (float)$sale->discount,
             'items' => $sale->saleDetails->map(fn ($detail) => [
                 'name' => $detail->product->product_name ?? 'Product Deleted',
                 'quantity' => $detail->quantity,
