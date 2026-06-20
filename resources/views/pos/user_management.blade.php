@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>POS Name - User Management</title>
+    <title>ဆိုင်အမည် - အသုံးပြုသူများ</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -24,51 +24,51 @@
                     <div class="sidebar-brand d-flex align-items-center justify-content-center gap-2">
                         <img src="{{ asset('img/logo.png') }}" alt="Logo"
                             style="width: 32px; height: auto; object-fit: contain;">
-                        <h5 class="fw-bold text-white m-0">POS Name</h5>
+                        <h5 class="fw-bold text-white m-0">ဆိုင်အမည်</h5>
                     </div>
 
                     <ul class="nav flex-column gap-1">
                         <!-- Admin Menu Items -->
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('dashboard') }}">
-                                <i class="bi bi-speedometer2"></i> Dashboard
+                                <i class="bi bi-speedometer2"></i> ပင်မစာမျက်မှာ
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link active" href="{{ route('users.index') }}">
-                                <i class="bi bi-people"></i> User Management
+                                <i class="bi bi-people"></i> အသုံးပြုသူများ
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('products.index') }}">
-                                <i class="bi bi-box-seam"></i> Product Management
+                                <i class="bi bi-box-seam"></i> ကုန်ပစ္စည်းများ
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('reports.index') }}">
-                                <i class="bi bi-graph-up"></i> Reports
+                                <i class="bi bi-graph-up"></i> အစီရင်ခံစာများ
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('settings.index') }}">
-                                <i class="bi bi-gear"></i> Settings
+                                <i class="bi bi-gear"></i> ဆက်တင်များ
                             </a>
                         </li>
 
                         <!-- Seller Menu Items -->
                         <li class="nav-item seller-only {{ !Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('pos.index') }}">
-                                <i class="bi bi-cpu"></i> POS (Sales)
+                                <i class="bi bi-cpu"></i> အရောင်း
                             </a>
                         </li>
                         <li class="nav-item seller-only {{ !Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('sales.history') }}">
-                                <i class="bi bi-receipt"></i> Sales History
+                                <i class="bi bi-receipt"></i> ရောင်းချမှုမှတ်တမ်း
                             </a>
                         </li>
                         <li class="nav-item seller-only {{ !Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('settings.index') }}">
-                                <i class="bi bi-gear"></i> Settings
+                                <i class="bi bi-gear"></i> ဆက်တင်များ
                             </a>
                         </li>
                     </ul>
@@ -80,7 +80,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="logout-btn">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                    <i class="bi bi-box-arrow-right"></i> အကောင့်ထွက်ရန်
                                 </button>
                             </form>
                         </li>
@@ -92,12 +92,12 @@
             <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 main-container">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h4 class="fw-bold mb-0">User Management</h4>
-                        <small class="text-muted">Manage sales persons and their accounts.</small>
+                        <h4 class="fw-bold mb-1">အသုံးပြုသူများ</h4>
+                        <small class="text-muted">အသုံးပြုသူများ၏ အကောင့်များကို စီမံခန့်ခွဲရန်။</small>
                     </div>
 
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                        <i class="bi bi-plus-lg"></i> Add New User
+                        <i class="bi bi-plus-lg"></i> အသုံးပြုသူအသစ်ထည့်ရန်
                     </button>
                 </div>
 
@@ -122,10 +122,10 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Full Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>Actions</th>
+                                    <th>အမည်အပြည့်အစုံ</th>
+                                    <th>အီးမေးလ်</th>
+                                    <th class="text-center">ရာထူး</th>
+                                    <th class="text-center">လုပ်ဆောင်ချက်များ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,14 +134,14 @@
                                         <td>#{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             @if ($user->isAdmin())
-                                                <span class="badge bg-primary">Administrator</span>
+                                                <span class="badge bg-primary">စီမံခန့်ခွဲသူ</span>
                                             @else
-                                                <span class="badge bg-info">Sales Person</span>
+                                                <span class="badge bg-info">အရောင်းဝန်ထမ်း</span>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <button class="btn btn-sm btn-light text-primary me-1 edit-user-btn"
                                                 data-bs-toggle="modal" data-bs-target="#editUserModal"
                                                 data-id="{{ $user->id }}" 
@@ -165,7 +165,7 @@
                                     <tr>
                                         <td colspan="5" class="text-center py-4">
                                             <i class="bi bi-people fs-1 d-block text-muted"></i>
-                                            <p class="text-muted mt-2">No users found</p>
+                                            <p class="text-muted mt-2">အသုံးပြုသူ မတွေ့ရှိပါ။</p>
                                         </td>
                                     </tr>
                                 @endforelse
@@ -189,7 +189,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-light">
-                    <h5 class="modal-title fw-bold" style="font-size: 18px">Add New User Account</h5>
+                    <h5 class="modal-title fw-bold" style="font-size: 18px">အသုံးပြုသူအကောင့်အသစ် ထည့်သွင်းရန်</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -207,39 +207,39 @@
                         @endif
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Full Name *</label>
+                                <label class="form-label small fw-medium text-muted">အမည် အပြည့်အစုံ *</label>
                                 <input type="text" class="form-control" id="add_fullname" name="name"
                                     value="{{ old('name') }}"
-                                    placeholder="Enter full name" required style="font-size: 16px">
+                                    placeholder="နာမည်အပြည့်အစုံ ရိုက်ထည့်ပါ" required style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Email *</label>
+                                <label class="form-label small fw-medium text-muted">အီးမေးလ် *</label>
                                 <input type="email" class="form-control" id="add_email" name="email"
                                     value="{{ old('email') }}"
-                                    placeholder="Enter email" required style="font-size: 16px">
+                                    placeholder="အီးမေးလ် ရိုက်ထည့်ပါ" required style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Password *</label>
+                                <label class="form-label small fw-medium text-muted">စကားဝှက်ကို *</label>
                                 <input type="password" class="form-control" id="add_password" name="password"
-                                    placeholder="Enter password (min 8 chars)" required style="font-size: 16px">
+                                    placeholder="စကားဝှက် ရိုက်ထည့်ပါ (အနည်းဆုံး ၈ လုံး)" required style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">User Role *</label>
+                                <label class="form-label small fw-medium text-muted">ရာထူး *</label>
                                 <select class="form-select" id="add_role" name="is_admin" style="font-size: 16px" required>
-                                    <option value="" selected disabled>Select user role</option>
-                                    <option value="1" {{ old('is_admin') === '1' ? 'selected' : '' }}>Administrator</option>
-                                    <option value="0" {{ old('is_admin') === '0' ? 'selected' : '' }}>Sales Person (Seller)</option>
+                                    <option value="" selected disabled>ရာထူး ရွေးချယ်ပါ</option>
+                                    <option value="1" {{ old('is_admin') === '1' ? 'selected' : '' }}>စီမံခန့်ခွဲသူ</option>
+                                    <option value="0" {{ old('is_admin') === '0' ? 'selected' : '' }}>အရောင်းဝန်ထမ်း</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer bg-light border-top-0">
-                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary btn-sm px-3">Save User</button>
+                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">မလုပ်တေ့ာပါ။</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">သိမ်းဆည်းမည်။</button>
                     </div>
                 </form>
             </div>
@@ -251,48 +251,48 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-light">
-                    <h5 class="modal-title fw-bold" style="font-size: 18px">Edit User Details</h5>
+                    <h5 class="modal-title fw-bold" style="font-size: 18px">အသုံးပြုသူအချက်အလက် ပြင်ဆင်ရန်<</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <form id="editUserForm" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="modal-body p-4">
+                    <div class="modal-body bordered p-4">
                         <input type="hidden" id="edit_user_id" name="user_id">
 
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Full Name *</label>
+                                <label class="form-label small fw-medium text-muted">အမည် အပြည့်အစုံ *</label>
                                 <input type="text" class="form-control" id="edit_fullname" name="name"
                                     required style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Email *</label>
+                                <label class="form-label small fw-medium text-muted">အီးမေးလ် *</label>
                                 <input type="email" class="form-control" id="edit_email" name="email" required
                                     style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">New Password (optional)</label>
+                                <label class="form-label small fw-medium text-muted">စကားဝှက်အသစ်(ပြင်ဆင်လိုပါက)</label>
                                 <input type="password" class="form-control" id="edit_password" name="password"
-                                    placeholder="Leave blank to keep current" style="font-size: 16px">
+                                    placeholder="ယခင်အတိုင်း ထားချင်လျှင် ကွက်လပ်ချန်ထားပါ" style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">User Role *</label>
+                                <label class="form-label small fw-medium text-muted">ရာထူး *</label>
                                 <select class="form-select" id="edit_role" name="is_admin" style="font-size: 16px" required>
-                                    <option value="1">Administrator</option>
-                                    <option value="0">Sales Person (Seller)</option>
+                                    <option value="1">စီမံခန့်ခွဲသူ</option>
+                                    <option value="0">အရောင်းဝန်ထမ်း</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer bg-light border-top-0">
-                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary btn-sm px-3">Update User</button>
+                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">မလုပ်တေ့ာပါ။</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">ပြင်ဆင်ချက် သိမ်းဆည်းမည်။</button>
                     </div>
                 </form>
             </div>
@@ -305,10 +305,10 @@
             <div class="modal-content border-0 shadow">
                 <div class="modal-body p-4 text-center">
                     <i class="bi bi-exclamation-circle text-danger fs-1 mb-3 d-block"></i>
-                    <h5 class="fw-bold mb-2" style="font-size: 16px">Delete User Account?</h5>
-                    <p class="text-muted small mb-4">Are you sure you want to delete
+                    <h5 class="fw-bold mb-2" style="font-size: 16px">အသုံးပြုသူအကောင့်ကို ဖျက်သိမ်းမလား?</h5>
+                    <p class="text-muted small mb-4">ကို ဖျက်ပစ်ရန် သေချာပါသလား?
                         <span id="delete_user_name" class="fw-bold text-dark"></span>?
-                        This action cannot be undone.
+                        ဤလုပ်ဆောင်ချက်ကို ပြန်ပြင်၍ ရမည်မဟုတ်ပါ။
                     </p>
 
                     <form id="deleteUserForm" method="POST">
@@ -316,8 +316,8 @@
                         @method('DELETE')
                         <input type="hidden" id="delete_user_id" name="user_id">
                         <div class="d-flex gap-2 justify-content-center">
-                            <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-danger btn-sm px-3">Confirm Delete</button>
+                            <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">မလုပ်တေ့ာပါ။</button>
+                            <button type="submit" class="btn btn-danger btn-sm px-3">ဖျက်မည်။</button>
                         </div>
                     </form>
                 </div>

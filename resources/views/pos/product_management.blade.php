@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="my">
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <title>POS Name - Product Management</title>
+    <title>ဆိုင်အမည် - ကုန်ပစ္စည်းများ </title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -22,51 +22,51 @@
                 <div>
                     <div class="sidebar-brand d-flex align-items-center justify-content-center gap-2">
                         <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 32px; height: auto; object-fit: contain;">
-                        <h5 class="fw-bold text-white m-0">POS Name</h5>
+                        <h5 class="fw-bold text-white m-0">ဆိုင်အမည်</h5>
                     </div>
 
                     <ul class="nav flex-column gap-1">
                         <!-- Admin Menu Items -->
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('dashboard') }}">
-                                <i class="bi bi-speedometer2"></i> Dashboard
+                                <i class="bi bi-speedometer2"></i> ပင်မစာမျက်နှာ
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('users.index') }}">
-                                <i class="bi bi-people"></i> User Management
+                                <i class="bi bi-people"></i> အသုံးပြုသူများ
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link active" href="{{ route('products.index') }}">
-                                <i class="bi bi-box-seam"></i> Product Management
+                                <i class="bi bi-box-seam"></i> ကုန်ပစ္စည်းများ
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('reports.index') }}">
-                                <i class="bi bi-graph-up"></i> Reports
+                                <i class="bi bi-graph-up"></i> အစီရင်ခံစာများ
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('settings.index') }}">
-                                <i class="bi bi-gear"></i> Settings
+                                <i class="bi bi-gear"></i> ဆက်တင်များ
                             </a>
                         </li>
 
                         <!-- Seller Menu Items -->
                         <li class="nav-item seller-only {{ !Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('pos.index') }}">
-                                <i class="bi bi-cpu"></i> POS (Sales)
+                                <i class="bi bi-cpu"></i> အရောင်း
                             </a>
                         </li>
                         <li class="nav-item seller-only {{ !Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('sales.history') }}">
-                                <i class="bi bi-receipt"></i> Sales History
+                                <i class="bi bi-receipt"></i> ရောင်းချမှုမှတ်တမ်း
                             </a>
                         </li>
                         <li class="nav-item seller-only {{ !Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('settings.index') }}">
-                                <i class="bi bi-gear"></i> Settings
+                                <i class="bi bi-gear"></i> ဆက်တင်များ
                             </a>
                         </li>
                     </ul>
@@ -78,7 +78,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="logout-btn">
-                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                    <i class="bi bi-box-arrow-right"></i> အကောင့်ထွက်ရန်
                                 </button>
                             </form>
                         </li>
@@ -90,12 +90,12 @@
             <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 main-container">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h4 class="fw-bold mb-0">Product Management</h4>
-                        <small class="text-muted">Manage your inventory items and stock levels.</small>
+                        <h4 class="fw-bold mb-1">ကုန်ပစ္စည်းများ</h4>
+                        <small class="text-muted">ကုန်ပစ္စည်းစာရင်းနှင့် လက်ကျန်ကို စီမံခန့်ခွဲပါ။</small>
                     </div>
 
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                        <i class="bi bi-plus-lg"></i> Add New Product
+                        <i class="bi bi-plus-lg"></i> ကုန်ပစ္စည်းအသစ်ထည့်ရန်
                     </button>
                 </div>
                 
@@ -117,10 +117,11 @@
                 @if(isset($lowStockProducts) && $lowStockProducts->isNotEmpty())
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-triangle-fill"></i>
-                        <strong>Low Stock Alert:</strong>
-                        The following products have stock below {{ \App\Models\Product::LOW_STOCK_THRESHOLD }} units —
+                        <strong>လက်ကျန်လျော့နည်းမှု သတိပေးချက်</strong>
+                        အောက်ပါပစ္စည်းများသည် လက်ကျန် {{ \App\Models\Product::LOW_STOCK_THRESHOLD }} ခုအောက် လျော့နည်းနေပါသည်။
+                        
                         @foreach($lowStockProducts as $lowStockProduct)
-                            <span class="badge bg-warning text-dark ms-1">{{ $lowStockProduct->product_name }} ({{ $lowStockProduct->stock }} left)</span>
+                            <span class="badge bg-warning text-dark ms-1">{{ $lowStockProduct->product_name }} ({{ $lowStockProduct->stock }} ခုသာ ကျန်တေ့ာသည်။)</span>
                         @endforeach
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
@@ -130,33 +131,33 @@
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0" style="font-size: 16px">
                             <thead class="table-light">
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Product Name</th>
-                                    <th>Category</th>
-                                    <th>Cost</th>
-                                    <th>Selling Price</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                <tr  class="text-center">
+                                    <th>ကုဒ်အမှတ်</th>
+                                    <th>ပစ္စည်းအမည်</th>
+                                    <th>အမျိုးအစား</th>
+                                    <th>ဝယ်ဈေး</th>
+                                    <th>ရောင်းဈေး</th>
+                                    <th>လက်ကျန်</th>
+                                    <th>အခြေအနေ</th>
+                                    <th>လုပ်ဆောင်ချက်</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-center">
                                 @forelse($products as $product)
                                 <tr>
                                     <td>{{ $product->product_code }}</td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>{{ ucfirst($product->category ?? 'N/A') }}</td>
-                                    <td>{{ number_format($product->cost, 0) }} Ks</td>
-                                    <td>{{ number_format($product->price, 0) }} Ks</td>
+                                    <td>{{ number_format($product->cost, 0) }} </td>
+                                    <td>{{ number_format($product->price, 0) }} </td>
                                     <td>{{ $product->stock }}</td>
                                     <td>
                                         @if($product->isOutOfStock())
-                                            <span class="badge bg-danger-subtle text-danger">Out of Stock</span>
+                                            <span class="badge bg-danger-subtle text-danger">လက်ကျန်မရှိတေ့ာပါ။</span>
                                         @elseif($product->isLowStock())
-                                            <span class="badge bg-warning-subtle text-warning">Low Stock</span>
+                                            <span class="badge bg-warning-subtle text-warning">လက်ကျန်လျော့နည်းနေပါသည်။</span>
                                         @else
-                                            <span class="badge bg-success-subtle text-success">In Stock</span>
+                                            <span class="badge bg-success-subtle text-success">လက်ကျန်ရှိပါသည်။</span>
                                         @endif
                                     </td>
                                     <td>
@@ -188,7 +189,7 @@
                                 <tr>
                                     <td colspan="8" class="text-center py-4">
                                         <i class="bi bi-box-seam fs-1 d-block text-muted"></i>
-                                        <p class="text-muted mt-2">No products found</p>
+                                        <p class="text-muted mt-2">ပစ္စည်းရှာမတွေ့ပါ။</p>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -212,7 +213,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-light">
-                    <h5 class="modal-title fw-bold" style="font-size: 18px">Add New Product</h5>
+                    <h5 class="modal-title fw-bold" style="font-size: 18px">ပစ္စည်းအသစ်ထည့်ရန်</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -221,67 +222,67 @@
                     <div class="modal-body p-4">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Product Name *</label>
-                                <input type="text" class="form-control" id="add_prod_name" name="product_name" placeholder="Enter product name" required style="font-size: 16px">
+                                <label class="form-label small fw-medium text-muted">ပစ္စည်းအမည် *</label>
+                                <input type="text" class="form-control" id="add_prod_name" name="product_name" placeholder="ကုန်ပစ္စည်းအမည် ရိုက်ထည့်ပါ" required style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Product Code *</label>
+                                <label class="form-label small fw-medium text-muted">ကုဒ်အမှတ် *</label>
                                 <input type="text" class="form-control bg-light" id="add_prod_code" name="product_code" readonly style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Category *</label>
+                                <label class="form-label small fw-medium text-muted">အမျိုးအစား *</label>
                                 <select class="form-select" id="add_prod_category" name="category" style="font-size: 16px" required>
-                                    <option value="" disabled selected>Select category</option>
-                                    <option value="drinks">Drinks</option>
-                                    <option value="snacks">Snacks</option>
-                                    <option value="grocery">Grocery</option>
-                                    <option value="electronics">Electronics</option>
-                                    <option value="clothing">Clothing</option>
-                                    <option value="other">Other</option>
+                                    <option value="" disabled selected>အမျိုးအစား ရွေးချယ်ပါ။</option>
+                                    <option value="drinks">အအေး/ ဖျော်ရည်</option>
+                                    <option value="snacks">မုန့်အမျိုးမျိုး</option>
+                                    <option value="grocery">ကုန်ခြောက်</option>
+                                    <option value="electronics">လျှပ်စစ်ပစ္စည်း</option>
+                                    <option value="clothing">အဝတ်အထည်</option>
+                                    <option value="other">အခြား</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Cost Price *</label>
+                                <label class="form-label small fw-medium text-muted">ဝယ်ဈေး *</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light" style="font-size: 14px">Ks.</span>
-                                    <input type="number" class="form-control" id="add_prod_cost" name="cost" placeholder="0" required style="font-size: 16px" step="0.01" min="0">
+                                    <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
+                                    <input type="number" class="form-control" id="add_prod_cost" name="cost" placeholder="၀" required style="font-size: 16px" step="1" min="0">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Selling Price *</label>
+                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး *</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light" style="font-size: 14px">Ks.</span>
-                                    <input type="number" class="form-control" id="add_prod_price" name="price" placeholder="0" required style="font-size: 16px" step="0.01">
+                                    <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
+                                    <input type="number" class="form-control" id="add_prod_price" name="price" placeholder="၀" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Initial Stock Quantity *</label>
-                                <input type="number" class="form-control" id="add_prod_stock" name="stock" placeholder="0" required style="font-size: 16px" min="0">
+                                <label class="form-label small fw-medium text-muted">လက်ကျန်အရေအတွက် *</label>
+                                <input type="number" class="form-control" id="add_prod_stock" name="stock" placeholder="၀" required style="font-size: 16px" min="0">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Status</label>
+                                <label class="form-label small fw-medium text-muted">အခြေအနေ</label>
                                 <select class="form-select" id="add_prod_status" name="is_active" style="font-size: 16px">
-                                    <option value="1" selected>Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option value="1" selected>အသုံးပြု</option>
+                                    <option value="0">ရပ်ဆိုင်း</option>
                                 </select>
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label small fw-medium text-muted">Product Description (Optional)</label>
-                                <textarea class="form-control" id="add_prod_desc" name="description" rows="2" placeholder="Enter short details..." style="font-size: 16px"></textarea>
+                                <label class="form-label small fw-medium text-muted">မှတ်ချက်</label>
+                                <textarea class="form-control" id="add_prod_desc" name="description" rows="2" placeholder="ပစ္စည်းအကြောင်းအရာ" style="font-size: 16px"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer bg-light border-top-0">
-                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary btn-sm px-3">Save Product</button>
+                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">ပယ်ဖျက်ရန်</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">သိမ်းဆည်းရန်</button>
                     </div>
                 </form>
             </div>
@@ -293,7 +294,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-light">
-                    <h5 class="modal-title fw-bold" style="font-size: 18px">Edit Product Details</h5>
+                    <h5 class="modal-title fw-bold" style="font-size: 18px">ကုန်ပစ္စည်းအချက်အလက် ပြင်ဆင်ရန်</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -305,66 +306,66 @@
                         
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Product Name *</label>
+                                <label class="form-label small fw-medium text-muted">ပစ္စည်းအမည် *</label>
                                 <input type="text" class="form-control" id="edit_prod_name" name="product_name" required style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Product Code (SKU)</label>
+                                <label class="form-label small fw-medium text-muted">ကုဒ်နံပါတ်</label>
                                 <input type="text" class="form-control bg-light" id="edit_prod_code" name="product_code" readonly style="font-size: 16px">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Category *</label>
+                                <label class="form-label small fw-medium text-muted">အမျိုးအစား *</label>
                                 <select class="form-select" id="edit_prod_category" name="category" style="font-size: 16px" required>
-                                    <option value="drinks">Drinks</option>
-                                    <option value="snacks">Snacks</option>
-                                    <option value="grocery">Grocery</option>
-                                    <option value="electronics">Electronics</option>
-                                    <option value="clothing">Clothing</option>
-                                    <option value="other">Other</option>
+                                    <option value="drinks">အအေး/ ဖျော်ရည်</option>
+                                    <option value="snacks">မုန့်ပဲသရေစာ</option>
+                                    <option value="grocery">ကုန်စုံ</option>
+                                    <option value="electronics">လျှပ်စစ်ပစ္စည်း</option>
+                                    <option value="clothing">အဝတ်အထည်</option>
+                                    <option value="other">အခြား</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Cost Price *</label>
+                                <label class="form-label small fw-medium text-muted">ဝယ်ဈေး *</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light" style="font-size: 14px">Ks.</span>
-                                    <input type="number" class="form-control" id="edit_prod_cost" name="cost" required style="font-size: 16px" step="0.01" min="0">
+                                    <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
+                                    <input type="number" class="form-control" id="edit_prod_cost" name="cost" required style="font-size: 16px" step="1" min="0">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Selling Price *</label>
+                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး *</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-light" style="font-size: 14px">Ks.</span>
-                                    <input type="number" class="form-control" id="edit_prod_price" name="price" required style="font-size: 16px" step="0.01">
+                                    <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
+                                    <input type="number" class="form-control" id="edit_prod_price" name="price" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Current Stock Quantity *</label>
+                                <label class="form-label small fw-medium text-muted">လက်ကျန် အရေအတွက် *</label>
                                 <input type="number" class="form-control" id="edit_prod_stock" name="stock" required style="font-size: 16px" min="0">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">Status</label>
+                                <label class="form-label small fw-medium text-muted">အခြေအနေ</label>
                                 <select class="form-select" id="edit_prod_status" name="is_active" style="font-size: 16px">
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option value="1">အသုံးပြုမည်</option>
+                                    <option value="0">မသုံးပါ</option>
                                 </select>
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label small fw-medium text-muted">Product Description (Optional)</label>
+                                <label class="form-label small fw-medium text-muted">ကုန်ပစ္စည်းအကြောင်းအရာ</label>
                                 <textarea class="form-control" id="edit_prod_desc" name="description" rows="2" style="font-size: 16px"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer bg-light border-top-0">
-                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary btn-sm px-3">Update Product</button>
+                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">ပယ်ဖျက်ရန်</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-3">အချက်အလက်ပြုပြင်ရန်</button>
                     </div>
                 </form>
             </div>
@@ -377,19 +378,18 @@
             <div class="modal-content border-0 shadow">
                 <div class="modal-body p-4 text-center">
                     <i class="bi bi-box-seam text-danger fs-1 mb-3 d-block"></i>
-                    <h5 class="fw-bold mb-2" style="font-size: 16px">Delete Product?</h5>
-                    <p class="text-muted small mb-4">Are you sure you want to remove
-                        <span id="delete_prod_name" class="fw-bold text-dark"></span> from
-                        inventory? This action cannot be undone.
+                    <h5 class="fw-bold mb-3" style="font-size: 16px">ကုန်ပစ္စည်း ဖျက်ရန်</h5>
+                    <p class="text-muted small mb-4">ကုန်ပစ္စည်းဖျက်မှာ သေချာသလား? <br/>
+                        <span id="delete_prod_name" class="fw-bold text-dark"></span> ကို စတော့စာရင်းထဲမှ ဖျက်ပစ်ရန် သေချာပါသလား။ ဤလုပ်ဆောင်ချက်ကို ပြန်ပြင်၍မရပါ။
                     </p>
                     
                     <form id="deleteProductForm" method="POST">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" id="delete_product_id" name="product_id">
-                        <div class="d-flex gap-2 justify-content-center">
-                            <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-danger btn-sm px-3">Confirm Delete</button>
+                        <div class="d-flex w-full gap-1 justify-content-between">
+                            <button type="button" class="btn btn-light btn-sm px-1" data-bs-dismiss="modal">မဖျက်တေ့ာပါ။</button>
+                            <button type="submit" class="btn btn-danger btn-sm px-1">ဖျက်မှာ သေချာပါသည်။</button>
                         </div>
                     </form>
                 </div>

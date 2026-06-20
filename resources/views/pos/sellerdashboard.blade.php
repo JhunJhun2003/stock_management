@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>POS Name - Seller Dashboard</title>
+  <title>ဆိုင်အမည် - ပင်မစာမျက်နှာ</title>
 
   <!-- External CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,7 +23,7 @@
         <div>
           <div class="sidebar-brand d-flex align-items-center justify-content-center gap-2">
             <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 32px; height: auto; object-fit: contain;">
-            <h5 class="fw-bold text-white m-0">POS Name</h5>
+            <h5 class="fw-bold text-white m-0">ဆိုင်အမည်</h5>
           </div>
 
           <ul class="nav flex-column gap-1">
@@ -31,27 +31,27 @@
             <li class="nav-item">
               <a class="nav-link {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}"
                 href="{{ route('seller.dashboard') }}">
-                <i class="bi bi-speedometer2"></i> Dashboard
+                <i class="bi bi-speedometer2"></i> ပင်မစာမျက်နှာ
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link {{ request()->routeIs('pos.index') ? 'active' : '' }}" href="{{ route('pos.index') }}">
-                <i class="bi bi-cpu"></i> POS (Sales)
+                <i class="bi bi-cpu"></i> အရောင်း
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link {{ request()->routeIs('sales.history') ? 'active' : '' }}"
                 href="{{ route('sales.history') }}">
-                <i class="bi bi-receipt"></i> Sales History
+                <i class="bi bi-receipt"></i> ရောင်းချမှုမှတ်တမ်း
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link {{ request()->routeIs('settings.index') ? 'active' : '' }}"
                 href="{{ route('settings.index') }}">
-                <i class="bi bi-gear"></i> Settings
+                <i class="bi bi-gear"></i> ဆက်တင်များ
               </a>
             </li>
           </ul>
@@ -63,7 +63,7 @@
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="logout-btn">
-                  <i class="bi bi-box-arrow-right"></i> Logout
+                  <i class="bi bi-box-arrow-right"></i> အကောင့်ထွက်ရန်
                 </button>
               </form>
             </li>
@@ -77,17 +77,17 @@
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
           <div>
-            <h1 class="h3 mb-0 fw-semibold">Seller Dashboard</h1>
-            <small class="text-muted" id="welcomeText">Welcome back, {{ Auth::user()->name }}!</small>
+            <h1 class="h3 mb-1 fw-semibold">ပင်မစာမျက်နှာ</h1>
+            <small class="text-muted" id="welcomeText">မင်္ဂလာပါ။ {{ Auth::user()->name }}!</small>
           </div>
 
           <div class="d-flex align-items-center gap-3">
             <div class="text-end">
               <div class="fw-medium text-dark" id="userTitle" style="font-size: 16px">
-                Name : {{ Auth::user()->name }}
+                အမည် : {{ Auth::user()->name }}
               </div>
               <small class="text-muted" id="userRoleBadge" style="font-size: 12px">
-                Role : Sales Person
+                ရာထူး : အရောင်းဝန်ထမ်း
               </small>
             </div>
 
@@ -101,24 +101,24 @@
           <div class="col-12 col-sm-6 col-xl-4">
             <div class="card dashboard-card p-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="text-muted fw-medium small">Today's Sales</span>
+                <span class="text-muted fw-medium small">ယနေ့ ရောင်းရငွေ</span>
                 <div class="dashboard-card-icon bg-light-blue">
                   <i class="bi bi-currency-dollar"></i>
                 </div>
               </div>
-              <h4 class="mb-1 fw-bold">Ks. {{ number_format($todaySales ?? 0) }}</h4>
+              <h4 class="mb-1 fw-bold"> {{ number_format($todaySales ?? 0) }} ကျပ်</h4>
             </div>
           </div>
 
           <div class="col-12 col-sm-6 col-xl-4">
             <div class="card dashboard-card p-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="text-muted fw-medium small">Today's Orders</span>
+                <span class="text-muted fw-medium small">ယနေ့ အော်ဒါ</span>
                 <div class="dashboard-card-icon bg-light-orange">
                   <i class="bi bi-cart3"></i>
                 </div>
               </div>
-              <h4 class="mb-1 fw-bold">{{ $todayOrders ?? 0 }}</h4>
+              <h4 class="mb-1 fw-bold">{{ $todayOrders ?? 0 }} ခု</h4>
             </div>
           </div>
         </div>
@@ -128,11 +128,11 @@
           <div class="col-12 col-xl-7">
             <div class="card border-0 shadow-sm p-4 h-100">
               <div class="d-flex justify-content-between align-items-center mb-4">
-                <h6 class="fw-semibold mb-0">Sales Overview</h6>
+                <h6 class="fw-semibold mb-0">အရောင်း သုံးသပ်ချက်</h6>
                 <select class="form-select form-select-sm w-auto" id="timeFilter">
-                  <option value="today">Today</option>
-                  <option value="week">This Week</option>
-                  <option value="month">This Month</option>
+                  <option value="today">ဒီနေ့</option>
+                  <option value="week">ဒီအပတ်</option>
+                  <option value="month">ဒီလ</option>
                 </select>
               </div>
               <div class="d-flex align-items-center justify-content-center bg-light rounded" style="height: 280px">
@@ -144,8 +144,8 @@
           <div class="col-12 col-xl-5">
             <div class="card border-0 shadow-sm p-4 h-100">
               <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-semibold mb-0">Recent Sales</h6>
-                <a href="{{ route('sales.history') }}" class="btn btn-sm btn-link text-decoration-none">View All</a>
+                <h6 class="fw-semibold mb-0">လတ်တလော အရောင်းများ</h6>
+                <a href="{{ route('sales.history') }}" class="btn btn-sm btn-link text-decoration-none">အားလုံးကြည့်ရန်</a>
               </div>
               <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0" style="font-size: 14px">
@@ -156,11 +156,11 @@
                                 <span class="fw-medium d-block">{{ $sale->invoice_number }}</span>
                                 <small class="text-muted">{{ $sale->sale_date->format('d-M-Y h:i A') }}</small>
                             </td>
-                            <td class="fw-semibold text-end">Ks. {{ number_format($sale->total_amount, 0) }}</td>
+                            <td class="fw-semibold text-end"> {{ number_format($sale->total_amount, 0) }} ကျပ်</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="2" class="text-center text-muted small py-3">No recent sales</td>
+                            <td colspan="2" class="text-center text-muted small py-3">လတ်တလော ရောင်းချမှုမရှိပါ။</td>
                         </tr>
                     @endforelse
                   </tbody>
@@ -174,16 +174,16 @@
         <div class="row mt-4">
           <div class="col-12">
             <div class="card border-0 shadow-sm p-4">
-              <h6 class="fw-semibold mb-3">Quick Actions</h6>
+              <h6 class="fw-semibold mb-3">အမြန်လုပ်ဆောင်ချက်များ</h6>
               <div class="d-flex flex-wrap gap-3">
                 <a href="{{ route('pos.index') }}" class="btn btn-primary">
-                  <i class="bi bi-cpu me-2"></i> Start New Sale
+                  <i class="bi bi-cpu me-2"></i> အရောင်းအသစ်ဖွင့်ရန်
                 </a>
                 <a href="{{ route('sales.history') }}" class="btn btn-outline-primary">
-                  <i class="bi bi-receipt me-2"></i> View History
+                  <i class="bi bi-receipt me-2"></i> မှတ်တမ်းများကြည့်ရန်
                 </a>
                 <a href="{{ route('settings.index') }}" class="btn btn-outline-secondary">
-                  <i class="bi bi-gear me-2"></i> Settings
+                  <i class="bi bi-gear me-2"></i> ဆက်တင်များပြင်ဆင်ရန်
                 </a>
               </div>
             </div>

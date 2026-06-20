@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="my">
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <title> POS Name - Login</title>
+    <title> ဆိုင်အမည် - အကောင့်ဝင်ရန်</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" >
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" >
+   
     
    {{-- <link href="login.css" rel="stylesheet" > --}}
    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
@@ -17,15 +18,15 @@
         <div class="row login-card mx-auto">
 
             <div class="col-md-5 brand-section text-center">
-                <img src="{{ asset('img/logo1.png') }}" alt="POS Logo" class="img-fluid rounded" style="max-height: 90px; width: auto; object-fit: contain">
-                <h4 class="fw-bold mb-2">Welcome to</h4>
-                <h3 class="fw-bold mb-3">POS Name</h3>
-                <p class="small">Manage your sales, products and users easily and efficiently.</p>
+                <img src="{{ asset('img/logo1.png') }}" alt="POS Logo" class="img-fluid rounded mb-2" style="max-height: 90px; width: auto; object-fit: contain">
+                <h4 class="fw-bold mb-3">ကြိုဆိုပါတယ်</h4>
+                <h3 class="fw-bold mb-3">အရောင်းဆိုင်အမည်</h3>
+                <p class="small">သင်၏ အရောင်း၊ ကုန်ပစ္စည်းနှင့် အသုံးပြုသူများကို လွယ်ကူထိရောက်စွာ စီမံခန့်ခွဲနိုင်ပါသည်။</p>
             </div>
 
             <div class="col-md-7 form-section">
-                <h4 class="fw-bold mb-1">Login</h4>
-                <p class="text-muted small mb-4">Please sign in to continue</p>
+                <h4 class="fw-bold mb-2">အကောင့်ဝင်ရန်</h4>
+                <p class="text-muted small mb-4">ဆက်လက်လုပ်ဆောင်ရန် အကောင့်ဝင်ပါ။</p>
 
                 <!-- Show Session Status (e.g., password reset confirmation) -->
                 @if (session('status'))
@@ -52,11 +53,11 @@
 
                     <!-- Email Address -->
                     <div class="mb-3 text-start">
-                        <label class="form-label small fw-medium" for="email">Email Address</label>
+                        <label class="form-label small fw-medium" for="email">အီးမေးလ်လိပ်စာ</label>
                         <input type="email" id="email" name="email" 
                                class="form-control form-control-lg @error('email') is-invalid @enderror" 
                                style="font-size: 16px" 
-                               placeholder="Enter email address" 
+                               placeholder="အီးမေးလ်ထည့်ပါ" 
                                value="{{ old('email') }}" 
                                required autofocus autocomplete="username">
                         @error('email')
@@ -66,11 +67,11 @@
 
                     <!-- Password -->
                     <div class="mb-4 text-start">
-                        <label class="form-label small fw-medium" for="password">Password</label>
+                        <label class="form-label small fw-medium" for="password">စကားဝှက်</label>
                         <input type="password" id="password" name="password" 
                                class="form-control form-control-lg @error('password') is-invalid @enderror" 
                                style="font-size: 16px" 
-                               placeholder="Enter password" 
+                               placeholder="စကားဝှက်ထည့်ပါ" 
                                required autocomplete="current-password">
                         @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -81,24 +82,24 @@
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
-                            <label class="form-check-label small text-muted" for="remember_me">Remember me</label>
+                            <label class="form-check-label small text-muted" for="remember_me">မှတ်ထားမည်</label>
                         </div>
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-decoration-none small">Forgot password?</a>
+                            <a href="{{ route('password.request') }}" class="text-decoration-none small">စကားဝှက် မေ့သွားပါသလား?</a>
                         @endif
                     </div>
 
                     <!-- Login Button -->
                     <button type="submit" class="btn btn-primary btn-lg w-100" style="font-size: 16px">
-                        Log In
+                        အကောင့်ဝင်မည်
                     </button>
                 </form>
 
                 <!-- Optional: Registration Link -->
                 @if (Route::has('register'))
                     <p class="text-center mt-3 small text-muted">
-                        Don't have an account? 
-                        <a href="{{ route('register') }}" class="text-decoration-none">Sign up</a>
+                        အကောင့်မရှိသေးဘူးလား?
+                        <a href="{{ route('register') }}" class="text-decoration-none">အကောင့်အသစ်ဖွင့်ရန်</a>
                     </p>
                 @endif
 
