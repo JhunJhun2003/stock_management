@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ဆိုင်အမည် - ပင်မစာမျက်နှာ</title>
+    <title>သီတာပြုံး - ပင်မစာမျက်နှာ</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -20,10 +20,13 @@
             <!-- Sidebar -->
             <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-3 ">
                 <div>
-                    <div class="sidebar-brand d-flex align-items-center justify-content-center gap-2">
-                        <img src="{{ asset('img/logo.png') }}" alt="Logo"
-                            style="width: 32px; height: auto; object-fit: contain;">
-                        <h5 class="fw-bold text-white m-0">ဆိုင်အမည်</h5>
+                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                        <img src="{{ asset('img/logo.jpg') }}" alt="Logo" class="rounded-circle"
+                            style="width: 56px; height: 56px; object-fit: cover;">
+                        
+                        <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
+                            သီတာပြုံး
+                        </h5>
                     </div>
 
                     <ul class="nav flex-column gap-1">
@@ -106,20 +109,20 @@
                     <div class="d-flex align-items-center gap-3">
                         <div class="text-end">
                             <div class="fw-medium text-dark" id="userTitle" style="font-size: 16px">
-                               အမည် : {{ Auth::user()->name }}
+                                {{ Auth::user()->name }}
                             </div>
-                            ရာထူး : <small class="text-muted" id="userRoleBadge" style="font-size: 12px">
+                            <small class="text-muted" id="userRoleBadge" style="font-size: 12px">
                                 {{ Auth::user()->isAdmin() ? 'စီမံခန့်ခွဲသူ' : 'အရောင်းဝန်ထမ်း' }}
                             </small>
                         </div>
 
-                        {{-- <img src="{{ Auth::user()->profile_photo_url ?? asset('img/user1.jpg') }}" alt="Profile"
+                        <img src="{{ Auth::user()->profile_photo_url ?? asset('img/user1.jpg') }}" alt="Profile"
                             class="rounded-circle border shadow-sm" style="width: 56px; height: 56px; object-fit: cover"
-                            id="userimg"> --}}
+                            id="userimg">
                     </div>
                 </div>
 
-                <!-- Stats Cards (For Today) -->
+                <!-- Stats Cards (For Today) --> 
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-sm-6 col-lg-3 col-xl">
                         <div class="card dashboard-card p-3">
@@ -232,8 +235,8 @@
                                                     <small
                                                         class="text-muted">{{ $sale->sale_date->format('d-M-Y h:i A') }}</small>
                                                 </td>
-                                                <td class="fw-semibold text-end"> ကျပ်
-                                                    {{ number_format($sale->total_amount, 0) }}</td>
+                                                <td class="fw-semibold text-end"> 
+                                                    {{ number_format($sale->total_amount, 0) }} ကျပ် </td>
                                             </tr>
                                         @empty
                                             <tr>

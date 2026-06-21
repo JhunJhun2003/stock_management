@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <title>ဆိုင်အမည် - ကုန်ပစ္စည်းများ </title>
+    <title>သီတာပြုံး - ကုန်ပစ္စည်းများ </title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -20,9 +20,13 @@
             <!-- Sidebar -->
             <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-3">
                 <div>
-                    <div class="sidebar-brand d-flex align-items-center justify-content-center gap-2">
-                        <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 32px; height: auto; object-fit: contain;">
-                        <h5 class="fw-bold text-white m-0">ဆိုင်အမည်</h5>
+                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                        <img src="{{ asset('img/logo.jpg') }}" alt="Logo" class="rounded-circle"
+                            style="width: 56px; height: 56px; object-fit: cover;">
+                        
+                        <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
+                            သီတာပြုံး
+                        </h5>
                     </div>
 
                     <ul class="nav flex-column gap-1">

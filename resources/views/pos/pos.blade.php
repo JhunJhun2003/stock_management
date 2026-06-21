@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ဆိုင်အမည် - အရောင်း</title>
+    <title>သီတာပြုံး - အရောင်း</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -17,7 +17,7 @@
 <body>
     <div id="paySlipArea">
         <div class="text-center">
-            <h5 class="fw-bold mb-0">ဆိုင်အမည်</h5>
+            <h5 class="fw-bold mb-0">သီတာပြုံး</h5>
             <p class="small mb-1"> အမှတ် (၁၂၃)၊ ရန်ကုန်မြို့၊ ရန်ကုန်တိုင်းဒေသကြီး <br> ဖုန်း - ၀၉ ၁၂၃၄၅၆၇၈၉ </p>
             <div class="receipt-dash"></div>
         </div>
@@ -82,10 +82,13 @@
             
             <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-3">
                 <div>
-                    <div class="sidebar-brand d-flex align-items-center justify-content-center gap-2">
-                        <img src="{{ asset('img/logo.png') }}" alt="Logo"
-                            style="width: 32px; height: auto; object-fit: contain;">
-                        <h5 class="fw-bold text-white m-0">ဆိုင်အမည်</h5>
+                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                        <img src="{{ asset('img/logo.jpg') }}" alt="Logo" class="rounded-circle"
+                            style="width: 56px; height: 56px; object-fit: cover;">
+                        
+                        <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
+                            သီတာပြုံး
+                        </h5>
                     </div>
 
                     <ul class="nav flex-column gap-1">
@@ -384,7 +387,7 @@
                                 <div class="text-center p-3 border rounded-3 bg-light mb-3">
                                     <i class="bi bi-qr-code-scan display-4 text-primary d-block mb-2"></i>
                                     <span class="fw-bold d-block small">KPay QR ကုဒ်ကို စကန်ဖတ်ပါ</span>
-                                    <span class="text-muted small" style="font-size: 14px">ဆိုင်အမည်</span>
+                                    <span class="text-muted small" style="font-size: 14px">သီတာပြုံး</span>
                                 </div>
 
                                 <div class="mb-4">

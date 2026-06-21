@@ -14,12 +14,7 @@
         position: fixed;
       }
 
-      .sidebar-brand {
-        padding: 24px 8px;
-        border-bottom: 1px solid #1e293b;
-        margin-bottom: 16px;
-        width: 100%;
-      }
+      
 
       .sidebar .nav-item {
         width: 100%;

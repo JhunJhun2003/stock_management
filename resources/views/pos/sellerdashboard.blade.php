@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ဆိုင်အမည် - ပင်မစာမျက်နှာ</title>
+  <title>သီတာပြုံး  - ပင်မစာမျက်နှာ</title>
 
   <!-- External CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,9 +21,13 @@
       <!-- ===== SIDEBAR ===== -->
       <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-3">
         <div>
-          <div class="sidebar-brand d-flex align-items-center justify-content-center gap-2">
-            <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 32px; height: auto; object-fit: contain;">
-            <h5 class="fw-bold text-white m-0">ဆိုင်အမည်</h5>
+          <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+            <img src="{{ asset('img/logo.jpg') }}" alt="Logo" class="rounded-circle"
+                style="width: 56px; height: 56px; object-fit: cover;">
+                        
+            <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
+              သီတာပြုံး
+             </h5>
           </div>
 
           <ul class="nav flex-column gap-1">
@@ -74,8 +78,7 @@
       <!-- ===== MAIN CONTENT ===== -->
       <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-1 main-container">
         <!-- Header -->
-        <div
-          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+        <div  class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
           <div>
             <h1 class="h3 mb-1 fw-semibold">ပင်မစာမျက်နှာ</h1>
             <small class="text-muted" id="welcomeText">မင်္ဂလာပါ။ {{ Auth::user()->name }}!</small>
@@ -84,15 +87,15 @@
           <div class="d-flex align-items-center gap-3">
             <div class="text-end">
               <div class="fw-medium text-dark" id="userTitle" style="font-size: 16px">
-                အမည် : {{ Auth::user()->name }}
+                 {{ Auth::user()->name }}
               </div>
               <small class="text-muted" id="userRoleBadge" style="font-size: 12px">
-                ရာထူး : အရောင်းဝန်ထမ်း
+                အရောင်းဝန်ထမ်း
               </small>
             </div>
 
-            {{-- <img src="{{ Auth::user()->profile_photo_url ?? asset('img/user2.jpg') }}" alt="Profile"
-              class="rounded-circle border shadow-sm" style="width: 56px; height: 56px; object-fit: cover" id="userimg"> --}}
+            <img src="{{ Auth::user()->profile_photo_url ?? asset('img/user2.jpg') }}" alt="Profile"
+              class="rounded-circle border shadow-sm" style="width: 56px; height: 56px; object-fit: cover" id="userimg">
           </div>
         </div>
 
@@ -100,25 +103,34 @@
         <div class="row g-3 mb-4">
           <div class="col-12 col-sm-6 col-xl-4">
             <div class="card dashboard-card p-3">
+              
+
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="text-muted fw-medium small">ယနေ့ ရောင်းရငွေ</span>
-                <div class="dashboard-card-icon bg-light-blue">
-                  <i class="bi bi-currency-dollar"></i>
-                </div>
+                <span class="text-muted fw-medium small">ယနေ့ရောင်းရငွေ</span>
+                  <div class="dashboard-card-icon bg-light-blue">
+                    <i class="bi bi-currency-dollar"></i>
+                  </div>
               </div>
-              <h4 class="mb-1 fw-bold"> {{ number_format($todaySales ?? 0) }} ကျပ်</h4>
+              <div class="d-flex justify-content-between align-items-baseline">
+                <h4 class="mb-1 fw-bold">{{ number_format($todaySales ?? 0) }}</h4>
+                  <span class="text-muted small ms-2">ကျပ်</span>
+              </div>
+
             </div>
           </div>
 
           <div class="col-12 col-sm-6 col-xl-4">
             <div class="card dashboard-card p-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="text-muted fw-medium small">ယနေ့ အော်ဒါ</span>
+                <span class="text-muted fw-medium small">ယနေ့အော်ဒါ</span>
                 <div class="dashboard-card-icon bg-light-orange">
                   <i class="bi bi-cart3"></i>
                 </div>
               </div>
-              <h4 class="mb-1 fw-bold">{{ $todayOrders ?? 0 }} ခု</h4>
+              <div class="d-flex justify-content-between align-items-baseline">
+                <h4 class="mb-1 fw-bold">{{ $todayOrders ?? 0 }}</h4>
+                <span class="text-muted small ms-2">ခု</span>
+              </div>
             </div>
           </div>
         </div>
