@@ -51,7 +51,8 @@
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
-                            <a class="nav-link active" href="{{ route('settings.index') }}">
+                            <a class="nav-link  text-white  {{ request()->routeIs('settings.index') ? 'activeRoute' : '' }}" 
+                                href="{{ route('settings.index') }}">
                                 <i class="bi bi-gear"></i> ဆက်တင်များ
                             </a>
                         </li>
@@ -73,7 +74,7 @@
                             </a>
                         </li>
                         <li class="nav-item seller-only {{ !Auth::user()->isSeller() ? 'show' : '' }}">
-                            <a class="nav-link  text-white {{ request()->routeIs('settings.index') ? 'active' : '' }}" 
+                            <a class="nav-link  text-white  {{ request()->routeIs('settings.index') ? 'activeRoute' : '' }}" 
                                 href="{{ route('settings.index') }}">
                                 <i class="bi bi-gear"></i> ဆက်တင်များ
                             </a>
@@ -139,7 +140,7 @@
                             </button>
                             @endif
 
-                            <button class="nav-link {{ !Auth::user()->isAdmin() ? 'active' : '' }}" id="password-tab" data-bs-toggle="pill" data-bs-target="#password-panel" type="button" role="tab">
+                            <button class="nav-link {{ !Auth::user()->isAdmin() ? 'activeRoute' : '' }}" id="password-tab" data-bs-toggle="pill" data-bs-target="#password-panel" type="button" role="tab">
                                 <i class="bi bi-shield-lock"></i> စကားဝှက်ပြောင်းရန်
                             </button>
                         </div>

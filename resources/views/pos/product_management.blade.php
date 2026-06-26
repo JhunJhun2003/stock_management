@@ -41,8 +41,12 @@
                                 <i class="bi bi-people"></i> အသုံးပြုသူများ
                             </a>
                         </li>
+
+                       
+
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
-                            <a class="nav-link active" href="{{ route('products.index') }}">
+                            <a class="nav-link text-white {{ request()->routeIs('products.index') ? 'activeRoute' : '' }}"
+                            href="{{ route('products.index') }}">
                                 <i class="bi bi-box-seam"></i> ကုန်ပစ္စည်းများ
                             </a>
                         </li>

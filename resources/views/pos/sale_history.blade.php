@@ -65,7 +65,7 @@
                             </a>
                         </li>
                         <li class="nav-item seller-only {{ Auth::user()->isSeller() ? 'show' : '' }}">
-                            <a class="nav-link text-white {{ request()->routeIs('sales.history') ? 'active' : '' }}"
+                            <a class="nav-link text-white {{ request()->routeIs('sales.history') ? 'activeRoute' : '' }}"
                                 href="{{ route('sales.history') }}">
                                 <i class="bi bi-receipt"></i> ရောင်းချမှု မှတ်တမ်း
                             </a>

@@ -45,10 +45,13 @@
                             </a>
                         </li>
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
-                            <a class="nav-link active" href="{{ route('reports.index') }}">
+                            <a class="nav-link text-white  {{ request()->routeIs('reports.index') ? 'activeRoute' : '' }}"
+                                href="{{ route('reports.index') }}">
                                 <i class="bi bi-graph-up"></i> အစီရင်ခံစာများ
                             </a>
                         </li>
+                        
+
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('settings.index') }}">
                                 <i class="bi bi-gear"></i> ဆက်တင်များ

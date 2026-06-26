@@ -5,16 +5,16 @@
       }
 
       .sidebar {
+        color: #94a3b8;
         background-color: #0b192c;
         min-height: 100vh;
-        color: #94a3b8;
+        
         padding-top: 0 !important;
       }
 
-     
       .sidebar .nav-item {
         width: 100%;
-        margin-bottom: 4px; 
+        margin-bottom: 4px;
       }
 
       .sidebar .nav-link {
@@ -44,16 +44,17 @@
         color: #ffffff !important; 
       }
 
-      .sidebar .nav-link.active {
+      .sidebar .nav-link.activeRoute {
         color: #ffffff !important; 
         background-color: #3b82f6 !important; 
         font-weight: 600;
         border-left: 3px solid #60a5fa;
       }
 
-      .sidebar .nav-link.active i {
+      .sidebar .nav-link.activeRoute i {
         color: #ffffff !important; 
       }
+
 
       .sidebar .nav-link.text-danger, .sidebar .nav-link.text-danger i {
         color: #dc3545 !important;
