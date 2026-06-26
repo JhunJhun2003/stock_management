@@ -8,7 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-
+<link rel="icon" type="image" href="{{ asset('img/logo.jpg') }}">
     <link href="{{ asset('css/report.css') }}" rel="stylesheet">
 </head>
 

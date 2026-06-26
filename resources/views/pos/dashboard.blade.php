@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <link rel="icon" type="image" href="{{ asset('img/logo.jpg') }}">
    
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 </head>
@@ -116,9 +117,9 @@
                             </small>
                         </div>
 
-                        <img src="{{ Auth::user()->profile_photo_url ?? asset('img/user1.jpg') }}" alt="Profile"
+                        {{-- <img src="{{ Auth::user()->profile_photo_url ?? asset('img/user1.jpg') }}" alt="Profile"
                             class="rounded-circle border shadow-sm" style="width: 56px; height: 56px; object-fit: cover"
-                            id="userimg">
+                            id="userimg"> --}}
                     </div>
                 </div>
 
