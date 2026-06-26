@@ -79,7 +79,7 @@
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
-                    <div class="d-flex justify-content-between align-items-center mb-4">
+                    {{-- <div class="d-flex justify-content-between align-items-center mb-4">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
                             <label class="form-check-label small text-muted" for="remember_me">မှတ်ထားမည်</label>
@@ -87,7 +87,7 @@
                         @if (Route::has('password.request'))
                             <a href="{{ route('password.request') }}" class="text-decoration-none small">စကားဝှက် မေ့သွားပါသလား?</a>
                         @endif
-                    </div>
+                    </div> --}}
 
                     <!-- Login Button -->
                     <button type="submit" class="btn btn-primary btn-lg w-100" style="font-size: 16px">
@@ -96,12 +96,12 @@
                 </form>
 
                 <!-- Optional: Registration Link -->
-                @if (Route::has('register'))
+                {{-- @if (Route::has('register'))
                     <p class="text-center mt-3 small text-muted">
                         အကောင့်မရှိသေးဘူးလား?
                         <a href="{{ route('register') }}" class="text-decoration-none">အကောင့်အသစ်ဖွင့်ရန်</a>
                     </p>
-                @endif
+                @endif --}}
 
             </div>
         </div>
