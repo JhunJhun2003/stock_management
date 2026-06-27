@@ -237,7 +237,7 @@
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ကုဒ်အမှတ် *</label>
-                                <input type="text" class="form-control bg-light" id="add_prod_code" name="product_code" style="font-size: 16px" >
+                                <input type="text" class="form-control bg-light" id="add_prod_code" placeholder="ကုဒ်အမှတ် ရိုက်ထည့်ပါ" name="product_code" style="font-size: 16px" >
                             </div>
 
                             <div class="col-md-6">
