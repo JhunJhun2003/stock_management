@@ -123,6 +123,19 @@
                     </div>
                 @endif
 
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle"></i>
+                        <strong>အချက်အလက်များ မှားယွင်းနေပါသည်။</strong>
+                        <ul class="mb-0 mt-2">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
                 @if(isset($lowStockProducts) && $lowStockProducts->isNotEmpty())
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-triangle-fill"></i>
@@ -232,24 +245,30 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ပစ္စည်းအမည် *</label>
-                                <input type="text" class="form-control" id="add_prod_name" name="product_name" placeholder="ကုန်ပစ္စည်းအမည် ရိုက်ထည့်ပါ" required style="font-size: 16px">
+                                <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="add_prod_name" name="product_name" value="{{ old('product_name') }}" placeholder="ကုန်ပစ္စည်းအမည် ရိုက်ထည့်ပါ" required style="font-size: 16px">
+                                @error('product_name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ကုဒ်အမှတ် *</label>
-                                <input type="text" class="form-control bg-light" id="add_prod_code" placeholder="ကုဒ်နံပါတ် ၄ လုံးရိုက်ထည့်ပါ" maxlength="4" oninput="formatCode(this)" name="product_code" style="font-size: 16px" >
+                                <input type="text" class="form-control bg-light @error('product_code') is-invalid @enderror" id="add_prod_code" placeholder="ကုဒ်နံပါတ်ရိုက်ထည့်ပါ" maxlength="4" oninput="formatCode(this)" name="product_code" value="{{ old('product_code') }}" style="font-size: 16px" >
+                                @error('product_code')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">အမျိုးအစား *</label>
                                 <select class="form-select" id="add_prod_category" name="category" style="font-size: 16px" required>
-                                    <option value="" disabled selected>အမျိုးအစား ရွေးချယ်ပါ။</option>
-                                    <option value="အအေး/ဖျော်ရည်">အအေး/ဖျော်ရည်</option>
-                                    <option value="မုန့်အမျိုးမျိုး">မုန့်အမျိုးမျိုး</option>
-                                    <option value="ကုန်ခြောက်">ကုန်ခြောက်</option>
+                                    <option value="" disabled {{ old('category') ? '' : 'selected' }}>အမျိုးအစား ရွေးချယ်ပါ။</option>
+                                    <option value="အအေး/ဖျော်ရည်" {{ old('category') === 'အအေး/ဖျော်ရည်' ? 'selected' : '' }}>အအေး/ဖျော်ရည်</option>
+                                    <option value="မုန့်အမျိုးမျိုး" {{ old('category') === 'မုန့်အမျိုးမျိုး' ? 'selected' : '' }}>မုန့်အမျိုးမျိုး</option>
+                                    <option value="ကုန်ခြောက်" {{ old('category') === 'ကုန်ခြောက်' ? 'selected' : '' }}>ကုန်ခြောက်</option>
                                     {{-- <option value="electronics">လျှပ်စစ်ပစ္စည်း</option> --}}
-                                    <option value="အဝတ်အထည်">အဝတ်အထည်</option>
-                                    <option value="အခြား">အခြား</option>
+                                    <option value="အဝတ်အထည်" {{ old('category') === 'အဝတ်အထည်' ? 'selected' : '' }}>အဝတ်အထည်</option>
+                                    <option value="အခြား" {{ old('category') === 'အခြား' ? 'selected' : '' }}>အခြား</option>
                                 </select>
                             </div>
 
@@ -257,7 +276,7 @@
                                 <label class="form-label small fw-medium text-muted">ဝယ်ဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="add_prod_cost" name="cost" placeholder="၀" required style="font-size: 16px" step="1" min="0">
+                                    <input type="number" class="form-control" id="add_prod_cost" name="cost" placeholder="၀" value="{{ old('cost') }}" required style="font-size: 16px" step="1" min="0">
                                 </div>
                             </div>
 
@@ -265,26 +284,26 @@
                                 <label class="form-label small fw-medium text-muted">ရောင်းဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="add_prod_price" name="price" placeholder="၀" required style="font-size: 16px" step="1">
+                                    <input type="number" class="form-control" id="add_prod_price" name="price" placeholder="၀" value="{{ old('price') }}" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">လက်ကျန်အရေအတွက် *</label>
-                                <input type="number" class="form-control" id="add_prod_stock" name="stock" placeholder="၀" required style="font-size: 16px" min="0">
+                                <input type="number" class="form-control" id="add_prod_stock" name="stock" placeholder="၀" value="{{ old('stock') }}" required style="font-size: 16px" min="0">
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">အခြေအနေ</label>
                                 <select class="form-select" id="add_prod_status" name="is_active" style="font-size: 16px">
-                                    <option value="1" selected>အသုံးပြု</option>
-                                    <option value="0">ရပ်ဆိုင်း</option>
+                                    <option value="1" {{ old('is_active', '1') === '1' ? 'selected' : '' }}>အသုံးပြု</option>
+                                    <option value="0" {{ old('is_active') === '0' ? 'selected' : '' }}>ရပ်ဆိုင်း</option>
                                 </select>
                             </div>
 
                             <div class="col-12">
                                 <label class="form-label small fw-medium text-muted">မှတ်ချက်</label>
-                                <textarea class="form-control" id="add_prod_desc" name="description" rows="2" placeholder="ပစ္စည်းအကြောင်းအရာ" style="font-size: 16px"></textarea>
+                                <textarea class="form-control" id="add_prod_desc" name="description" rows="2" placeholder="ပစ္စည်းအကြောင်းအရာ" style="font-size: 16px">{{ old('description') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -311,28 +330,34 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-body p-4">
-                        <input type="hidden" id="edit_product_id" name="product_id">
+                        <input type="hidden" id="edit_product_id" name="product_id" value="{{ old('product_id') }}">
                         
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ပစ္စည်းအမည် *</label>
-                                <input type="text" class="form-control" id="edit_prod_name" name="product_name" required style="font-size: 16px">
+                                <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="edit_prod_name" name="product_name" value="{{ old('product_name') }}" required style="font-size: 16px">
+                                @error('product_name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ကုဒ်နံပါတ်</label>
-                                <input type="text" class="form-control bg-light" id="edit_prod_code" name="product_code" readonly style="font-size: 16px">
+                                <input type="text" class="form-control bg-light @error('product_code') is-invalid @enderror" id="edit_prod_code" name="product_code" value="{{ old('product_code') }}" readonly style="font-size: 16px">
+                                @error('product_code')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">အမျိုးအစား *</label>
                                 <select class="form-select" id="edit_prod_category" name="category" style="font-size: 16px" required>
-                                    <option value="drinks">အအေး/ ဖျော်ရည်</option>
-                                    <option value="snacks">မုန့်ပဲသရေစာ</option>
-                                    <option value="grocery">ကုန်စုံ</option>
-                                    <option value="electronics">လျှပ်စစ်ပစ္စည်း</option>
-                                    <option value="clothing">အဝတ်အထည်</option>
-                                    <option value="other">အခြား</option>
+                                    <option value="" disabled selected>အမျိုးအစား ရွေးချယ်ပါ။</option>
+                                    <option value="အအေး/ဖျော်ရည်" {{ old('category') === 'အအေး/ဖျော်ရည်' ? 'selected' : '' }}>အအေး/ဖျော်ရည်</option>
+                                    <option value="မုန့်အမျိုးမျိုး" {{ old('category') === 'မုန့်အမျိုးမျိုး' ? 'selected' : '' }}>မုန့်အမျိုးမျိုး</option>
+                                    <option value="ကုန်ခြောက်" {{ old('category') === 'ကုန်ခြောက်' ? 'selected' : '' }}>ကုန်ခြောက်</option>
+                                    <option value="အဝတ်အထည်" {{ old('category') === 'အဝတ်အထည်' ? 'selected' : '' }}>အဝတ်အထည်</option>
+                                    <option value="အခြား" {{ old('category') === 'အခြား' ? 'selected' : '' }}>အခြား</option>
                                 </select>
                             </div>
 
@@ -340,7 +365,7 @@
                                 <label class="form-label small fw-medium text-muted">ဝယ်ဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="edit_prod_cost" name="cost" required style="font-size: 16px" step="1" min="0">
+                                    <input type="number" class="form-control" id="edit_prod_cost" name="cost" value="{{ old('cost') }}" required style="font-size: 16px" step="1" min="0">
                                 </div>
                             </div>
 
@@ -348,26 +373,26 @@
                                 <label class="form-label small fw-medium text-muted">ရောင်းဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="edit_prod_price" name="price" required style="font-size: 16px" step="1">
+                                    <input type="number" class="form-control" id="edit_prod_price" name="price" value="{{ old('price') }}" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">လက်ကျန် အရေအတွက် *</label>
-                                <input type="number" class="form-control" id="edit_prod_stock" name="stock" required style="font-size: 16px" min="0">
+                                <input type="number" class="form-control" id="edit_prod_stock" name="stock" value="{{ old('stock') }}" required style="font-size: 16px" min="0">
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">အခြေအနေ</label>
                                 <select class="form-select" id="edit_prod_status" name="is_active" style="font-size: 16px">
-                                    <option value="1">အသုံးပြုမည်</option>
-                                    <option value="0">မသုံးပါ</option>
+                                    <option value="1" {{ old('is_active', '1') === '1' ? 'selected' : '' }}>အသုံးပြုမည်</option>
+                                    <option value="0" {{ old('is_active') === '0' ? 'selected' : '' }}>မသုံးပါ</option>
                                 </select>
                             </div>
 
                             <div class="col-12">
                                 <label class="form-label small fw-medium text-muted">ကုန်ပစ္စည်းအကြောင်းအရာ</label>
-                                <textarea class="form-control" id="edit_prod_desc" name="description" rows="2" style="font-size: 16px"></textarea>
+                                <textarea class="form-control" id="edit_prod_desc" name="description" rows="2" style="font-size: 16px">{{ old('description') }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -504,5 +529,20 @@
             }
         }
     </script>
+
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                @if(old('product_id'))
+                    document.getElementById('editProductForm').action = '/products/{{ old('product_id') }}';
+                    var editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                    editModal.show();
+                @else
+                    var addModal = new bootstrap.Modal(document.getElementById('addProductModal'));
+                    addModal.show();
+                @endif
+            });
+        </script>
+    @endif
 </body>
 </html>
