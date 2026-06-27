@@ -244,12 +244,12 @@
                                 <label class="form-label small fw-medium text-muted">အမျိုးအစား *</label>
                                 <select class="form-select" id="add_prod_category" name="category" style="font-size: 16px" required>
                                     <option value="" disabled selected>အမျိုးအစား ရွေးချယ်ပါ။</option>
-                                    <option value="drinks">အအေး/ ဖျော်ရည်</option>
-                                    <option value="snacks">မုန့်အမျိုးမျိုး</option>
-                                    <option value="grocery">ကုန်ခြောက်</option>
-                                    <option value="electronics">လျှပ်စစ်ပစ္စည်း</option>
-                                    <option value="clothing">အဝတ်အထည်</option>
-                                    <option value="other">အခြား</option>
+                                    <option value="အအေး/ဖျော်ရည်">အအေး/ဖျော်ရည်</option>
+                                    <option value="မုန့်အမျိုးမျိုး">မုန့်အမျိုးမျိုး</option>
+                                    <option value="ကုန်ခြောက်">ကုန်ခြောက်</option>
+                                    {{-- <option value="electronics">လျှပ်စစ်ပစ္စည်း</option> --}}
+                                    <option value="အဝတ်အထည်">အဝတ်အထည်</option>
+                                    <option value="အခြား">အခြား</option>
                                 </select>
                             </div>
 
