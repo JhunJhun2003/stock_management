@@ -15,7 +15,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = $this->productService->getPaginatedProducts(10);
+        $products = $this->productService->getPaginatedProducts(PHP_INT_MAX);
         $lowStockProducts = $this->productService->getLowStockProducts();
 
         return view('pos.product_management', compact('products', 'lowStockProducts'));

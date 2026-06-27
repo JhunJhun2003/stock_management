@@ -108,3 +108,15 @@
         min-height: 100vh;
         overflow: auto !important;
       }
+
+        /* Inner scroll for report tables while preserving design */
+        .report-table-scroll {
+            max-height: calc(100vh - 380px);
+            overflow-y: auto;
+        }
+        .report-table-scroll thead th {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 2;
+        }

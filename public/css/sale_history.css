@@ -98,7 +98,7 @@
       }
 
       .table-scroll {
-            max-height: calc(100vh - 320px);
+            max-height: calc(100vh - 230px);
             overflow-y: auto;
         }
         .table-scroll thead th {

@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
 <link rel="icon" type="image" href="{{ asset('img/logo.jpg') }}">
     <link href="{{ asset('css/report.css') }}" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -214,14 +215,24 @@
                         </div>
                         <span class="text-muted small">
                             @if($reportType === 'sales')
-                                {{ $sales->total() ?? 0 }} စောင် တွေ့ရှိသည်။
+                                @php
+                                    $salesCount = 0;
+                                    if(isset($sales)) {
+                                        if(method_exists($sales, 'total')) {
+                                            $salesCount = $sales->total();
+                                        } elseif(is_countable($sales)) {
+                                            $salesCount = count($sales);
+                                        }
+                                    }
+                                @endphp
+                                {{ $salesCount }} စောင် တွေ့ရှိသည်။
                             @else
                                 {{ count($reportData) }} ခု တွေ့ရှိသည်။
                             @endif
                         </span>
                     </div>
 
-                    <div class="table-responsive">
+                    <div class="table-responsive report-table-scroll">
                         @if($reportType === 'sales')
                             <table class="table table-hover align-middle text-nowrap text-center custom-table mb-0" style="font-size: 14px">
                                 <thead class="table-light">
@@ -373,11 +384,7 @@
                         @endif
                     </div>
 
-                    @if($reportType === 'sales' && isset($sales) && method_exists($sales, 'links'))
-                        <div class="mt-3">
-                            {{ $sales->withQueryString()->links() }}
-                        </div>
-                    @endif
+                    {{-- Pagination removed: showing all results in the table without page links --}}
                 </div>
             </div>
         </div>

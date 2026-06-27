@@ -10,9 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image" href="{{ asset('img/logo.jpg') }}">
  {{-- <link rel="stylesheet" href="product_management.css"> --}}
-   <link href="{{ asset('css/product_management.css') }}" rel="stylesheet">
+     <link href="{{ asset('css/product_management.css') }}" rel="stylesheet">
+     
 
-  </head>
+    </head>
 
 <body>
     <div class="container-fluid">
@@ -136,7 +137,7 @@
                 @endif
 
                 <div class="card border-0 shadow-sm p-3">
-                    <div class="table-responsive">
+                    <div class="table-responsive product-table-scroll">
                         <table class="table table-hover align-middle mb-0" style="font-size: 16px">
                             <thead class="table-light">
                                 <tr  class="text-center">
@@ -236,7 +237,7 @@
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ကုဒ်အမှတ် *</label>
-                                <input type="text" class="form-control bg-light" id="add_prod_code" name="product_code" readonly style="font-size: 16px">
+                                <input type="text" class="form-control bg-light" id="add_prod_code" name="product_code" style="font-size: 16px" >
                             </div>
 
                             <div class="col-md-6">
@@ -447,9 +448,13 @@
                 return prefix + timestamp + random;
             }
 
-            // Set product code when modal opens
+            // Prepare product code field when add modal opens and focus it
             document.getElementById('addProductModal').addEventListener('show.bs.modal', function () {
-                document.getElementById('add_prod_code').value = generateProductCode();
+                const codeInput = document.getElementById('add_prod_code');
+                codeInput.value = '';
+                setTimeout(() => {
+                    codeInput.focus({ preventScroll: true });
+                }, 50);
             });
 
             // Edit Product - Populate modal

@@ -31,8 +31,8 @@ class ReportController extends Controller
             'invoice_number' => $invoiceNumber
         ];
 
-        // Eager-loaded paginated sales
-        $sales = $this->saleService->getFilteredSales($filters, 15);
+        // Eager-loaded sales (load all matching records for report view)
+        $sales = $this->saleService->getFilteredSales($filters, PHP_INT_MAX);
 
         // Calculate statistics via SaleService
         $summary = $this->saleService->getSalesSummary($filters);
@@ -48,7 +48,7 @@ class ReportController extends Controller
 
         // Get additional data based on report type
         $reportData = [];
-        $reportTitle = 'Sales Report Details';
+        $reportTitle = 'အရောင်းမှတ်တမ်းအသေးစိတ်';
         
         if ($reportType === 'products') {
             $reportTitle = 'Product Report - Best Selling Products';
