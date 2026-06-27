@@ -138,7 +138,7 @@
                             <tbody>
                                 @forelse($users as $user)
                                     <tr>
-                                        <td>#{{ $user->id }}</td>
+                                        <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td class="text-center">
@@ -245,7 +245,7 @@
                     </div>
 
                     <div class="modal-footer bg-light border-top-0">
-                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">မလုပ်တေ့ာပါ။</button>
+                        <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal"> မလုပ်တေ့ာပါ။ </button>
                         <button type="submit" class="btn btn-primary btn-sm px-3">သိမ်းဆည်းမည်။</button>
                     </div>
                 </form>

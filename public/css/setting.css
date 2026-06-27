@@ -131,3 +131,8 @@
         background-color: #dc3545 !important;
         color: #ffffff !important;
       }
+
+      .custom-placeholder::placeholder {
+          color: #a0a0a0;
+          opacity: 1;
+      }

@@ -127,13 +127,13 @@
                         <div class="nav flex-column settings-nav gap-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             
                             @if(Auth::user()->isAdmin())
-                            <button class="nav-link active admin-setting-card" id="general-tab" data-bs-toggle="pill" data-bs-target="#general-panel" type="button" role="tab">
+                            <!-- <button class="nav-link active admin-setting-card" id="general-tab" data-bs-toggle="pill" data-bs-target="#general-panel" type="button" role="tab">
                                 <i class="bi bi-sliders"></i> အထွေထွေ
                             </button>
 
                             <button class="nav-link admin-setting-card" id="business-tab" data-bs-toggle="pill" data-bs-target="#business-panel" type="button" role="tab">
                                 <i class="bi bi-building"></i> ဆိုင်/လုပ်ငန်း အချက်အလက်
-                            </button>
+                            </button> -->
 
                             <button class="nav-link admin-setting-card" id="backup-tab" data-bs-toggle="pill" data-bs-target="#backup-panel" type="button" role="tab">
                                 <i class="bi bi-database-down"></i> ဒေတာသိမ်းဆည်းခြင်းနှင့် ပြန်လည်ရယူခြင်း
@@ -151,7 +151,7 @@
                             
                             @if(Auth::user()->isAdmin())
                             <!-- General Settings -->
-                            <div class="tab-pane fade show active admin-setting-card" id="general-panel" role="tabpanel" aria-labelledby="general-tab">
+                            <!-- <div class="tab-pane fade show active admin-setting-card" id="general-panel" role="tabpanel" aria-labelledby="general-tab">
                                 <div class="card border-0 shadow-sm p-4">
                                     <h6 class="fw-bold mb-3 border-bottom pb-2">အထွေထွေ</h6>
 
@@ -199,10 +199,10 @@
                                         <button type="submit" class="btn btn-primary btn-sm">ဆက်တင်များ သိမ်းဆည်းမည်။</button>
                                     </form>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Business Information -->
-                            <div class="tab-pane fade admin-setting-card" id="business-panel" role="tabpanel" aria-labelledby="business-tab">
+                            <!-- <div class="tab-pane fade admin-setting-card" id="business-panel" role="tabpanel" aria-labelledby="business-tab">
                                 <div class="card border-0 shadow-sm p-4">
                                     <h6 class="fw-bold mb-3 border-bottom pb-2">ဆိုင်/လုပ်ငန်း အချက်အလက်</h6>
                                     
@@ -240,7 +240,7 @@
                                         <button type="submit" class="btn btn-primary btn-sm">အချက်အလက် သိမ်းဆည်းမည်</button>
                                     </form>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Backup & Restore -->
                             <div class="tab-pane fade admin-setting-card" id="backup-panel" role="tabpanel" aria-labelledby="backup-tab">
@@ -308,18 +308,18 @@
                                         @csrf
                                         @method('PUT')
                                         
-                                        <div class="mb-3">
+                                        <div class="mb-4">
                                             <label class="form-label small text-muted">လက်ရှိ စာကားဝှက်</label>
-                                            <input type="password" class="form-control form-control-sm @error('current_password') is-invalid @enderror" 
+                                            <input type="password" class="form-control form-control-sm @error('current_password') is-invalid @enderror custom-placeholder" 
                                                 name="current_password" placeholder="လက်ရှိ စကားဝှက်ကို ရိုက်ထည့်ပါ။" required>
                                             @error('current_password')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         
-                                        <div class="mb-3">
+                                        <div class="mb-4">
                                             <label class="form-label small text-muted">စကားဝှက်အသစ်</label>
-                                            <input type="password" class="form-control form-control-sm @error('password') is-invalid @enderror" 
+                                            <input type="password" class="form-control form-control-sm @error('password') is-invalid @enderror custom-placeholder" 
                                                 name="password" placeholder="စကားဝှက်အသစ် ရိုက်ထည့်ပါ။" required>
                                             @error('password')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -328,7 +328,7 @@
                                         
                                         <div class="mb-4">
                                             <label class="form-label small text-muted">စကားဝှက်အသစ်အား ထပ်မံရိုက်ထည့်ပါ။</label>
-                                            <input type="password" class="form-control form-control-sm" 
+                                            <input type="password" class="form-control form-control-sm custom-placeholder" 
                                                 name="password_confirmation" placeholder="စကားဝှက်အသစ်အား ထပ်မံရိုက်ထည့်ပါ။" required>
                                         </div>
                                         

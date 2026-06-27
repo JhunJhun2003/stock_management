@@ -39,9 +39,6 @@
               </a>
             </li> 
 
-            
- 
-
             <li class="nav-item">
               <a class="nav-link {{ request()->routeIs('pos.index') ? 'activeRoute' : '' }}" href="{{ route('pos.index') }}">
                 <i class="bi bi-cpu"></i> အရောင်း
@@ -103,9 +100,9 @@
         </div>
 
         <!-- Stats Cards (For Today) -->
-        <div class="row g-3 mb-4">
+        <div class="row g-3 mb-2">
           <div class="col-12 col-sm-6 col-xl-4">
-            <div class="card dashboard-card p-3">
+            <div class="card dashboard-card p-2">
               
 
               <div class="d-flex justify-content-between align-items-center mb-2">
@@ -123,7 +120,7 @@
           </div>
 
           <div class="col-12 col-sm-6 col-xl-4">
-            <div class="card dashboard-card p-3">
+            <div class="card dashboard-card p-2">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="text-muted fw-medium small">ယနေ့အော်ဒါ</span>
                 <div class="dashboard-card-icon bg-light-orange">
@@ -139,10 +136,10 @@
         </div>
 
         <!-- Charts and Recent Sales -->
-        <div class="row g-4">
+        <div class="row g-2">
           <div class="col-12 col-xl-7">
-            <div class="card border-0 shadow-sm p-4 h-100">
-              <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="card border-0 shadow-sm p-4 h-70">
+              <div class="d-flex justify-content-between align-items-center mb-3">
                 <h6 class="fw-semibold mb-0">အရောင်း သုံးသပ်ချက်</h6>
                 <select class="form-select form-select-sm w-auto" id="timeFilter">
                   <option value="today">ဒီနေ့</option>
@@ -157,13 +154,13 @@
           </div>
 
           <div class="col-12 col-xl-5">
-            <div class="card border-0 shadow-sm p-4 h-100">
-              <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="card border-0 shadow-sm p-4 h-70">
+              <div class="d-flex justify-content-between align-items-center ">
                 <h6 class="fw-semibold mb-0">လတ်တလော အရောင်းများ</h6>
                 <a href="{{ route('sales.history') }}" class="btn btn-sm btn-link text-decoration-none">အားလုံးကြည့်ရန်</a>
               </div>
               <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0" style="font-size: 14px">
+                <table class="table table-hover align-middle mb-0" style="font-size: 12px">
                   <tbody id="recentSalesTable">
                     @forelse($recentSales ?? [] as $sale)
                         <tr>
@@ -186,9 +183,9 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="row mt-4">
+        <div class="row mt-1">
           <div class="col-12">
-            <div class="card border-0 shadow-sm p-4">
+            <div class="card border-0 shadow-sm p-3">
               <h6 class="fw-semibold mb-3">အမြန်လုပ်ဆောင်ချက်များ</h6>
               <div class="d-flex flex-wrap gap-3">
                 <a href="{{ route('pos.index') }}" class="btn btn-primary">

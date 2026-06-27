@@ -113,7 +113,7 @@
 
                             <div class="col-md-3">
                                 <label class="form-label small text-muted">ဘောင်ချာနံပါတ်ရှာရန်</label>
-                                <input type="text" class="form-control form-control-sm" name="search" placeholder="Search Invoice No." value="{{ request('search') }}">
+                                <input type="text" class="form-control form-control-sm" name="search" placeholder="ဘောင်ချာနံပါတ်ရှာရန်" value="{{ request('search') }}">
                             </div>
 
                             <div class="col-md-3 d-flex gap-2">
@@ -130,7 +130,7 @@
                 <div class="card border-0 shadow-sm p-3">
                     <div class="table-responsive table-scroll">
                         <table class="table table-hover align-middle text-nowrap text-center custom-table mb-0 p-5" style="font-size: 14px">
-                            <thead class="table-light">
+                            <thead>
                                 <tr>
                                     <th>ဘောင်ချာနံပါတ်</th>
                                     <th>ရက်စွဲ</th>

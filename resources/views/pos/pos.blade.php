@@ -159,20 +159,22 @@
             <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-3 main-container">
                 <div class="row">
 
-                      <div
-                          class="d-flex justify-content-end align-items-center mb-2 bg-white p-1 rounded-3 shadow-sm border">
-                          
-                          <div class="d-flex align-items-center gap-3 me-3">
-                              <div class="text-end">
-                                  <div class="fw-medium text-dark" id="userTitle" style="font-size: 12px">
-                                      {{ Auth::user()->name }}</div>
-                                  <small class="text-muted" id="userRoleBadge"
-                                      style="font-size: 12px">{{ Auth::user()->isAdmin() ? 'စီမံခန့်ခွဲသူ' : 'အရောင်းဝန်ထမ်း' }}</small>
-                                  <div class="small text-muted mt-1" id="currentDateTime" style="font-size: 12px">-</div>
-                              </div>
+                      
+                    <div class="d-flex justify-content-between align-items-center mb-2 bg-white p-2 rounded-3 shadow-sm border">
+                        <div id="currentDateTime" class="small text-muted" style="font-size: 12px"> -  </div>
 
-                          </div>
-                      </div>
+                        <div class="text-end">
+                            <div class="fw-medium text-dark" id="userTitle" style="font-size: 12px">
+                                {{ Auth::user()->name }}
+                            </div>
+                            <div class="text-muted" id="userRoleBadge" style="font-size: 12px">
+                                {{ Auth::user()->isAdmin() ? 'စီမံခန့်ခွဲသူ' : 'အရောင်းဝန်ထမ်း' }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                      
 
                     <div class="col-md-9 py-3">
 

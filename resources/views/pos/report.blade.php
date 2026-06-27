@@ -93,13 +93,13 @@
             </div>
 
             <!-- Main Content -->
-            <div class="col-md-10 px-4 py-4 ms-sm-auto col-lg-10 px-md-4  main-container">
-                <h4 class="fw-bold mb-3">အစီရင်ခံစာများ</h4>
+            <div class="col-md-10 px-4 py-3 ms-sm-auto col-lg-10 px-md-4  main-container">
+                <h4 class="fw-bold mb-2">အစီရင်ခံစာများ</h4>
 
                 <!-- Filter Card -->
-                <div class="card border-0 shadow-sm p-3 mb-4">
+                <div class="card border-0 shadow-sm p-2 mb-2">
                     <form method="GET" action="{{ route('reports.index') }}" id="reportForm">
-                        <div class="card border-0 shadow-sm p-3 mb-4">
+                        <div class="card border-0 shadow-sm p-3 mb-2">
                             <form method="GET" action="{{ route('reports.index') }}" id="reportForm">
                                 <div class="row row-cols-lg-7 g-2 align-items-end">
                                     
@@ -139,7 +139,7 @@
                                     <div class="col" id="invoiceFilter">
                                         <label class="form-label small text-muted mb-1">ဘောင်ချာနံပါတ်</label>
                                         <input type="text" class="form-control form-control-sm" name="invoice_number" 
-                                            placeholder="Search Invoice" value="{{ request('invoice_number') }}">
+                                            placeholder="ဘောင်ချာနံပါတ်" value="{{ request('invoice_number') }}">
                                     </div>
 
                                     <div class="col">
@@ -161,7 +161,7 @@
                 </div>
 
                 <!-- Statistics Cards -->
-                <div class="row g-3 text-center mb-4">
+                <div class="row g-3 text-center mb-2">
                     <div class="col-md-3">
                         <div class="stat-card p-3 border rounded bg-white shadow-sm">
                             <div class="stat-icon bg-primary bg-opacity-10 text-primary mb-2">
@@ -195,14 +195,14 @@
                                 <i class="bi bi-calculator fs-4"></i>
                             </div>
                             <div class="stat-value fw-bold p-1">{{ number_format($averageSale ?? 0) }} ကျပ်</div>
-                            <div class="stat-label text-muted small">ပျမ်းမျှရောင်းရငွေ</div>
+                            <div class="stat-label text-muted small">ပျမ်းမျှ ရောင်းရငွေ</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Report Table -->
-                <div class="table-container p-3 bg-white border rounded shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="table-container p-2 bg-white border rounded shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
                         <div>
                             <h6 class="fw-bold mb-0">
                                 {{ $reportTitle ?? 'အရောင်းမှတ်တမ်းအသေးစိတ်' }}
