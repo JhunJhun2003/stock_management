@@ -168,6 +168,7 @@
                                       {{ Auth::user()->name }}</div>
                                   <small class="text-muted" id="userRoleBadge"
                                       style="font-size: 12px">{{ Auth::user()->isAdmin() ? 'စီမံခန့်ခွဲသူ' : 'အရောင်းဝန်ထမ်း' }}</small>
+                                  <div class="small text-muted mt-1" id="currentDateTime" style="font-size: 12px">-</div>
                               </div>
 
                           </div>
@@ -450,6 +451,7 @@
                 let activeCategory = 'all';
 
                 const productSearch = document.getElementById('productSearch');
+                const currentDateTimeEl = document.getElementById('currentDateTime');
                 const cartBody = document.getElementById('cartBody');
                 const cartSubtotalEl = document.getElementById('cartSubtotal');
                 const cartTotalEl = document.getElementById('cartTotal');
@@ -463,6 +465,29 @@
                 function formatMoney(amount) {
                     return '  ' + Number(amount).toLocaleString();
                 }
+
+                // Autofocus and select search input for immediate scanning/typing
+                if (productSearch) {
+                    // focus after tiny timeout to ensure any UI focus traps are settled
+                    setTimeout(() => {
+                        productSearch.focus({ preventScroll: true });
+                        productSearch.select();
+                    }, 50);
+                }
+
+                // Live date/time updater for header
+                function updateDateTime() {
+                    if (!currentDateTimeEl) return;
+                    const now = new Date();
+                    // Format: DD/MM/YYYY HH:MM:SS
+                    const opts = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    const datePart = now.toLocaleDateString(undefined, opts);
+                    const timePart = now.toLocaleTimeString(undefined, { hour12: false });
+                    currentDateTimeEl.textContent = `${datePart} ${timePart}`;
+                }
+
+                updateDateTime();
+                setInterval(updateDateTime, 1000);
 
                 function getSubtotal() {
                     return Object.values(cart).reduce((sum, item) => sum + (item.price * item.quantity), 0);
