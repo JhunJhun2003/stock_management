@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
 <link rel="icon" type="image" href="{{ asset('img/logo.jpg') }}">
     <link href="{{ asset('css/sale_history.css') }}" rel="stylesheet">
+   
 </head>
 
 <body>
@@ -127,7 +128,7 @@
 
                 <!-- Sales Table -->
                 <div class="card border-0 shadow-sm p-3">
-                    <div class="table-responsive">
+                    <div class="table-responsive table-scroll">
                         <table class="table table-hover align-middle text-nowrap text-center custom-table mb-0 p-5" style="font-size: 14px">
                             <thead class="table-light">
                                 <tr>
@@ -180,11 +181,7 @@
                         </table>
                     </div>
 
-                    @if(method_exists($sales, 'links'))
-                        <div class="mt-3">
-                            {{ $sales->withQueryString()->links() }}
-                        </div>
-                    @endif
+                    {{-- Pagination removed in favor of inner scroll for consistency --}}
                 </div>
             </div>
         </div>
