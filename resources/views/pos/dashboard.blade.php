@@ -33,11 +33,13 @@
                     <ul class="nav flex-column gap-1">
                         <!-- Admin Menu Items -->
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
-                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                            <a class="nav-link text-white {{ request()->routeIs('dashboard') ? 'activeRoute' : '' }}"
                                 href="{{ route('dashboard') }}">
                                 <i class="bi bi-speedometer2"></i> ပင်မစာမျက်နှာ
                             </a>
                         </li>
+
+                        
 
                         <li class="nav-item admin-only {{ Auth::user()->isAdmin() ? 'show' : '' }}">
                             <a class="nav-link" href="{{ route('users.index') }}">

@@ -124,7 +124,7 @@
                             </a>
                         </li>
                         <li class="nav-item seller-only {{ Auth::user()->isSeller() ? 'show' : '' }}">
-                            <a class="nav-link text-white {{ request()->routeIs('pos.index') ? 'active' : '' }}"
+                            <a class="nav-link text-white {{ request()->routeIs('pos.index') ? 'activeRoute' : '' }}"
                                 href="{{ route('pos.index') }}">
                                 <i class="bi bi-cpu"></i> အရောင်း
                             </a>

@@ -32,28 +32,31 @@
 
           <ul class="nav flex-column gap-1">
             <!-- Seller Menu Items -->
-            <li class="nav-item">
-              <a class="nav-link {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}"
+            <li class="nav-item ">
+              <a class="nav-link text-white {{ request()->routeIs('seller.dashboard') ? 'activeRoute' : '' }}"
                 href="{{ route('seller.dashboard') }}">
                 <i class="bi bi-speedometer2"></i> ပင်မစာမျက်နှာ
               </a>
-            </li>
+            </li> 
+
+            
+ 
 
             <li class="nav-item">
-              <a class="nav-link {{ request()->routeIs('pos.index') ? 'active' : '' }}" href="{{ route('pos.index') }}">
+              <a class="nav-link {{ request()->routeIs('pos.index') ? 'activeRoute' : '' }}" href="{{ route('pos.index') }}">
                 <i class="bi bi-cpu"></i> အရောင်း
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link {{ request()->routeIs('sales.history') ? 'active' : '' }}"
+              <a class="nav-link {{ request()->routeIs('sales.history') ? 'activeRoute' : '' }}"
                 href="{{ route('sales.history') }}">
                 <i class="bi bi-receipt"></i> ရောင်းချမှုမှတ်တမ်း
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link {{ request()->routeIs('settings.index') ? 'active' : '' }}"
+              <a class="nav-link {{ request()->routeIs('settings.index') ? 'activeRoute' : '' }}"
                 href="{{ route('settings.index') }}">
                 <i class="bi bi-gear"></i> ဆက်တင်များ
               </a>
