@@ -253,7 +253,7 @@
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ကုဒ်အမှတ် *</label>
-                                <input type="text" class="form-control bg-light @error('product_code') is-invalid @enderror" id="add_prod_code" placeholder="ကုဒ်နံပါတ်ရိုက်ထည့်ပါ" maxlength="4" oninput="formatCode(this)" name="product_code" value="{{ old('product_code') }}" style="font-size: 16px" >
+                                <input type="text" class="form-control bg-light @error('product_code') is-invalid @enderror" id="add_prod_code" placeholder="ကုဒ်နံပါတ်ရိုက်ထည့်ပါ" maxlength="100" oninput="formatCode(this)" name="product_code" value="{{ old('product_code') }}" style="font-size: 16px" >
                                 @error('product_code')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
