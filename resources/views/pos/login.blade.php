@@ -7,6 +7,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" >
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    
     <link rel="icon" type="image" href="{{ asset('img/logo.jpg') }}">
    {{-- <link href="login.css" rel="stylesheet" > --}}
@@ -65,17 +66,22 @@
                         @enderror
                     </div>
 
-                    <!-- Password -->
-                    <div class="mb-4 text-start">
+                    <!-- Password with Eye Toggle -->
+                    <div class="mb-4 text-start position-relative">
                         <label class="form-label small fw-medium" for="password">စကားဝှက်</label>
-                        <input type="password" id="password" name="password" 
-                               class="form-control form-control-lg @error('password') is-invalid @enderror" 
-                               style="font-size: 16px" 
-                               placeholder="စကားဝှက်ထည့်ပါ" 
-                               required autocomplete="current-password">
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <div class="position-relative">
+                            <input type="password" id="password" name="password" 
+                                   class="form-control form-control-lg @error('password') is-invalid @enderror" 
+                                   style="font-size: 16px; padding-right: 45px;" 
+                                   placeholder="စကားဝှက်ထည့်ပါ" 
+                                   required autocomplete="current-password">
+                            <i class="bi bi-eye-slash position-absolute top-50 end-0 translate-middle-y me-3" 
+                               style="cursor: pointer; font-size: 20px; z-index: 10; color: #6c757d;"
+                               onclick="togglePasswordVisibility(this)"></i>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
@@ -109,10 +115,22 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Optional: Add your custom JavaScript if needed -->
     <script type="text/javascript">
-        // You can add any custom JavaScript here
-        // For example, auto-focus on email field
+        // Password visibility toggle function
+        function togglePasswordVisibility(element) {
+            const input = element.closest('.position-relative').querySelector('input');
+            if (input.type === 'password') {
+                input.type = 'text';
+                element.classList.remove('bi-eye-slash');
+                element.classList.add('bi-eye');
+            } else {
+                input.type = 'password';
+                element.classList.remove('bi-eye');
+                element.classList.add('bi-eye-slash');
+            }
+        }
+
+        // Auto-focus on email field
         document.addEventListener('DOMContentLoaded', function() {
             const emailInput = document.getElementById('email');
             if (emailInput) {
