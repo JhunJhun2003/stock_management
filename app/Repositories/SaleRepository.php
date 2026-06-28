@@ -49,6 +49,10 @@ class SaleRepository implements SaleRepositoryInterface
             $query->where('user_id', $filters['seller_id']);
         }
 
+        if (!empty($filters['customer_name'])) {
+            $query->where('customer_name', 'like', '%' . $filters['customer_name'] . '%');
+        }
+
         if (!empty($filters['invoice_number'])) {
             $query->where('invoice_number', 'like', '%' . $filters['invoice_number'] . '%');
         }
@@ -67,6 +71,10 @@ class SaleRepository implements SaleRepositoryInterface
 
         if (!empty($filters['seller_id'])) {
             $query->where('user_id', $filters['seller_id']);
+        }
+
+        if (!empty($filters['customer_name'])) {
+            $query->where('customer_name', 'like', '%' . $filters['customer_name'] . '%');
         }
 
         if (!empty($filters['invoice_number'])) {

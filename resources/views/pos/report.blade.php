@@ -100,8 +100,7 @@
                 <div class="card border-0 shadow-sm p-2 mb-2">
                     <form method="GET" action="{{ route('reports.index') }}" id="reportForm">
                         <div class="card border-0 shadow-sm p-3 mb-2">
-                            <form method="GET" action="{{ route('reports.index') }}" id="reportForm">
-                                <div class="row row-cols-lg-7 g-2 align-items-end">
+                            <div class="row row-cols-lg-8 g-2 align-items-end">
                                     
                                     <div class="col">
                                         <label class="form-label small text-muted mb-1">အစီရင်ခံစာ အမျိုးအစား</label>
@@ -136,6 +135,12 @@
                                         </select>
                                     </div>
 
+                                    <div class="col" id="customerFilter">
+                                        <label class="form-label small text-muted mb-1">ဝယ်သူအမည်</label>
+                                        <input type="text" class="form-control form-control-sm" name="customer_name"
+                                            placeholder="ဝယ်သူအမည် ထည့်ပါ" value="{{ request('customer_name') }}">
+                                    </div>
+
                                     <div class="col" id="invoiceFilter">
                                         <label class="form-label small text-muted mb-1">ဘောင်ချာနံပါတ်</label>
                                         <input type="text" class="form-control form-control-sm" name="invoice_number" 
@@ -155,7 +160,6 @@
                                     </div>
 
                                 </div>
-                            </form>
                         </div>
                     </form>
                 </div>
@@ -504,14 +508,17 @@
             // Show/hide filters based on report type
             const reportType = document.getElementById('reportType');
             const sellerFilter = document.getElementById('sellerFilter');
+            const customerFilter = document.getElementById('customerFilter');
             const invoiceFilter = document.getElementById('invoiceFilter');
             
             function toggleSellerFilter() {
                 if (reportType.value === 'sales') {
                     sellerFilter.style.display = 'block';
+                    customerFilter.style.display = 'block';
                     invoiceFilter.style.display = 'block';
                 } else {
                     sellerFilter.style.display = 'none';
+                    customerFilter.style.display = 'none';
                     invoiceFilter.style.display = 'none';
                 }
             }

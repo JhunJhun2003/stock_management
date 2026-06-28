@@ -22,12 +22,14 @@ class ReportController extends Controller
         $toDate = $request->get('to_date', now()->format('Y-m-d'));
         $reportType = $request->get('report_type', 'sales');
         $sellerId = $request->get('seller_id', '');
+        $customerName = $request->get('customer_name', '');
         $invoiceNumber = $request->get('invoice_number', '');
 
         $filters = [
             'from_date' => $fromDate,
             'to_date' => $toDate,
             'seller_id' => $sellerId,
+            'customer_name' => $customerName,
             'invoice_number' => $invoiceNumber
         ];
 
@@ -83,6 +85,7 @@ class ReportController extends Controller
         $toDate = $request->get('to_date', now()->format('Y-m-d'));
         $reportType = $request->get('report_type', 'sales');
         $sellerId = $request->get('seller_id', '');
+        $customerName = $request->get('customer_name', '');
         $invoiceNumber = $request->get('invoice_number', '');
 
         $headers = [
@@ -90,7 +93,7 @@ class ReportController extends Controller
             'Content-Disposition' => 'attachment; filename="' . $reportType . '_report_' . date('Y-m-d') . '.csv"',
         ];
 
-        $callback = function() use ($reportType, $fromDate, $toDate, $sellerId, $invoiceNumber) {
+        $callback = function() use ($reportType, $fromDate, $toDate, $sellerId, $customerName, $invoiceNumber) {
             $handle = fopen('php://output', 'w');
             
             if ($reportType === 'sales') {
@@ -103,6 +106,7 @@ class ReportController extends Controller
                     'from_date' => $fromDate,
                     'to_date' => $toDate,
                     'seller_id' => $sellerId,
+                    'customer_name' => $customerName,
                     'invoice_number' => $invoiceNumber
                 ];
 
