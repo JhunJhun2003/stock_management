@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -15,7 +16,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = $this->userService->getPaginatedUsers(10);
+        $users = $this->userService->getAllUsers();
         return view('pos.user_management', compact('users'));
     }
 
@@ -65,7 +66,8 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        if ((int)$id === auth()->id()) {
+        $currentUserId = (int) (Auth::id() ?? 0);
+        if ((int)$id === $currentUserId) {
             return redirect()->route('users.index')
                 ->with('error', 'You cannot delete your own account!');
         }

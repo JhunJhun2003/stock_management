@@ -124,7 +124,7 @@
                 @endif
 
                 <div class="card border-0 shadow-sm p-3">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="max-height:60vh; overflow:auto;">
                         <table class="table table-hover align-middle mb-0" style="font-size: 16px">
                             <thead class="table-light">
                                 <tr>
@@ -182,12 +182,7 @@
                         </table>
                     </div>
 
-                    <!-- Pagination -->
-                    @if (isset($users) && method_exists($users, 'links'))
-                        <div class="mt-3">
-                            {{ $users->links() }}
-                        </div>
-                    @endif
+                    <!-- Inner scroll used instead of pagination -->
                 </div>
             </div>
         </div>

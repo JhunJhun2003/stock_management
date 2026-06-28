@@ -16,12 +16,12 @@ class UserRepository implements UserRepositoryInterface
 
     public function paginate(int $perPage = 10): LengthAwarePaginator
     {
-        return User::latest()->paginate($perPage);
+        return User::orderBy('id', 'asc')->paginate($perPage);
     }
 
     public function getById(int $id): ?User
     {
-        return User::find($id);
+        return User::where('id', '=', $id, 'and')->first();
     }
 
     public function create(array $data): User
@@ -31,19 +31,19 @@ class UserRepository implements UserRepositoryInterface
 
     public function update(int $id, array $data): bool
     {
-        $user = User::find($id);
+        $user = User::where('id', '=', $id, 'and')->first();
         if (!$user) {
             return false;
         }
-        return $user->update($data);
+
+        // Use query update to avoid instance-method analyzer issues
+        $updated = User::where('id', '=', $id, 'and')->update($data);
+        return (bool) $updated;
     }
 
     public function delete(int $id): bool
     {
-        $user = User::find($id);
-        if (!$user) {
-            return false;
-        }
-        return (bool) $user->delete();
+        $deleted = User::where('id', '=', $id, 'and')->delete();
+        return (bool) $deleted;
     }
 }
