@@ -229,8 +229,14 @@
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">စကားဝှက်ကို *</label>
-                                <input type="password" class="form-control" id="add_password" name="password"
-                                    placeholder="စကားဝှက် ရိုက်ထည့်ပါ (အနည်းဆုံး ၈ လုံး)" required style="font-size: 16px">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="add_password" name="password"
+                                        placeholder="စကားဝှက် ရိုက်ထည့်ပါ (အနည်းဆုံး ၈ လုံး)" required style="font-size: 16px"
+                                        autocomplete="new-password" autocapitalize="none" spellcheck="false">
+                                    <button class="btn btn-outline-secondary" type="button" id="toggle_add_password" aria-label="Show password">
+                                        <i class="bi bi-eye" id="toggle_add_password_icon"></i>
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
@@ -412,6 +418,18 @@
                     document.getElementById('deleteUserForm').action = `/users/${id}`;
                 });
             });
+
+            const toggleAddPasswordButton = document.getElementById('toggle_add_password');
+            if (toggleAddPasswordButton) {
+                toggleAddPasswordButton.addEventListener('click', function () {
+                    const passwordInput = document.getElementById('add_password');
+                    const icon = document.getElementById('toggle_add_password_icon');
+                    const isPassword = passwordInput.type === 'password';
+
+                    passwordInput.type = isPassword ? 'text' : 'password';
+                    icon.className = isPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
+                });
+            }
         });
     </script>
 </body>
