@@ -149,14 +149,16 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <button class="btn btn-sm btn-light text-primary me-1 edit-user-btn"
-                                                data-bs-toggle="modal" data-bs-target="#editUserModal"
-                                                data-id="{{ $user->id }}" 
-                                                data-name="{{ $user->name }}"
-                                                data-email="{{ $user->email }}"
-                                                data-role="{{ $user->isAdmin() ? 'admin' : 'seller' }}">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
+                                            @if($user->id !== 1)
+                                                <button class="btn btn-sm btn-light text-primary me-1 edit-user-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#editUserModal"
+                                                    data-id="{{ $user->id }}" 
+                                                    data-name="{{ $user->name }}"
+                                                    data-email="{{ $user->email }}"
+                                                    data-role="{{ $user->isAdmin() ? 'admin' : 'seller' }}">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                            @endif
 
                                             @if ($user->id !== Auth::id())
                                                 <button class="btn btn-sm btn-light text-danger delete-user-btn"
