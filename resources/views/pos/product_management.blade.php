@@ -263,12 +263,14 @@
                                 <label class="form-label small fw-medium text-muted">အမျိုးအစား *</label>
                                 <select class="form-select" id="add_prod_category" name="category" style="font-size: 16px" required>
                                     <option value="" disabled {{ old('category') ? '' : 'selected' }}>အမျိုးအစား ရွေးချယ်ပါ။</option>
-                                    <option value="အအေး/ဖျော်ရည်" {{ old('category') === 'အအေး/ဖျော်ရည်' ? 'selected' : '' }}>အအေး/ဖျော်ရည်</option>
-                                    <option value="မုန့်အမျိုးမျိုး" {{ old('category') === 'မုန့်အမျိုးမျိုး' ? 'selected' : '' }}>မုန့်အမျိုးမျိုး</option>
-                                    <option value="ကုန်ခြောက်" {{ old('category') === 'ကုန်ခြောက်' ? 'selected' : '' }}>ကုန်ခြောက်</option>
+                                    <option value="အအေး/ဖျော်ရည်" {{ old('category') === 'အချိုရည်/ရေ' ? 'selected' : '' }}>အချိုရည်/ရေ</option>
+                                    <option value="Tea" {{ old('category') === 'မုန့်အမျိုးမျိုး' ? 'selected' : '' }}>Tea</option>
+                                    <option value="ဝေဖာ" {{ old('category') === 'ဝေဖာ' ? 'selected' : '' }}>ဝေဖာ</option>
                                     {{-- <option value="electronics">လျှပ်စစ်ပစ္စည်း</option> --}}
-                                    <option value="အဝတ်အထည်" {{ old('category') === 'အဝတ်အထည်' ? 'selected' : '' }}>အဝတ်အထည်</option>
-                                    <option value="အခြား" {{ old('category') === 'အခြား' ? 'selected' : '' }}>အခြား</option>
+                                    <option value="အချဥ်ထုပ်" {{ old('category') === 'အချဥ်ထုပ်' ? 'selected' : '' }}>အချဥ်ထုပ်</option>
+                                    <option value="မီးဖိုချောင်သုံး" {{ old('category') === 'မီးဖိုချောင်သုံး' ? 'selected' : '' }}>မီးဖိုချောင်သုံး</option>
+                                    <option value="ချိုချဥ်/ပီကေ" {{ old('category') === 'ချိုချဥ်/ပီကေ' ? 'selected' : '' }}>ချိုချဥ်/ပီကေ</option>
+                                    <option value="ဂျူးချောင်း" {{ old('category') === 'ဂျူးချောင်း' ? 'selected' : '' }}>ဂျူးချောင်း</option>
                                 </select>
                             </div>
 
