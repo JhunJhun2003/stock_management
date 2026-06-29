@@ -150,7 +150,7 @@
                 @endif
 
                 <div class="card border-0 shadow-sm p-3">
-                    <div class="table-responsive product-table-scroll">
+                    <div class="table-responsive product-table-scroll" style="display: block; max-height: calc(100vh - 160px); overflow-y: auto; overflow-x: auto;">
                         <table class="table table-hover align-middle mb-0" style="font-size: 16px">
                             <thead class="table-light">
                                 <tr  class="text-center">

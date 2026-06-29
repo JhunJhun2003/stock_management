@@ -99,8 +99,10 @@ body {
 
 /* Inner scroll for product table while preserving design */
 .product-table-scroll {
+    display: block;
     max-height: calc(100vh - 160px);
     overflow-y: auto;
+    overflow-x: auto;
 }
 .product-table-scroll thead th {
     position: sticky;
