@@ -409,7 +409,10 @@
             <div id="receiptSlipArea" style="font-family: monospace;">
               <div class="text-center">
                 <h5 class="fw-bold mb-2">မသီတာပြုံး </h5>
-                {{-- <p class="small mb-2"> အမှတ် (၁၂၃)၊ ရန်ကုန်မြို့၊  <br> ဖုန်း - ၀၉ ၁၂၃၄၅၆၇၈၉ </p> --}}
+                <p class="small mb-1"> 
+                ရန်ပယ်စျေး၊ မကွေး <br>
+                095341934, 09965341934,
+                09782878443 </p>
                 <div style="border-top: 1px dashed #000; margin: 10px 0;"></div>
               </div>
 
