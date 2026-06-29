@@ -202,7 +202,7 @@
             <div id="receiptSlipArea" style="font-family: monospace;">
               <div class="text-center">
                 <h5 class="fw-bold mb-2">သီတာပြုံး </h5>
-                <p class="small mb-2"> အမှတ် (၁၂၃)၊ ရန်ကုန်မြို့၊  <br> ဖုန်း - ၀၉ ၁၂၃၄၅၆၇၈၉ </p>
+                {{-- <p class="small mb-2"> အမှတ် (၁၂၃)၊ ရန်ကုန်မြို့၊  <br> ဖုန်း - ၀၉ ၁၂၃၄၅၆၇၈၉ </p> --}}
                 <div style="border-top: 1px dashed #000; margin: 10px 0;"></div>
               </div>
 

@@ -18,7 +18,7 @@
     <div id="paySlipArea">
         <div class="text-center">
             <h5 class="fw-bold mb-0">သီတာပြုံး</h5>
-            <p class="small mb-1"> အမှတ် (၁၂၃)၊ ရန်ကုန်မြို့၊ ရန်ကုန်တိုင်းဒေသကြီး <br> ဖုန်း - ၀၉ ၁၂၃၄၅၆၇၈၉ </p>
+            {{-- <p class="small mb-1"> အမှတ် (၁၂၃)၊ ရန်ကုန်မြို့၊ ရန်ကုန်တိုင်းဒေသကြီး <br> ဖုန်း - ၀၉ ၁၂၃၄၅၆၇၈၉ </p> --}}
             <div class="receipt-dash"></div>
         </div>
 
