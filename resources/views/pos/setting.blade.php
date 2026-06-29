@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <title>သီတာပြုံး - ဆက်တင်များ</title>
+    <title>မသီတာပြုံး - ဆက်တင်များ</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -24,7 +24,7 @@
                             style="width: 56px; height: 56px; object-fit: cover;">
                         
                         <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
-                            သီတာပြုံး
+                            မသီတာပြုံး
                         </h5>
                     </div>
 
@@ -213,7 +213,7 @@
                                         <div class="row g-3 mb-3">
                                             <div class="col-md-6">
                                                 <label class="form-label small text-muted">ဆိုင်/ လုပ်ငန်း အမည်</label>
-                                                <input type="text" class="form-control form-control-sm" name="shop_name" value="{{ $settings->shop_name ?? 'သီတာပြုံး' }}" required>
+                                                <input type="text" class="form-control form-control-sm" name="shop_name" value="{{ $settings->shop_name ?? 'မသီတာပြုံး' }}" required>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label small text-muted">ဖုန်းနံပါတ်</label>

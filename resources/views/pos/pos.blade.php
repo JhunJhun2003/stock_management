@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>သီတာပြုံး - အရောင်း</title>
+    <title>မသီတာပြုံး - အရောင်း</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
-<link rel="icon" type="image" href="{{ asset('img/logo.jpg') }}">
+    <link rel="icon" type="image" href="{{ asset('img/logo.jpg') }}">
     {{-- <link rel="stylesheet" href="pos.css"> --}}
     <link href="{{ asset('css/pos.css') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -17,8 +17,12 @@
 <body>
     <div id="paySlipArea">
         <div class="text-center">
-            <h5 class="fw-bold mb-0">သီတာပြုံး</h5>
-            {{-- <p class="small mb-1"> အမှတ် (၁၂၃)၊ ရန်ကုန်မြို့၊ ရန်ကုန်တိုင်းဒေသကြီး <br> ဖုန်း - ၀၉ ၁၂၃၄၅၆၇၈၉ </p> --}}
+            <h5 class="fw-bold mb-0">မသီတာပြုံး</h5>
+            <h3 class="fw-bold mb-0">မုန့်မျိုးစုံရောင်းဝယ်ရေး</h3>
+            <p class="small mb-1"> 
+                ရန်ပယ်စျေး၊ မကွေး
+                095341934, 09965341934,
+                09782878443 </p>
             <div class="receipt-dash"></div>
         </div>
 
@@ -45,15 +49,15 @@
         <div class="receipt-dash"></div>
 
         <div class="d-flex justify-content-between small my-1">
-            <span>စုစုပေါင်း</span><span id="rSubtotal">၀  </span>
+            <span>စုစုပေါင်း</span><span id="rSubtotal">၀ </span>
         </div>
 
         <div class="d-flex justify-content-between small my-1">
-            <span>လျှော့ဈေး</span><span id="rDiscount">၀  </span>
+            <span>လျှော့ဈေး</span><span id="rDiscount">၀ </span>
         </div>
 
         <div class="d-flex justify-content-between fw-bold my-1">
-            <span>ကျသင့်ငွေ</span><span id="rTotal">၀  </span>
+            <span>ကျသင့်ငွေ</span><span id="rTotal">၀ </span>
         </div>
 
         <div class="receipt-dash"></div>
@@ -61,11 +65,11 @@
         <div class="small my-1">
             <div><strong>ငွေပေးချေမှု</strong> <span id="billingMethod">ငွေသား</span></div>
             <div id="receivedLine">
-                <strong>လက်ခံရရှိငွေ</strong>   <span id="rReceived">၅,၀၀၀</span>
+                <strong>လက်ခံရရှိငွေ</strong> <span id="rReceived">၅,၀၀၀</span>
             </div>
 
             <div id="rChangeRow">
-                <strong>ပြန်အမ်းငွေ</strong>   <span id="rChange">၈၀၀</span>
+                <strong>ပြန်အမ်းငွေ</strong> <span id="rChange">၈၀၀</span>
             </div>
         </div>
 
@@ -79,15 +83,16 @@
 
     <div class="container-fluid">
         <div class="row">
-            
+
             <div class="col-md-2 sidebar d-flex flex-column justify-content-between p-3">
                 <div>
                     <div class="d-flex flex-column align-items-center justify-content-center mt-3">
                         <img src="{{ asset('img/logo.jpg') }}" alt="Logo" class="rounded-circle"
                             style="width: 56px; height: 56px; object-fit: cover;">
-                        
-                        <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
-                            သီတာပြုံး
+
+                        <h5 class="fw-bold text-white p-3 mb-2"
+                            style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
+                            မသီတာပြုံး
                         </h5>
                     </div>
 
@@ -159,9 +164,10 @@
             <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-3 main-container">
                 <div class="row">
 
-                      
-                    <div class="d-flex justify-content-between align-items-center mb-2 bg-white p-2 rounded-3 shadow-sm border">
-                        <div id="currentDateTime" class="small text-muted" style="font-size: 12px"> -  </div>
+
+                    <div
+                        class="d-flex justify-content-between align-items-center mb-2 bg-white p-2 rounded-3 shadow-sm border">
+                        <div id="currentDateTime" class="small text-muted" style="font-size: 12px"> - </div>
 
                         <div class="text-end">
                             <div class="fw-medium text-dark" id="userTitle" style="font-size: 12px">
@@ -174,7 +180,7 @@
 
                     </div>
 
-                      
+
 
                     <div class="col-md-9 py-3">
 
@@ -221,29 +227,34 @@
                                             data-price="{{ $product->price }}" data-stock="{{ $product->stock }}">
 
                                             <td class="py-2">{{ $loop->iteration }}</td>
-                                            <td class="py-2"><span class="fw-bold">{{ $product->product_code }}</span></td>
+                                            <td class="py-2"><span
+                                                    class="fw-bold">{{ $product->product_code }}</span></td>
                                             <td class="py-2">{{ $product->product_name }}</td>
-                                            <td class="py-2 fw-medium">{{ number_format($product->price, 0) }}  </td>
+                                            <td class="py-2 fw-medium">{{ number_format($product->price, 0) }} </td>
                                             <td class="py-2">
                                                 @if ($product->stock <= 0)
-                                                    <span class="badge bg-danger px-2 py-1.5">ပစ္စည်းလက်ကျန်မရှိပါ။</span>
+                                                    <span
+                                                        class="badge bg-danger px-2 py-1.5">ပစ္စည်းလက်ကျန်မရှိပါ။</span>
                                                 @elseif($product->isLowStock())
                                                     <span class="badge bg-warning text-dark px-2 py-1.5">
                                                         {{ $product->stock }} (Low)
                                                     </span>
                                                 @else
-                                                    <span class="badge bg-success px-2 py-1.5">{{ $product->stock }}</span>
+                                                    <span
+                                                        class="badge bg-success px-2 py-1.5">{{ $product->stock }}</span>
                                                 @endif
                                             </td>
                                             <td class="py-2">
-                                                <button class="btn btn-sm btn-primary add-to-cart-btn" type="button" {{ $product->stock <= 0 ? 'disabled' : '' }}> 
+                                                <button class="btn btn-sm btn-primary add-to-cart-btn" type="button"
+                                                    {{ $product->stock <= 0 ? 'disabled' : '' }}>
                                                     <i class="bi bi-plus"></i> ထပ်ထည့်ရန်
                                                 </button>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center text-muted py-5">ပစ္စည်းလက်ကျန်မရှိပါ။</td>
+                                            <td colspan="6" class="text-center text-muted py-5">
+                                                ပစ္စည်းလက်ကျန်မရှိပါ။</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -255,19 +266,23 @@
                         <div>
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h6 class="fw-bold mb-2">လက်ရှိရောင်းချနေမှု</h6>
-                                <button class="btn btn-sm btn-outline-danger py-0" id="clearCartBtn" type="button">ပယ်ဖျက်ရန်</button>
+                                <button class="btn btn-sm btn-outline-danger py-0" id="clearCartBtn"
+                                    type="button">ပယ်ဖျက်ရန်</button>
                             </div>
 
                             <div class="mb-3 p-2 bg-light rounded border-start border-primary border-3">
-                                <label for="customerNameInput" class="form-label small text-muted mb-1 d-flex justify-content-between">
+                                <label for="customerNameInput"
+                                    class="form-label small text-muted mb-1 d-flex justify-content-between">
                                     <span>ဝယ်ယူသူအမည်</span>
                                     <span style="font-size: 11px;">(မထည့်လည်းရပါသည်)</span>
                                 </label>
-                                <input type="text" class="form-control form-control-sm" id="customerNameInput" placeholder="ပုံမှန်ဝယ်ယူသူ (General)">
+                                <input type="text" class="form-control form-control-sm" id="customerNameInput"
+                                    placeholder="ပုံမှန်ဝယ်ယူသူ (General)">
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table table-sm align-middle text-nowrap text-center mb-0" style="font-size: 14px">
+                                <table class="table table-sm align-middle text-nowrap text-center mb-0"
+                                    style="font-size: 14px">
                                     <thead>
                                         <tr class="text-muted">
                                             <th class="py-2 text-start">ပစ္စည်း</th>
@@ -278,7 +293,8 @@
                                     </thead>
                                     <tbody id="cartBody">
                                         <tr id="emptyCartRow">
-                                            <td colspan="4" class="text-muted text-center py-4 small">ပစ္စည်းများ ထည့်ထားခြင်းမရှိသေးပါ။</td>
+                                            <td colspan="4" class="text-muted text-center py-4 small">ပစ္စည်းများ
+                                                ထည့်ထားခြင်းမရှိသေးပါ။</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -305,13 +321,15 @@
                             <div class="row g-2">
                                 <div class="col-8">
                                     <button class="btn btn-success w-100 py-2 small fw-bold" id="payBtn"
-                                        data-bs-toggle="modal" data-bs-target="#paymentModal" type="button" disabled> 
+                                        data-bs-toggle="modal" data-bs-target="#paymentModal" type="button"
+                                        disabled>
                                         ငွေရှင်းပြီး သိမ်းဆည်းရန်
                                     </button>
                                 </div>
 
                                 <div class="col-4">
-                                    <button class="btn btn-primary w-100 py-2 small" id="holdBtn" type="button" disabled>
+                                    <button class="btn btn-primary w-100 py-2 small" id="holdBtn" type="button"
+                                        disabled>
                                         ဆိုင်းငံ့ရန်
                                     </button>
                                 </div>
@@ -336,8 +354,9 @@
                     <form id="paymentForm">
                         <div class="modal-body p-4 pt-2">
                             <div class="text-center mb-3 p-3 bg-success-subtle rounded-3">
-                                <span class="text-muted small d-block text-uppercase fw-medium mb-1">ပေးချေရမည့်ငွေ</span>
-                                <h3 class="fw-bold text-success mb-0" id="modalTotal">  ၀</h3>
+                                <span
+                                    class="text-muted small d-block text-uppercase fw-medium mb-1">ပေးချေရမည့်ငွေ</span>
+                                <h3 class="fw-bold text-success mb-0" id="modalTotal"> ၀</h3>
                             </div>
 
                             <div class="mb-3 d-none">
@@ -382,7 +401,7 @@
                                 <div
                                     class="d-flex justify-content-between align-items-center p-2 bg-light rounded-2 border mb-4">
                                     <span class="small fw-medium text-muted">ပြန်အမ်းငွေ</span>
-                                    <span class="fw-bold text-success h5 mb-0" id="changeAmountDisplay">  ၀</span>
+                                    <span class="fw-bold text-success h5 mb-0" id="changeAmountDisplay"> ၀</span>
                                 </div>
                             </div>
 
@@ -390,11 +409,12 @@
                                 <div class="text-center p-3 border rounded-3 bg-light mb-3">
                                     <i class="bi bi-qr-code-scan display-4 text-primary d-block mb-2"></i>
                                     <span class="fw-bold d-block small">KPay QR ကုဒ်ကို စကန်ဖတ်ပါ</span>
-                                    <span class="text-muted small" style="font-size: 14px">သီတာပြုံး</span>
+                                    <span class="text-muted small" style="font-size: 14px">မသီတာပြုံး</span>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label small fw-medium text-muted">ငွေပေးချေမှုနံပါတ် (နောက်ဆုံး ၆ လုံး)</label>
+                                    <label class="form-label small fw-medium text-muted">ငွေပေးချေမှုနံပါတ် (နောက်ဆုံး
+                                        ၆ လုံး)</label>
                                     <input type="text" class="form-control text-center fw-bold"
                                         placeholder="ဥပမာ - ၁၂၃၄၅၆" maxlength="6">
                                 </div>
@@ -404,20 +424,26 @@
                                 <div class="text-center p-4 border rounded-3 bg-light mb-4">
                                     <i class="bi bi-vimeo text-info display-4 d-block mb-2"></i>
                                     <span class="fw-bold d-block small text-warning"><i
-                                            class="bi bi-info-circle me-1"></i>စက်မှ တုံ့ပြန်မှုကို စောင့်ဆိုင်းနေသည်...</span>
-                                    <span class="text-muted small d-block mt-1" style="font-size: 14px">ကတ်အား POS စက်ပေါ်တွင် Swipe လုပ်ပါ သို့မဟုတ် ထိပါ</span>
+                                            class="bi bi-info-circle me-1"></i>စက်မှ တုံ့ပြန်မှုကို
+                                        စောင့်ဆိုင်းနေသည်...</span>
+                                    <span class="text-muted small d-block mt-1" style="font-size: 14px">ကတ်အား POS
+                                        စက်ပေါ်တွင် Swipe လုပ်ပါ သို့မဟုတ် ထိပါ</span>
                                 </div>
                             </div>
 
                             <div class="row g-2 d-flex align-items-stretch">
                                 <div class="col-6 d-flex">
-                                    <button type="button" class="btn btn-light btn-sm w-100 py-2 d-flex align-items-center justify-content-center" data-bs-dismiss="modal">
+                                    <button type="button"
+                                        class="btn btn-light btn-sm w-100 py-2 d-flex align-items-center justify-content-center"
+                                        data-bs-dismiss="modal">
                                         ပယ်ဖျက်ရန်
                                     </button>
                                 </div>
 
                                 <div class="col-6 d-flex">
-                                    <button type="button" class="btn btn-success btn-sm w-100 py-2 fw-bold d-flex align-items-center justify-content-center text-center" id="confirmPaymentBtn">
+                                    <button type="button"
+                                        class="btn btn-success btn-sm w-100 py-2 fw-bold d-flex align-items-center justify-content-center text-center"
+                                        id="confirmPaymentBtn">
                                         <div>
                                             <i class="bi bi-printer me-1"></i> အတည်ပြုပြီး<br>စာရွက်ထုတ်ရန်
                                         </div>
@@ -472,7 +498,9 @@
                 if (productSearch) {
                     // focus after tiny timeout to ensure any UI focus traps are settled
                     setTimeout(() => {
-                        productSearch.focus({ preventScroll: true });
+                        productSearch.focus({
+                            preventScroll: true
+                        });
                         productSearch.select();
                     }, 50);
                 }
@@ -482,9 +510,15 @@
                     if (!currentDateTimeEl) return;
                     const now = new Date();
                     // Format: DD/MM/YYYY HH:MM:SS
-                    const opts = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    const opts = {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    };
                     const datePart = now.toLocaleDateString(undefined, opts);
-                    const timePart = now.toLocaleTimeString(undefined, { hour12: false });
+                    const timePart = now.toLocaleTimeString(undefined, {
+                        hour12: false
+                    });
                     currentDateTimeEl.textContent = `${datePart} ${timePart}`;
                 }
 
@@ -719,7 +753,8 @@
                             payment_method: selectedMethod,
                             payment_amount: paymentAmount,
                             discount: getDiscount(),
-                            customer_name: document.getElementById('customerNameInput').value.trim() || null,
+                            customer_name: document.getElementById('customerNameInput').value.trim() ||
+                                null,
                         };
 
                         confirmBtn.disabled = true;
@@ -749,7 +784,7 @@
                                 window.print();
                                 alert(
                                     'Transaction saved! Cart will now reset for the next customer.'
-                                    );
+                                );
                                 Object.keys(cart).forEach(key => delete cart[key]);
                                 document.getElementById('customerNameInput').value = '';
                                 discountInput.value = 0;

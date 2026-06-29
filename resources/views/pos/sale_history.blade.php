@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>သီတာပြုံး  - ရောင်းချမှုမှတ်တမ်း</title>
+    <title>မသီတာပြုံး  - ရောင်းချမှုမှတ်တမ်း</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -24,7 +24,7 @@
                             style="width: 56px; height: 56px; object-fit: cover;">
                         
                         <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
-                            သီတာပြုံး
+                            မသီတာပြုံး
                         </h5>
                     </div>
 
@@ -201,8 +201,12 @@
             <!-- Receipt Slip Container -->
             <div id="receiptSlipArea" style="font-family: monospace;">
               <div class="text-center">
-                <h5 class="fw-bold mb-2">သီတာပြုံး </h5>
-                {{-- <p class="small mb-2"> အမှတ် (၁၂၃)၊ ရန်ကုန်မြို့၊  <br> ဖုန်း - ၀၉ ၁၂၃၄၅၆၇၈၉ </p> --}}
+                <h5 class="fw-bold mb-2">မသီတာပြုံး </h5>
+                <h5 class="fw-bold mb-2">မုန့်မျိုးစုံရောင်းဝယ်ရေး </h5>
+                <p class="small mb-2"> 
+ရန်ပယ်စျေး၊ မကွေး
+095341934, 09965341934,
+09782878443 </p>
                 <div style="border-top: 1px dashed #000; margin: 10px 0;"></div>
               </div>
 

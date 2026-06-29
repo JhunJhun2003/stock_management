@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>သီတာပြုံး  - ပင်မစာမျက်နှာ</title>
+  <title>မသီတာပြုံး  - ပင်မစာမျက်နှာ</title>
 
   <!-- External CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
                 style="width: 56px; height: 56px; object-fit: cover;">
                         
             <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
-              သီတာပြုံး
+              မသီတာပြုံး
              </h5>
           </div>
 

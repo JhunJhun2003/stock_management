@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    <title> သီတာပြုံး  - အကောင့်ဝင်ရန်</title>
+    <title> မသီတာပြုံး  - အကောင့်ဝင်ရန်</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" >
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" >
@@ -21,7 +21,7 @@
             <div class="col-md-5 brand-section text-center">
                 <img src="{{ asset('img/logo.jpg') }}" alt="POS Logo" class="img-fluid rounded-circle mb-2" style="max-height: 120px; width: auto; object-fit: contain">
                 <!-- <h4 class="fw-bold mb-3">ကြိုဆိုပါတယ်</h4> -->
-                <h3 class="fw-bold mb-3">သီတာပြုံး </h3>
+                <h3 class="fw-bold mb-3">မသီတာပြုံး </h3>
                 <p class="small">သင်၏ အရောင်း၊ ကုန်ပစ္စည်းနှင့် အသုံးပြုသူများကို လွယ်ကူထိရောက်စွာ စီမံခန့်ခွဲနိုင်ပါသည်။</p>
             </div>
 
