@@ -158,7 +158,8 @@
                                     <th>ပစ္စည်းအမည်</th>
                                     <th>အမျိုးအစား</th>
                                     <th>ဝယ်ဈေး</th>
-                                    <th>ရောင်းဈေး</th>
+                                    <th>ရောင်းဈေး (လက်လီ)</th>
+                                    <th>ရောင်းဈေး (လက်ကား)</th>
                                     <th>လက်ကျန်</th>
                                     <th>အခြေအနေ</th>
                                     <th>လုပ်ဆောင်ချက်</th>
@@ -172,6 +173,7 @@
                                     <td>{{ ucfirst($product->category ?? 'N/A') }}</td>
                                     <td>{{ number_format($product->cost, 0) }} </td>
                                     <td>{{ number_format($product->price, 0) }} </td>
+                                    <td>{{ number_format($product->wholesale_price, 0) }} </td>
                                     <td>{{ $product->stock }}</td>
                                     <td>
                                         @if($product->isOutOfStock())
@@ -192,6 +194,7 @@
                                             data-category="{{ $product->category }}"
                                             data-cost="{{ $product->cost }}"
                                             data-price="{{ $product->price }}"
+                                            data-wholesale="{{ $product->wholesale_price }}"
                                             data-stock="{{ $product->stock }}"
                                             data-desc="{{ $product->description }}">
                                             <i class="bi bi-pencil"></i>
@@ -283,10 +286,18 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး *</label>
+                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (Retail) *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="add_prod_price" name="price" placeholder="၀" value="{{ old('price') }}" required style="font-size: 16px" step="1">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (Wholesale) *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
+                                    <input type="number" class="form-control" id="add_prod_wholesale_price" name="wholesale_price" placeholder="၀" value="{{ old('wholesale_price') }}" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
@@ -373,10 +384,18 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး *</label>
+                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (Retail) *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="edit_prod_price" name="price" value="{{ old('price') }}" required style="font-size: 16px" step="1">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (Wholesale) *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
+                                    <input type="number" class="form-control" id="edit_prod_wholesale_price" name="wholesale_price" value="{{ old('wholesale_price') }}" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
@@ -494,6 +513,7 @@
                     const category = this.getAttribute('data-category');
                     const cost = this.getAttribute('data-cost');
                     const price = this.getAttribute('data-price');
+                    const wholesalePrice = this.getAttribute('data-wholesale');
                     const stock = this.getAttribute('data-stock');
                     const desc = this.getAttribute('data-desc');
 
@@ -503,6 +523,7 @@
                     document.getElementById('edit_prod_category').value = category || '';
                     document.getElementById('edit_prod_cost').value = cost;
                     document.getElementById('edit_prod_price').value = price;
+                    document.getElementById('edit_prod_wholesale_price').value = wholesalePrice;
                     document.getElementById('edit_prod_stock').value = stock;
                     document.getElementById('edit_prod_desc').value = desc || '';
 

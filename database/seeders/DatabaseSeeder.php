@@ -41,11 +41,11 @@ class DatabaseSeeder extends Seeder
 
         // Create sample products
         $products = [
-            ['product_code' => 'P001', 'product_name' => 'Laptop', 'category' => 'Electronics', 'price' => ၅၀၀၀၀၀, 'stock' => ၁၀],
-            ['product_code' => 'P002', 'product_name' => 'Smartphone', 'category' => 'Electronics', 'price' => ၃၀၀၀၀၀, 'stock' => ၁၅],
-            ['product_code' => 'P003', 'product_name' => 'Headphones', 'category' => 'Accessories', 'price' => ၅၀၀၀၀, 'stock' => ၃၀],
-            ['product_code' => 'P004', 'product_name' => 'Keyboard', 'category' => 'Accessories', 'price' => ၁၀၀၀၀, 'stock' => ၃၀],
-            ['product_code' => 'P005', 'product_name' => 'Monitor', 'category' => 'Electronics', 'price' => ၂၀၀၀၀, 'stock' => ၈],
+            ['product_code' => 'P001', 'product_name' => 'Laptop', 'category' => 'Electronics', 'price' => ၅၀၀၀၀၀, 'wholesale_price' => ၄၅၀၀၀၀, 'stock' => ၁၀],
+            ['product_code' => 'P002', 'product_name' => 'Smartphone', 'category' => 'Electronics', 'price' => ၃၀၀၀၀၀, 'wholesale_price' => ၂၇၀၀၀၀, 'stock' => ၁၅],
+            ['product_code' => 'P003', 'product_name' => 'Headphones', 'category' => 'Accessories', 'price' => ၅၀၀၀၀, 'wholesale_price' => ၄၅၀၀၀, 'stock' => ၃၀],
+            ['product_code' => 'P004', 'product_name' => 'Keyboard', 'category' => 'Accessories', 'price' => ၁၀၀၀၀, 'wholesale_price' => ၉၀၀၀, 'stock' => ၃၀],
+            ['product_code' => 'P005', 'product_name' => 'Monitor', 'category' => 'Electronics', 'price' => ၂၀၀၀၀, 'wholesale_price' => ၁၈၀၀၀, 'stock' => ၈],
         ];
 
         foreach ($products as $product) {
