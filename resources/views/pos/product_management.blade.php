@@ -292,7 +292,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (Retail) *</label>
+                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (လက်လီ) *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="add_prod_price" name="price" placeholder="၀" value="{{ old('price') }}" required style="font-size: 16px" step="1">
@@ -300,7 +300,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (Wholesale) *</label>
+                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (လက်ကား) *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="add_prod_wholesale_price" name="wholesale_price" placeholder="၀" value="{{ old('wholesale_price') }}" required style="font-size: 16px" step="1">
