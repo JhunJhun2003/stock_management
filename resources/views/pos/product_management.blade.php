@@ -501,13 +501,36 @@
                 return prefix + timestamp + random;
             }
 
-            // Prepare product code field when add modal opens and focus it
-            document.getElementById('addProductModal').addEventListener('show.bs.modal', function () {
+            // Prepare add-product modal when it is fully shown and focus the product name
+            document.getElementById('addProductModal').addEventListener('shown.bs.modal', function () {
                 const codeInput = document.getElementById('add_prod_code');
                 codeInput.value = '';
                 setTimeout(() => {
-                    codeInput.focus({ preventScroll: true });
+                    const nameInput = document.getElementById('add_prod_name');
+                    nameInput.focus({ preventScroll: true });
+                    nameInput.setSelectionRange(nameInput.value.length, nameInput.value.length);
                 }, 50);
+            });
+
+            // Open add-product modal when Enter is pressed while not typing in another form field
+            document.addEventListener('keydown', function (event) {
+                if (event.key !== 'Enter' || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+                    return;
+                }
+
+                const activeModal = document.querySelector('.modal.show');
+                const activeElement = document.activeElement;
+                const activeTag = activeElement?.tagName;
+                const isFormField = ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag);
+
+                if (activeModal || isFormField) {
+                    return;
+                }
+
+                event.preventDefault();
+                const addModalEl = document.getElementById('addProductModal');
+                const addModal = new bootstrap.Modal(addModalEl);
+                addModal.show();
             });
 
             // Edit Product - Populate modal
