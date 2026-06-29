@@ -204,7 +204,7 @@
                 <h5 class="fw-bold mb-2">မသီတာပြုံး </h5>
                 <h5 class="fw-bold mb-2">မုန့်မျိုးစုံရောင်းဝယ်ရေး </h5>
                 <p class="small mb-2"> 
-ရန်ပယ်စျေး၊ မကွေး
+ရန်ပယ်စျေး၊ မကွေး <br>
 095341934, 09965341934,
 09782878443 </p>
                 <div style="border-top: 1px dashed #000; margin: 10px 0;"></div>
