@@ -274,6 +274,12 @@
                                     <option value="မီးဖိုချောင်သုံး" {{ old('category') === 'မီးဖိုချောင်သုံး' ? 'selected' : '' }}>မီးဖိုချောင်သုံး</option>
                                     <option value="ချိုချဥ်/ပီကေ" {{ old('category') === 'ချိုချဥ်/ပီကေ' ? 'selected' : '' }}>ချိုချဥ်/ပီကေ</option>
                                     <option value="ဂျူးချောင်း" {{ old('category') === 'ဂျူးချောင်း' ? 'selected' : '' }}>ဂျူးချောင်း</option>
+                                    <option value="ခေါက်ဆွဲခြောက်" {{ old('category') === 'ခေါက်ဆွဲခြောက်' ? 'selected' : '' }}>ခေါက်ဆွဲခြောက်</option>
+                                    <option value="ဘီစကစ်" {{ old('category') === 'ဘီစကစ်' ? 'selected' : '' }}>ဘီစကစ်</option>
+                                    <option value="ကိတ်ခြောက်" {{ old('category') === 'ကိတ်ခြောက်' ? 'selected' : '' }}>ကိတ်ခြောက်</option>
+                                    <option value="ဆီကြော်" {{ old('category') === 'ဆီကြော်' ? 'selected' : '' }}>ဆီကြော်</option>
+                                    <option value="ကိတ်မုန့်" {{ old('category') === 'ကိတ်မုန့်' ? 'selected' : '' }}>ကိတ်မုန့်</option>
+                                    <option value="ပေါင်မုန့်" {{ old('category') === 'ပေါင်မုန့်' ? 'selected' : '' }}>ပေါင်မုန့်</option>
                                 </select>
                             </div>
 
