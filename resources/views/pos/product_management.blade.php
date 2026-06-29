@@ -359,6 +359,7 @@
                                     <option value="မုန့်အမျိုးမျိုး" {{ old('category') === 'မုန့်အမျိုးမျိုး' ? 'selected' : '' }}>မုန့်အမျိုးမျိုး</option>
                                     <option value="ကုန်ခြောက်" {{ old('category') === 'ကုန်ခြောက်' ? 'selected' : '' }}>ကုန်ခြောက်</option>
                                     <option value="အဝတ်အထည်" {{ old('category') === 'အဝတ်အထည်' ? 'selected' : '' }}>အဝတ်အထည်</option>
+                                    <option value="ခေါက်ဆွဲခြောက်" {{ old('category') === 'ခေါက်ဆွဲခြောက်' ? 'selected' : '' }}>ခေါက်ဆွဲခြောက်</option>
                                     <option value="အခြား" {{ old('category') === 'အခြား' ? 'selected' : '' }}>အခြား</option>
                                 </select>
                             </div>
