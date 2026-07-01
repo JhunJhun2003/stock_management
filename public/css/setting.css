@@ -7,9 +7,46 @@
       .sidebar {
         color: #94a3b8;
         background-color: #0b192c;
-        min-height: 100vh;
-        
+        height: 100vh;
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px;
         padding-top: 0 !important;
+        z-index: 1030;
+      }
+
+      .main-container {
+        margin-left: 240px;
+        min-height: 100vh;
+        overflow: auto !important;
+      }
+
+      @media (max-width: 767.98px) {
+        .sidebar {
+          position: static;
+          width: 100%;
+          height: auto;
+          max-height: none;
+        }
+        .main-container {
+          margin-left: 0;
+          padding: 16px;
+        }
+        .sidebar-logout-container {
+          margin: 0;
+        }
+        .sidebar .nav-link {
+          font-size: 15px;
+          padding: 10px 14px;
+        }
+        .table-responsive,
+        .table-scroll,
+        .product-table-scroll,
+        .report-table-scroll {
+          overflow-x: auto;
+        }
       }
 
       .sidebar .nav-item {
