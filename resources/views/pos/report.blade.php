@@ -285,7 +285,7 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-outline-primary" onclick="viewReceipt({{ $sale->id }})">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewReceipt({{ $sale->id }})">
                                                     <i class="bi bi-receipt me-1"></i> ဘောင်ချာကြည့်ရန်
                                                 </button>
                                             </td>

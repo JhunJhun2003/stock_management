@@ -10,8 +10,30 @@
         height: 100vh;
         overflow: hidden;
         position: fixed;
-        
+        top: 0;
+        left: 0;
+        width: 240px;
         padding-top: 0 !important;
+      }
+
+      .main-container {
+        min-height: 100vh;
+        overflow: auto !important;
+        margin-left: 240px;
+      }
+
+      @media (max-width: 767.98px) {
+        .sidebar {
+          position: static;
+          width: 100%;
+          height: auto;
+        }
+        .main-container {
+          margin-left: 0;
+        }
+        .sidebar-logout-container {
+          margin: 0;
+        }
       }
 
 
