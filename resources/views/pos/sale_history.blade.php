@@ -368,15 +368,12 @@
             printWindow.document.write(
                 '<style>body { padding: 4mm; margin: 0; font-family: "Courier New", Courier, monospace; font-size: 12px; width: 80mm; max-width: 80mm; box-sizing: border-box; } @page { size: 80mm auto; margin: 0mm; }</style>'
                 );
+            printWindow.document.write('<script>window.onload = function() { window.print(); }<\/script>');
             printWindow.document.write('</head><body>');
             printWindow.document.write(printContent);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
             printWindow.focus();
-            setTimeout(function() {
-                printWindow.print();
-                printWindow.close();
-            }, 250);
         }
     </script>
 </body>

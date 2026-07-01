@@ -622,15 +622,12 @@
             printWindow.document.write('<html><head><title>ဘောင်ချာထုတ်ရန်</title>');
             printWindow.document.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">');
             printWindow.document.write('<style>body { padding: 20px; font-family: monospace; }</style>');
+            printWindow.document.write('<script>window.onload = function() { window.print(); }<\/script>');
             printWindow.document.write('</head><body>');
             printWindow.document.write(printContent);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
             printWindow.focus();
-            setTimeout(function() {
-                printWindow.print();
-                printWindow.close();
-            }, 250);
         }
     </script>
 </body>
