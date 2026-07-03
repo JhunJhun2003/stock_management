@@ -15,9 +15,10 @@ class Product extends Model
         'product_code',
         'product_name',
         'category',
-        'price',
-        'wholesale_price',
-        'cost',
+        'home_cost',
+        'shop_cost',
+        'home_price',
+        'shop_price',
         'stock',
         'image',
         'description',
@@ -27,9 +28,10 @@ class Product extends Model
     protected function casts(): array
     {
         return [
-            'price' => 'decimal:2',
-            'wholesale_price' => 'decimal:2',
-            'cost' => 'decimal:2',
+            'home_cost' => 'decimal:2',
+            'shop_cost' => 'decimal:2',
+            'home_price' => 'decimal:2',
+            'shop_price' => 'decimal:2',
             'is_active' => 'boolean',
         ];
     }
@@ -60,9 +62,40 @@ class Product extends Model
         return $this;
     }
 
+    public function getCostForRole(?string $role): float
+    {
+        return match ($role) {
+            User::ROLE_SHOP => (float) ($this->shop_cost ?? 0),
+            default => (float) ($this->home_cost ?? 0),
+        };
+    }
+
+    public function getPriceForRole(?string $role): float
+    {
+        return match ($role) {
+            User::ROLE_SHOP => (float) ($this->shop_price ?? 0),
+            default => (float) ($this->home_price ?? 0),
+        };
+    }
+
+    public function getPriceAttribute($value): float
+    {
+        return $this->getPriceForRole(User::ROLE_HOME);
+    }
+
+    public function getWholesalePriceAttribute($value): float
+    {
+        return $this->getPriceForRole(User::ROLE_SHOP);
+    }
+
+    public function getCostAttribute($value): float
+    {
+        return $this->getCostForRole(User::ROLE_HOME);
+    }
+
     public function getFormattedPriceAttribute()
     {
-        return number_format($this->price, 2);
+        return number_format($this->getPriceForRole(User::ROLE_HOME), 2);
     }
 
     public function isLowStock(): bool

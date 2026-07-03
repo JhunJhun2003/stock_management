@@ -26,14 +26,15 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
-            'is_admin' => 'required|in:0,1',
+            'role' => 'required|in:admin,home,shop',
         ]);
 
         $this->userService->createUser([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
-            'is_admin' => (bool)$validated['is_admin'],
+            'role' => $validated['role'],
+            'is_admin' => $validated['role'] === 'admin',
         ]);
 
         return redirect()->route('users.index')
@@ -50,14 +51,15 @@ class UserController extends Controller
                 Rule::unique('users')->ignore($id),
             ],
             'password' => 'nullable|string|min:8',
-            'is_admin' => 'required|in:0,1',
+            'role' => 'required|in:admin,home,shop',
         ]);
 
         $this->userService->updateUser($id, [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'] ?? null,
-            'is_admin' => (bool)$validated['is_admin'],
+            'role' => $validated['role'],
+            'is_admin' => $validated['role'] === 'admin',
         ]);
 
         return redirect()->route('users.index')

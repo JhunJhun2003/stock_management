@@ -43,7 +43,8 @@ class PosController extends Controller
                 $validated['payment_method'],
                 (float) $validated['payment_amount'],
                 (float) ($validated['discount'] ?? 0),
-                $validated['customer_name'] ?? null
+                $validated['customer_name'] ?? null,
+                Auth::user()->role
             );
         } catch (InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 422);

@@ -157,9 +157,10 @@
                                     <th>ကုဒ်အမှတ်</th>
                                     <th>ပစ္စည်းအမည်</th>
                                     <th>အမျိုးအစား</th>
-                                    <th>ဝယ်ဈေး</th>
-                                    <th>ရောင်းဈေး(လက်လီ)</th>
-                                    <th>ရောင်းဈေး(လက်ကား)</th>
+                                    <th>Home Cost</th>
+                                    <th>Home Price</th>
+                                    <th>Shop Cost</th>
+                                    <th>Shop Price</th>
                                     <th>လက်ကျန်</th>
                                     <th>အခြေအနေ</th>
                                     <th>လုပ်ဆောင်ချက်</th>
@@ -171,9 +172,10 @@
                                     <td>{{ $product->product_code }}</td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>{{ ucfirst($product->category ?? 'N/A') }}</td>
-                                    <td>{{ number_format($product->cost, 0) }} </td>
-                                    <td>{{ number_format($product->price, 0) }} </td>
-                                    <td>{{ number_format($product->wholesale_price, 0) }} </td>
+                                    <td>{{ number_format($product->home_cost, 0) }} </td>
+                                    <td>{{ number_format($product->home_price, 0) }} </td>
+                                    <td>{{ number_format($product->shop_cost, 0) }} </td>
+                                    <td>{{ number_format($product->shop_price, 0) }} </td>
                                     <td>{{ $product->stock }}</td>
                                     <td>
                                         @if($product->isOutOfStock())
@@ -192,9 +194,10 @@
                                             data-code="{{ $product->product_code }}"
                                             data-name="{{ $product->product_name }}"
                                             data-category="{{ $product->category }}"
-                                            data-cost="{{ $product->cost }}"
-                                            data-price="{{ $product->price }}"
-                                            data-wholesale="{{ $product->wholesale_price }}"
+                                            data-home-cost="{{ $product->home_cost }}"
+                                            data-shop-cost="{{ $product->shop_cost }}"
+                                            data-home-price="{{ $product->home_price }}"
+                                            data-shop-price="{{ $product->shop_price }}"
                                             data-stock="{{ $product->stock }}"
                                             data-desc="{{ $product->description }}">
                                             <i class="bi bi-pencil"></i>
@@ -284,26 +287,34 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ဝယ်ဈေး *</label>
+                                <label class="form-label small fw-medium text-muted">Home Cost *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="add_prod_cost" name="cost" placeholder="၀" value="{{ old('cost') }}" required style="font-size: 16px" step="1" min="0">
+                                    <input type="number" class="form-control" id="add_prod_home_cost" name="home_cost" placeholder="၀" value="{{ old('home_cost') }}" required style="font-size: 16px" step="1" min="0">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (လက်လီ) *</label>
+                                <label class="form-label small fw-medium text-muted">Home Price *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="add_prod_price" name="price" placeholder="၀" value="{{ old('price') }}" required style="font-size: 16px" step="1">
+                                    <input type="number" class="form-control" id="add_prod_home_price" name="home_price" placeholder="၀" value="{{ old('home_price') }}" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (လက်ကား) *</label>
+                                <label class="form-label small fw-medium text-muted">Shop Cost *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="add_prod_wholesale_price" name="wholesale_price" placeholder="၀" value="{{ old('wholesale_price') }}" required style="font-size: 16px" step="1">
+                                    <input type="number" class="form-control" id="add_prod_shop_cost" name="shop_cost" placeholder="၀" value="{{ old('shop_cost') }}" required style="font-size: 16px" step="1">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-medium text-muted">Shop Price *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
+                                    <input type="number" class="form-control" id="add_prod_shop_price" name="shop_price" placeholder="၀" value="{{ old('shop_price') }}" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
@@ -382,26 +393,34 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ဝယ်ဈေး *</label>
+                                <label class="form-label small fw-medium text-muted">Home Cost *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="edit_prod_cost" name="cost" value="{{ old('cost') }}" required style="font-size: 16px" step="1" min="0">
+                                    <input type="number" class="form-control" id="edit_prod_home_cost" name="home_cost" value="{{ old('home_cost') }}" required style="font-size: 16px" step="1" min="0">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (Retail) *</label>
+                                <label class="form-label small fw-medium text-muted">Home Price *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="edit_prod_price" name="price" value="{{ old('price') }}" required style="font-size: 16px" step="1">
+                                    <input type="number" class="form-control" id="edit_prod_home_price" name="home_price" value="{{ old('home_price') }}" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ရောင်းဈေး (Wholesale) *</label>
+                                <label class="form-label small fw-medium text-muted">Shop Cost *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
-                                    <input type="number" class="form-control" id="edit_prod_wholesale_price" name="wholesale_price" value="{{ old('wholesale_price') }}" required style="font-size: 16px" step="1">
+                                    <input type="number" class="form-control" id="edit_prod_shop_cost" name="shop_cost" value="{{ old('shop_cost') }}" required style="font-size: 16px" step="1">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-medium text-muted">Shop Price *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
+                                    <input type="number" class="form-control" id="edit_prod_shop_price" name="shop_price" value="{{ old('shop_price') }}" required style="font-size: 16px" step="1">
                                 </div>
                             </div>
 
@@ -540,9 +559,10 @@
                     const code = this.getAttribute('data-code');
                     const name = this.getAttribute('data-name');
                     const category = this.getAttribute('data-category');
-                    const cost = this.getAttribute('data-cost');
-                    const price = this.getAttribute('data-price');
-                    const wholesalePrice = this.getAttribute('data-wholesale');
+                    const homeCost = this.getAttribute('data-home-cost');
+                    const shopCost = this.getAttribute('data-shop-cost');
+                    const homePrice = this.getAttribute('data-home-price');
+                    const shopPrice = this.getAttribute('data-shop-price');
                     const stock = this.getAttribute('data-stock');
                     const desc = this.getAttribute('data-desc');
 
@@ -550,9 +570,10 @@
                     document.getElementById('edit_prod_code').value = code;
                     document.getElementById('edit_prod_name').value = name;
                     document.getElementById('edit_prod_category').value = category || '';
-                    document.getElementById('edit_prod_cost').value = cost;
-                    document.getElementById('edit_prod_price').value = price;
-                    document.getElementById('edit_prod_wholesale_price').value = wholesalePrice;
+                    document.getElementById('edit_prod_home_cost').value = homeCost;
+                    document.getElementById('edit_prod_shop_cost').value = shopCost;
+                    document.getElementById('edit_prod_home_price').value = homePrice;
+                    document.getElementById('edit_prod_shop_price').value = shopPrice;
                     document.getElementById('edit_prod_stock').value = stock;
                     document.getElementById('edit_prod_desc').value = desc || '';
 

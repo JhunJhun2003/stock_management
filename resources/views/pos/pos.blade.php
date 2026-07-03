@@ -224,13 +224,16 @@
                                             data-name="{{ $product->product_name }}"
                                             data-search-name="{{ strtolower($product->product_name) }}"
                                             data-category="{{ $product->category }}"
-                                            data-price="{{ $product->price }}" data-stock="{{ $product->stock }}">
+                                            data-home-price="{{ $product->home_price }}"
+                                            data-shop-price="{{ $product->shop_price }}"
+                                            data-price="{{ $product->getPriceForRole(auth()->user()->role) }}"
+                                            data-stock="{{ $product->stock }}">
 
                                             <td class="py-2">{{ $loop->iteration }}</td>
                                             <td class="py-2"><span
                                                     class="fw-bold">{{ $product->product_code }}</span></td>
                                             <td class="py-2">{{ $product->product_name }}</td>
-                                            <td class="py-2 fw-medium">{{ number_format($product->price, 0) }} </td>
+                                            <td class="py-2 fw-medium">{{ number_format($product->getPriceForRole(auth()->user()->role), 0) }} </td>
                                             <td class="py-2">
                                                 @if ($product->stock <= 0)
                                                     <span
@@ -460,6 +463,7 @@
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", function() {
                 const isAdmin = {{ Auth::user()->isAdmin() ? 'true' : 'false' }};
+                const userRole = @json(Auth::user()->role ?? 'home');
                 const checkoutUrl = @json(route('pos.checkout'));
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
@@ -598,7 +602,7 @@
                     const id = productEl.dataset.id;
                     const stock = parseInt(productEl.dataset.stock, 10);
                     const name = productEl.dataset.name;
-                    const price = parseFloat(productEl.dataset.price);
+                    const price = parseFloat(productEl.dataset.price || (userRole === 'shop' ? productEl.dataset.shopPrice : productEl.dataset.homePrice));
 
                     if (!cart[id]) {
                         cart[id] = {

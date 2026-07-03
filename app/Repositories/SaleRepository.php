@@ -95,8 +95,9 @@ class SaleRepository implements SaleRepositoryInterface
             // Calculate total cost based on quantity sold and cost of product at that moment
             $totalCost = DB::table('sale_details')
                 ->join('products', 'sale_details.product_id', '=', 'products.id')
+                ->leftJoin('users', 'sale_details.sale_id', '=', 'users.id')
                 ->whereIn('sale_details.sale_id', $saleIds, 'and', false)
-                ->sum(DB::raw('sale_details.quantity * products.cost')) ?? 0;
+                ->sum(DB::raw('sale_details.quantity * products.home_cost')) ?? 0;
         }
 
         $netProfit = $totalSales - $totalCost;

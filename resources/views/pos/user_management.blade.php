@@ -144,8 +144,10 @@
                                         <td class="text-center">
                                             @if ($user->isAdmin())
                                                 <span class="badge bg-primary">စီမံခန့်ခွဲသူ</span>
+                                            @elseif ($user->isHome())
+                                                <span class="badge bg-info">Home</span>
                                             @else
-                                                <span class="badge bg-info">အရောင်းဝန်ထမ်း</span>
+                                                <span class="badge bg-success">Shop</span>
                                             @endif
                                         </td>
                                         <td class="text-center">
@@ -155,7 +157,7 @@
                                                     data-id="{{ $user->id }}" 
                                                     data-name="{{ $user->name }}"
                                                     data-email="{{ $user->email }}"
-                                                    data-role="{{ $user->isAdmin() ? 'admin' : 'seller' }}">
+                                                    data-role="{{ $user->role ?? ($user->isAdmin() ? 'admin' : 'shop') }}">
                                                     <i class="bi bi-pencil"></i>
                                                 </button>
                                             @endif
@@ -238,10 +240,11 @@
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ရာထူး *</label>
-                                <select class="form-select" id="add_role" name="is_admin" style="font-size: 16px" required>
+                                <select class="form-select" id="add_role" name="role" style="font-size: 16px" required>
                                     <option value="" selected disabled>ရာထူး ရွေးချယ်ပါ</option>
-                                    <option value="1" {{ old('is_admin') === '1' ? 'selected' : '' }}>စီမံခန့်ခွဲသူ</option>
-                                    <option value="0" {{ old('is_admin') === '0' ? 'selected' : '' }}>အရောင်းဝန်ထမ်း</option>
+                                    <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>စီမံခန့်ခွဲသူ</option>
+                                    <option value="home" {{ old('role') === 'home' ? 'selected' : '' }}>Home</option>
+                                    <option value="shop" {{ old('role') === 'shop' ? 'selected' : '' }}>Shop</option>
                                 </select>
                             </div>
                         </div>
@@ -292,9 +295,10 @@
 
                             <div class="col-md-6">
                                 <label class="form-label small fw-medium text-muted">ရာထူး *</label>
-                                <select class="form-select" id="edit_role" name="is_admin" style="font-size: 16px" required>
-                                    <option value="1">စီမံခန့်ခွဲသူ</option>
-                                    <option value="0">အရောင်းဝန်ထမ်း</option>
+                                <select class="form-select" id="edit_role" name="role" style="font-size: 16px" required>
+                                    <option value="admin">စီမံခန့်ခွဲသူ</option>
+                                    <option value="home">Home</option>
+                                    <option value="shop">Shop</option>
                                 </select>
                             </div>
                         </div>
@@ -397,7 +401,7 @@
                     document.getElementById('edit_user_id').value = id;
                     document.getElementById('edit_fullname').value = name;
                     document.getElementById('edit_email').value = email;
-                    document.getElementById('edit_role').value = role === 'admin' ? '1' : '0';
+                    document.getElementById('edit_role').value = role || 'shop';
 
                     // Update form action
                     document.getElementById('editUserForm').action = `/users/${id}`;

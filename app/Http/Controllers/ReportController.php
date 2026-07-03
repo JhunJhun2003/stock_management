@@ -116,7 +116,7 @@ class ReportController extends Controller
                 foreach ($sales as $sale) {
                     $saleCost = 0;
                     foreach ($sale->saleDetails as $detail) {
-                        $saleCost += $detail->quantity * ($detail->product->cost ?? 0);
+                        $saleCost += $detail->quantity * ($detail->product->getCostForRole($sale->user?->role) ?? 0);
                     }
                     $saleProfit = $sale->total_amount - $saleCost;
 
@@ -145,7 +145,7 @@ class ReportController extends Controller
                         $product->product_name,
                         $product->total_sold ?? 0,
                         $product->total_revenue ?? 0,
-                        $product->price
+                        $product->home_price ?? 0
                     ]);
                 }
             } elseif ($reportType === 'users') {

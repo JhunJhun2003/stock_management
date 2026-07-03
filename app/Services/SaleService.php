@@ -17,13 +17,13 @@ class SaleService
         protected ProductRepositoryInterface $productRepository
     ) {}
 
-    public function processCheckout(int $userId, array $items, string $paymentMethod, float $paymentAmount, float $discount = 0, ?string $customerName = null): Sale
+    public function processCheckout(int $userId, array $items, string $paymentMethod, float $paymentAmount, float $discount = 0, ?string $customerName = null, ?string $userRole = null): Sale
     {
         if (empty($items)) {
             throw new InvalidArgumentException('Cart is empty.');
         }
 
-        return DB::transaction(function () use ($userId, $items, $paymentMethod, $paymentAmount, $discount, $customerName) {
+        return DB::transaction(function () use ($userId, $items, $paymentMethod, $paymentAmount, $discount, $customerName, $userRole) {
             $totalAmount = 0;
             $lineItems = [];
 
@@ -44,13 +44,14 @@ class SaleService
                     throw new InvalidArgumentException("Insufficient stock for {$product->product_name}. Available: {$product->stock}");
                 }
 
-                $subtotal = $product->price * $quantity;
+                $price = $product->getPriceForRole($userRole);
+                $subtotal = $price * $quantity;
                 $totalAmount += $subtotal;
 
                 $lineItems[] = [
                     'product' => $product,
                     'quantity' => $quantity,
-                    'price' => $product->price,
+                    'price' => $price,
                     'subtotal' => $subtotal,
                 ];
             }
