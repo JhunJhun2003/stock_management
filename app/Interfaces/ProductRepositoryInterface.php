@@ -22,9 +22,9 @@ interface ProductRepositoryInterface
 
     public function findByCode(string $code);
 
-    public function updateStock($id, $quantity): bool;
+    public function updateStock($id, $quantity, ?string $role = null): bool;
 
-    public function getActiveForPos(): Collection;
+    public function getActiveForPos(?string $role = null): Collection;
 
     public function getLowStock(int $threshold): Collection;
 

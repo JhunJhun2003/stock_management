@@ -40,8 +40,8 @@ class SaleService
                     throw new InvalidArgumentException('Invalid quantity.');
                 }
 
-                if (!$product->hasStock($quantity)) {
-                    throw new InvalidArgumentException("Insufficient stock for {$product->product_name}. Available: {$product->stock}");
+                if (!$product->hasStock($quantity, $userRole)) {
+                    throw new InvalidArgumentException("Insufficient stock for {$product->product_name}. Available: {$product->getStockForRole($userRole)}");
                 }
 
                 $price = $product->getPriceForRole($userRole);
@@ -91,7 +91,7 @@ class SaleService
                     'subtotal' => $line['subtotal'],
                 ]);
 
-                $line['product']->decreaseStock($line['quantity']);
+                $line['product']->decreaseStock($line['quantity'], $userRole);
             }
 
             return $sale->load('saleDetails.product');

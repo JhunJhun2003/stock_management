@@ -41,11 +41,11 @@ class DatabaseSeeder extends Seeder
 
         // Create sample products
         $products = [
-            ['product_code' => 'P001', 'product_name' => 'Laptop', 'category' => 'Electronics', 'price' => ၅၀၀၀၀၀, 'wholesale_price' => ၄၅၀၀၀၀, 'stock' => ၁၀],
-            ['product_code' => 'P002', 'product_name' => 'Smartphone', 'category' => 'Electronics', 'price' => ၃၀၀၀၀၀, 'wholesale_price' => ၂၇၀၀၀၀, 'stock' => ၁၅],
-            ['product_code' => 'P003', 'product_name' => 'Headphones', 'category' => 'Accessories', 'price' => ၅၀၀၀၀, 'wholesale_price' => ၄၅၀၀၀, 'stock' => ၃၀],
-            ['product_code' => 'P004', 'product_name' => 'Keyboard', 'category' => 'Accessories', 'price' => ၁၀၀၀၀, 'wholesale_price' => ၉၀၀၀, 'stock' => ၃၀],
-            ['product_code' => 'P005', 'product_name' => 'Monitor', 'category' => 'Electronics', 'price' => ၂၀၀၀၀, 'wholesale_price' => ၁၈၀၀၀, 'stock' => ၈],
+            ['product_code' => 'P001', 'product_name' => 'Laptop', 'category' => 'Electronics', 'home_cost' => 450000, 'shop_cost' => 460000, 'home_price' => 500000, 'shop_price' => 510000, 'home_stock' => 10, 'shop_stock' => 8],
+            ['product_code' => 'P002', 'product_name' => 'Smartphone', 'category' => 'Electronics', 'home_cost' => 270000, 'shop_cost' => 280000, 'home_price' => 300000, 'shop_price' => 310000, 'home_stock' => 15, 'shop_stock' => 12],
+            ['product_code' => 'P003', 'product_name' => 'Headphones', 'category' => 'Accessories', 'home_cost' => 45000, 'shop_cost' => 48000, 'home_price' => 50000, 'shop_price' => 52000, 'home_stock' => 30, 'shop_stock' => 25],
+            ['product_code' => 'P004', 'product_name' => 'Keyboard', 'category' => 'Accessories', 'home_cost' => 9000, 'shop_cost' => 9500, 'home_price' => 10000, 'shop_price' => 10500, 'home_stock' => 30, 'shop_stock' => 20],
+            ['product_code' => 'P005', 'product_name' => 'Monitor', 'category' => 'Electronics', 'home_cost' => 18000, 'shop_cost' => 19000, 'home_price' => 20000, 'shop_price' => 21000, 'home_stock' => 8, 'shop_stock' => 6],
         ];
 
         foreach ($products as $product) {

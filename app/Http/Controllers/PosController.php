@@ -18,7 +18,7 @@ class PosController extends Controller
 
     public function index()
     {
-        $products = $this->productService->getActiveProductsForPos();
+        $products = $this->productService->getActiveProductsForPos(Auth::user()->role);
         $categories = $this->productService->getCategories();
 
         return view('pos.pos', compact('products', 'categories'));

@@ -31,7 +31,8 @@ class ProductController extends Controller
             'shop_cost' => 'required|numeric|min:0',
             'home_price' => 'required|numeric|min:0',
             'shop_price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
+            'home_stock' => 'required|integer|min:0',
+            'shop_stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
@@ -45,7 +46,8 @@ class ProductController extends Controller
                 'shop_cost' => $validated['shop_cost'],
                 'home_price' => $validated['home_price'],
                 'shop_price' => $validated['shop_price'],
-                'stock' => $validated['stock'],
+                'home_stock' => $validated['home_stock'],
+                'shop_stock' => $validated['shop_stock'],
                 'description' => $validated['description'],
                 'is_active' => $validated['is_active'] ?? true,
             ]);
@@ -67,7 +69,8 @@ class ProductController extends Controller
             'shop_cost' => 'required|numeric|min:0',
             'home_price' => 'required|numeric|min:0',
             'shop_price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
+            'home_stock' => 'required|integer|min:0',
+            'shop_stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'is_active' => 'boolean',
         ]);
@@ -81,7 +84,8 @@ class ProductController extends Controller
                 'shop_cost' => $validated['shop_cost'],
                 'home_price' => $validated['home_price'],
                 'shop_price' => $validated['shop_price'],
-                'stock' => $validated['stock'],
+                'home_stock' => $validated['home_stock'],
+                'shop_stock' => $validated['shop_stock'],
                 'description' => $validated['description'],
                 'is_active' => $validated['is_active'] ?? true,
             ]);

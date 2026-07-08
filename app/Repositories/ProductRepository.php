@@ -57,7 +57,7 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::where('product_code', $code)->first();
     }
 
-    public function updateStock($id, $quantity): bool
+    public function updateStock($id, $quantity, ?string $role = null): bool
     {
         $product = Product::find($id);
 
@@ -65,24 +65,29 @@ class ProductRepository implements ProductRepositoryInterface
             return false;
         }
 
-        $product->stock += $quantity;
+        $column = $role === \App\Models\User::ROLE_SHOP ? 'shop_stock' : 'home_stock';
+        $product->{$column} += $quantity;
 
         return $product->save();
     }
 
-    public function getActiveForPos(): Collection
+    public function getActiveForPos(?string $role = null): Collection
     {
         return Product::where('is_active', true)
-            ->where('stock', '>', 0)
             ->orderBy('product_name')
             ->get();
     }
 
     public function getLowStock(int $threshold): Collection
     {
-        return Product::where('stock', '>', 0)
-            ->where('stock', '<', $threshold)
-            ->orderBy('stock')
+        return Product::where(function ($query) use ($threshold) {
+            $query->where(function ($q) use ($threshold) {
+                $q->where('home_stock', '>', 0)->where('home_stock', '<', $threshold);
+            })->orWhere(function ($q) use ($threshold) {
+                $q->where('shop_stock', '>', 0)->where('shop_stock', '<', $threshold);
+            });
+        })
+            ->orderBy('home_stock')
             ->get();
     }
 

@@ -31,9 +31,9 @@ class ProductService
         return $this->productRepository->getById($id);
     }
 
-    public function getActiveProductsForPos(): Collection
+    public function getActiveProductsForPos(?string $role = null): Collection
     {
-        return $this->productRepository->getActiveForPos();
+        return $this->productRepository->getActiveForPos($role);
     }
 
     public function getLowStockProducts(): Collection
@@ -77,4 +77,6 @@ class ProductService
     {
         return $this->productRepository->findByCode($code);
     }
+
+    
 }

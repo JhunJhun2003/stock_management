@@ -143,7 +143,7 @@
                         အောက်ပါပစ္စည်းများသည် လက်ကျန် {{ \App\Models\Product::LOW_STOCK_THRESHOLD }} ခုအောက် လျော့နည်းနေပါသည်။
                         
                         @foreach($lowStockProducts as $lowStockProduct)
-                            <span class="badge bg-warning text-dark ms-1">{{ $lowStockProduct->product_name }} ({{ $lowStockProduct->stock }} ခုသာ ကျန်တေ့ာသည်။)</span>
+                            <span class="badge bg-warning text-dark ms-1">{{ $lowStockProduct->product_name }} (အိမ်: {{ $lowStockProduct->home_stock }}, ဆိုင်: {{ $lowStockProduct->shop_stock }})</span>
                         @endforeach
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
@@ -151,7 +151,7 @@
 
                 <div class="card border-0 shadow-sm p-3">
                     <div class="table-responsive product-table-scroll" style="display: block; max-height: calc(100vh - 160px); overflow-y: auto; overflow-x: auto;">
-                        <table class="table table-hover align-middle mb-0" style="font-size: 16px">
+                        <table class="table table-hover align-middle mb-0" style="font-size: 14px">
                             <thead class="table-light">
                                 <tr  class="text-center">
                                     <th>ကုဒ်အမှတ်</th>
@@ -161,12 +161,13 @@
                                     <th>အိမ်(ရောင်းဈေး)</th>
                                     <th>ဆိုင်(၀ယ်ဈေး)</th>
                                     <th>ဆိုင်(ရောင်းဈေး)</th>
-                                    <th>လက်ကျန်</th>
+                                    <th>အိမ်လက်ကျန်</th>
+                                    <th>ဆိုင်လက်ကျန်</th>
                                     <th>အခြေအနေ</th>
                                     <th>လုပ်ဆောင်ချက်</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-center">
+                            <tbody class="text-center" style="font-size: 14px;">
                                 @forelse($products as $product)
                                 <tr>
                                     <td>{{ $product->product_code }}</td>
@@ -176,7 +177,8 @@
                                     <td>{{ number_format($product->home_price, 0) }} </td>
                                     <td>{{ number_format($product->shop_cost, 0) }} </td>
                                     <td>{{ number_format($product->shop_price, 0) }} </td>
-                                    <td>{{ $product->stock }}</td>
+                                    <td>{{ $product->home_stock }}</td>
+                                    <td>{{ $product->shop_stock }}</td>
                                     <td>
                                         @if($product->isOutOfStock())
                                             <span class="badge bg-danger-subtle text-danger">လက်ကျန်မရှိတေ့ာပါ။</span>
@@ -198,7 +200,8 @@
                                             data-shop-cost="{{ $product->shop_cost }}"
                                             data-home-price="{{ $product->home_price }}"
                                             data-shop-price="{{ $product->shop_price }}"
-                                            data-stock="{{ $product->stock }}"
+                                            data-home-stock="{{ $product->home_stock }}"
+                                            data-shop-stock="{{ $product->shop_stock }}"
                                             data-desc="{{ $product->description }}">
                                             <i class="bi bi-pencil"></i>
                                         </button>
@@ -319,8 +322,13 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">လက်ကျန်အရေအတွက် *</label>
-                                <input type="number" class="form-control" id="add_prod_stock" name="stock" placeholder="၀" value="{{ old('stock') }}" required style="font-size: 16px" min="0">
+                                <label class="form-label small fw-medium text-muted">အိမ်လက်ကျန် *</label>
+                                <input type="number" class="form-control" id="add_prod_home_stock" name="home_stock" placeholder="၀" value="{{ old('home_stock') }}" required style="font-size: 16px" min="0">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-medium text-muted">ဆိုင်လက်ကျန် *</label>
+                                <input type="number" class="form-control" id="add_prod_shop_stock" name="shop_stock" placeholder="၀" value="{{ old('shop_stock') }}" required style="font-size: 16px" min="0">
                             </div>
 
                             <div class="col-md-6">
@@ -425,8 +433,13 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">လက်ကျန် အရေအတွက် *</label>
-                                <input type="number" class="form-control" id="edit_prod_stock" name="stock" value="{{ old('stock') }}" required style="font-size: 16px" min="0">
+                                <label class="form-label small fw-medium text-muted">အိမ်လက်ကျန် *</label>
+                                <input type="number" class="form-control" id="edit_prod_home_stock" name="home_stock" value="{{ old('home_stock') }}" required style="font-size: 16px" min="0">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label small fw-medium text-muted">ဆိုင်လက်ကျန် *</label>
+                                <input type="number" class="form-control" id="edit_prod_shop_stock" name="shop_stock" value="{{ old('shop_stock') }}" required style="font-size: 16px" min="0">
                             </div>
 
                             <div class="col-md-6">
@@ -563,7 +576,8 @@
                     const shopCost = this.getAttribute('data-shop-cost');
                     const homePrice = this.getAttribute('data-home-price');
                     const shopPrice = this.getAttribute('data-shop-price');
-                    const stock = this.getAttribute('data-stock');
+                    const homeStock = this.getAttribute('data-home-stock');
+                    const shopStock = this.getAttribute('data-shop-stock');
                     const desc = this.getAttribute('data-desc');
 
                     document.getElementById('edit_product_id').value = id;
@@ -574,7 +588,8 @@
                     document.getElementById('edit_prod_shop_cost').value = shopCost;
                     document.getElementById('edit_prod_home_price').value = homePrice;
                     document.getElementById('edit_prod_shop_price').value = shopPrice;
-                    document.getElementById('edit_prod_stock').value = stock;
+                    document.getElementById('edit_prod_home_stock').value = homeStock;
+                    document.getElementById('edit_prod_shop_stock').value = shopStock;
                     document.getElementById('edit_prod_desc').value = desc || '';
 
                     // Update form action

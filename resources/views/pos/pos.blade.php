@@ -219,6 +219,10 @@
                                 </thead>
                                 <tbody id="productTableBody">
                                     @forelse($products as $product)
+                                        @php
+                                            $userRole = auth()->user()->role;
+                                            $stock = $product->getStockForRole($userRole);
+                                        @endphp
                                         <tr class="product-item" role="button" data-id="{{ $product->id }}"
                                             data-code="{{ $product->product_code }}"
                                             data-name="{{ $product->product_name }}"
@@ -226,30 +230,32 @@
                                             data-category="{{ $product->category }}"
                                             data-home-price="{{ $product->home_price }}"
                                             data-shop-price="{{ $product->shop_price }}"
-                                            data-price="{{ $product->getPriceForRole(auth()->user()->role) }}"
-                                            data-stock="{{ $product->stock }}">
+                                            data-home-stock="{{ $product->home_stock }}"
+                                            data-shop-stock="{{ $product->shop_stock }}"
+                                            data-price="{{ $product->getPriceForRole($userRole) }}"
+                                            data-stock="{{ $stock }}">
 
                                             <td class="py-2">{{ $loop->iteration }}</td>
                                             <td class="py-2"><span
                                                     class="fw-bold">{{ $product->product_code }}</span></td>
                                             <td class="py-2">{{ $product->product_name }}</td>
-                                            <td class="py-2 fw-medium">{{ number_format($product->getPriceForRole(auth()->user()->role), 0) }} </td>
+                                            <td class="py-2 fw-medium">{{ number_format($product->getPriceForRole($userRole), 0) }} </td>
                                             <td class="py-2">
-                                                @if ($product->stock <= 0)
+                                                @if ($stock <= 0)
                                                     <span
                                                         class="badge bg-danger px-2 py-1.5">ပစ္စည်းလက်ကျန်မရှိပါ။</span>
-                                                @elseif($product->isLowStock())
+                                                @elseif($product->isLowStock($userRole))
                                                     <span class="badge bg-warning text-dark px-2 py-1.5">
-                                                        {{ $product->stock }} (Low)
+                                                        {{ $stock }} (Low)
                                                     </span>
                                                 @else
                                                     <span
-                                                        class="badge bg-success px-2 py-1.5">{{ $product->stock }}</span>
+                                                        class="badge bg-success px-2 py-1.5">{{ $stock }}</span>
                                                 @endif
                                             </td>
                                             <td class="py-2">
                                                 <button class="btn btn-sm btn-primary add-to-cart-btn" type="button"
-                                                    {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                                                    {{ $stock <= 0 ? 'disabled' : '' }}>
                                                     <i class="bi bi-plus"></i> ထပ်ထည့်ရန်
                                                 </button>
                                             </td>
@@ -598,11 +604,22 @@
                     updateTotals();
                 }
 
+                function getProductStock(productEl) {
+                    const homeStock = parseInt(productEl.dataset.homeStock, 10) || 0;
+                    const shopStock = parseInt(productEl.dataset.shopStock, 10) || 0;
+
+                    return userRole === 'shop' ? shopStock : homeStock;
+                }
+
                 function addToCart(productEl) {
                     const id = productEl.dataset.id;
-                    const stock = parseInt(productEl.dataset.stock, 10);
+                    const stock = getProductStock(productEl);
                     const name = productEl.dataset.name;
                     const price = parseFloat(productEl.dataset.price || (userRole === 'shop' ? productEl.dataset.shopPrice : productEl.dataset.homePrice));
+
+                    if (stock <= 0) {
+                        return;
+                    }
 
                     if (!cart[id]) {
                         cart[id] = {
@@ -614,6 +631,8 @@
                         };
                     }
 
+                    cart[id].stock = stock;
+
                     if (cart[id].quantity >= stock) {
                         alert(`Only ${stock} unit(s) available for ${name}.`);
                         return;
@@ -623,11 +642,27 @@
                     renderCart();
                 }
 
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const row = this.closest('.product-item');
+                        if (row && !this.disabled) {
+                            addToCart(row);
+                        }
+                    });
+                });
+
                 document.querySelectorAll('.product-item').forEach(item => {
                     item.addEventListener('click', function(e) {
-                        if (e.target.closest('button') || parseInt(this.dataset.stock, 10) > 0) {
-                            addToCart(this);
+                        if (e.target.closest('button')) {
+                            return;
                         }
+
+                        if (getProductStock(this) <= 0) {
+                            return;
+                        }
+
+                        addToCart(this);
                     });
                 });
 

@@ -21,10 +21,14 @@ it('returns role-based product pricing and costs', function () {
         'shop_cost' => 120,
         'home_price' => 150,
         'shop_price' => 180,
+        'home_stock' => 10,
+        'shop_stock' => 5,
     ]);
 
     expect($product->getCostForRole(User::ROLE_HOME))->toEqual(100.0)
         ->and($product->getCostForRole(User::ROLE_SHOP))->toEqual(120.0)
         ->and($product->getPriceForRole(User::ROLE_HOME))->toEqual(150.0)
-        ->and($product->getPriceForRole(User::ROLE_SHOP))->toEqual(180.0);
+        ->and($product->getPriceForRole(User::ROLE_SHOP))->toEqual(180.0)
+        ->and($product->getStockForRole(User::ROLE_HOME))->toBe(10)
+        ->and($product->getStockForRole(User::ROLE_SHOP))->toBe(5);
 });

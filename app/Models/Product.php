@@ -19,7 +19,8 @@ class Product extends Model
         'shop_cost',
         'home_price',
         'shop_price',
-        'stock',
+        'home_stock',
+        'shop_stock',
         'image',
         'description',
         'is_active',
@@ -43,21 +44,36 @@ class Product extends Model
     }
 
     // Helper methods
-    public function hasStock($quantity)
+    public function getStockForRole(?string $role): int
     {
-        return $this->stock >= $quantity;
+        return match ($role) {
+            User::ROLE_SHOP => (int) ($this->shop_stock ?? 0),
+            default => (int) ($this->home_stock ?? 0),
+        };
     }
 
-    public function decreaseStock($quantity)
+    protected function stockColumnForRole(?string $role): string
     {
-        $this->stock -= $quantity;
+        return $role === User::ROLE_SHOP ? 'shop_stock' : 'home_stock';
+    }
+
+    public function hasStock($quantity, ?string $role = null): bool
+    {
+        return $this->getStockForRole($role) >= $quantity;
+    }
+
+    public function decreaseStock($quantity, ?string $role = null)
+    {
+        $column = $this->stockColumnForRole($role);
+        $this->{$column} -= $quantity;
         $this->save();
         return $this;
     }
 
-    public function increaseStock($quantity)
+    public function increaseStock($quantity, ?string $role = null)
     {
-        $this->stock += $quantity;
+        $column = $this->stockColumnForRole($role);
+        $this->{$column} += $quantity;
         $this->save();
         return $this;
     }
@@ -98,14 +114,27 @@ class Product extends Model
         return number_format($this->getPriceForRole(User::ROLE_HOME), 2);
     }
 
-    public function isLowStock(): bool
+    public function isLowStock(?string $role = null): bool
     {
-        return $this->stock > 0 && $this->stock < self::LOW_STOCK_THRESHOLD;
+        if ($role === null) {
+            $homeLow = $this->home_stock > 0 && $this->home_stock < self::LOW_STOCK_THRESHOLD;
+            $shopLow = $this->shop_stock > 0 && $this->shop_stock < self::LOW_STOCK_THRESHOLD;
+
+            return $homeLow || $shopLow;
+        }
+
+        $stock = $this->getStockForRole($role);
+
+        return $stock > 0 && $stock < self::LOW_STOCK_THRESHOLD;
     }
 
-    public function isOutOfStock(): bool
+    public function isOutOfStock(?string $role = null): bool
     {
-        return $this->stock <= 0;
+        if ($role === null) {
+            return $this->home_stock <= 0 && $this->shop_stock <= 0;
+        }
+
+        return $this->getStockForRole($role) <= 0;
     }
 
     public function getStockStatus(): string
