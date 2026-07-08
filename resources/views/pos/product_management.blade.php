@@ -151,16 +151,16 @@
 
                 <div class="card border-0 shadow-sm p-3">
                     <div class="table-responsive product-table-scroll" style="display: block; max-height: calc(100vh - 160px); overflow-y: auto; overflow-x: auto;">
-                        <table class="table table-hover align-middle mb-0" style="font-size: 14px">
+                        <table class="table table-hover align-middle mb-0" style="font-size: 15px">
                             <thead class="table-light">
                                 <tr  class="text-center">
                                     <th>ကုဒ်အမှတ်</th>
                                     <th>ပစ္စည်းအမည်</th>
                                     <th>အမျိုးအစား</th>
-                                    <th>အိမ်(၀ယ်ဈေး)</th>
-                                    <th>အိမ်(ရောင်းဈေး)</th>
-                                    <th>ဆိုင်(၀ယ်ဈေး)</th>
-                                    <th>ဆိုင်(ရောင်းဈေး)</th>
+                                    <th>အိမ်၀ယ်ဈေး</th>
+                                    <th>အိမ်ရောင်းဈေး</th>
+                                    <th>ဆိုင်၀ယ်ဈေး</th>
+                                    <th>ဆိုင်ရောင်းဈေး</th>
                                     <th>အိမ်လက်ကျန်</th>
                                     <th>ဆိုင်လက်ကျန်</th>
                                     <th>အခြေအနေ</th>
@@ -290,7 +290,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">အိမ်(၀ယ်ဈေး) *</label>
+                                <label class="form-label small fw-medium text-muted">အိမ်၀ယ်ဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="add_prod_home_cost" name="home_cost" placeholder="၀" value="{{ old('home_cost') }}" required style="font-size: 16px" step="1" min="0">
@@ -298,7 +298,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">အိမ်(ရောင်းဈေး) *</label>
+                                <label class="form-label small fw-medium text-muted">အိမ်ရောင်းဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="add_prod_home_price" name="home_price" placeholder="၀" value="{{ old('home_price') }}" required style="font-size: 16px" step="1">
@@ -306,7 +306,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ဆိုင်(၀ယ်ဈေး) *</label>
+                                <label class="form-label small fw-medium text-muted">ဆိုင်၀ယ်ဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="add_prod_shop_cost" name="shop_cost" placeholder="၀" value="{{ old('shop_cost') }}" required style="font-size: 16px" step="1">
@@ -314,7 +314,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ဆိုင်(ရောင်းဈေး) *</label>
+                                <label class="form-label small fw-medium text-muted">ဆိုင်ရောင်းဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="add_prod_shop_price" name="shop_price" placeholder="၀" value="{{ old('shop_price') }}" required style="font-size: 16px" step="1">
@@ -401,7 +401,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">အိမ်(၀ယ်ဈေး) *</label>
+                                <label class="form-label small fw-medium text-muted">အိမ်၀ယ်ဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="edit_prod_home_cost" name="home_cost" value="{{ old('home_cost') }}" required style="font-size: 16px" step="1" min="0">
@@ -409,7 +409,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">အိမ်(ရောင်းဈေး) *</label>
+                                <label class="form-label small fw-medium text-muted">အိမ်ရောင်းဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="edit_prod_home_price" name="home_price" value="{{ old('home_price') }}" required style="font-size: 16px" step="1">
@@ -417,7 +417,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ဆိုင်(၀ယ်ဈေး) *</label>
+                                <label class="form-label small fw-medium text-muted">ဆိုင်၀ယ်ဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="edit_prod_shop_cost" name="shop_cost" value="{{ old('shop_cost') }}" required style="font-size: 16px" step="1">
@@ -425,7 +425,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label small fw-medium text-muted">ဆိုင်(ရောင်းဈေး) *</label>
+                                <label class="form-label small fw-medium text-muted">ဆိုင်ရောင်းဈေး *</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light" style="font-size: 14px"> ကျပ် </span>
                                     <input type="number" class="form-control" id="edit_prod_shop_price" name="shop_price" value="{{ old('shop_price') }}" required style="font-size: 16px" step="1">
