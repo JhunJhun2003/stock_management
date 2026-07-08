@@ -145,9 +145,9 @@
                                             @if ($user->isAdmin())
                                                 <span class="badge bg-primary">စီမံခန့်ခွဲသူ</span>
                                             @elseif ($user->isHome())
-                                                <span class="badge bg-info">Home</span>
+                                                <span class="badge bg-info">အိမ်ရောင်းသူ</span>
                                             @else
-                                                <span class="badge bg-success">Shop</span>
+                                                <span class="badge bg-success">ဆိုင်ရောင်းသူ</span>
                                             @endif
                                         </td>
                                         <td class="text-center">
