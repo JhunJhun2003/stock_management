@@ -16,8 +16,9 @@
         padding-top: 0 !important;
         z-index: 1030;
       }
+        
 
-      .main-container {
+      .main-content {
         margin-left: 240px;
         min-height: 100vh;
         overflow: auto !important;
