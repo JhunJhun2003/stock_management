@@ -10,7 +10,14 @@ interface ProductRepositoryInterface
 {
     public function getAll(): Collection;
 
-    public function paginate(int $perPage = 10): LengthAwarePaginator;
+    /**
+     * Get paginated products with optional search
+     *
+     * @param int $perPage
+     * @param string|null $search
+     * @return LengthAwarePaginator
+     */
+    public function paginate(int $perPage = 10, ?string $search = null): LengthAwarePaginator;
 
     public function getById($id);
 
@@ -29,4 +36,12 @@ interface ProductRepositoryInterface
     public function getLowStock(int $threshold): Collection;
 
     public function getCategories(): SupportCollection;
+
+    /**
+     * Search products by name, code, or category
+     *
+     * @param string $searchTerm
+     * @return Collection
+     */
+    public function search(string $searchTerm): Collection;
 }

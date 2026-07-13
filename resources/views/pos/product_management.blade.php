@@ -103,9 +103,31 @@
                         <small class="text-muted">ကုန်ပစ္စည်းစာရင်းနှင့် လက်ကျန်ကို စီမံခန့်ခွဲပါ။</small>
                     </div>
 
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                        <i class="bi bi-plus-lg"></i> ကုန်ပစ္စည်းအသစ်ထည့်ရန်
-                    </button>
+                    <div class="d-flex gap-2">
+                        <!-- Search Box -->
+                        <form action="{{ route('products.index') }}" method="GET" class="d-flex">
+                            <div class="input-group input-group-sm">
+                                <input type="text" 
+                                       name="search" 
+                                       class="form-control" 
+                                       placeholder="ရှာဖွေရန်..." 
+                                       value="{{ request('search') }}"
+                                       style="min-width: 200px; font-size: 14px;">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                                @if(request('search'))
+                                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
+                                        <i class="bi bi-x-lg"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </form>
+
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            <i class="bi bi-plus-lg"></i> ကုန်ပစ္စည်းအသစ်ထည့်ရန်
+                        </button>
+                    </div>
                 </div>
                 
                 <!-- Success/Error Messages -->
@@ -119,6 +141,15 @@
                 @if(session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-circle"></i> {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                @if(request('search'))
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <i class="bi bi-search"></i> 
+                        "{{ request('search') }}" အတွက် ရလဒ် {{ $products->total() }} ခု တွေ့ရှိခဲ့ပါသည်။
+                        <a href="{{ route('products.index') }}" class="alert-link">အားလုံးပြန်ကြည့်ရန်</a>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
@@ -218,9 +249,15 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="8" class="text-center py-4">
+                                    <td colspan="11" class="text-center py-4">
                                         <i class="bi bi-box-seam fs-1 d-block text-muted"></i>
-                                        <p class="text-muted mt-2">ပစ္စည်းရှာမတွေ့ပါ။</p>
+                                        <p class="text-muted mt-2">
+                                            @if(request('search'))
+                                                "{{ request('search') }}" နှင့်ကိုက်ညီသော ပစ္စည်းရှာမတွေ့ပါ။
+                                            @else
+                                                ပစ္စည်းရှာမတွေ့ပါ။
+                                            @endif
+                                        </p>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -231,7 +268,7 @@
                     <!-- Pagination -->
                     @if(isset($products) && method_exists($products, 'links'))
                     <div class="mt-3">
-                        {{ $products->links() }}
+                        {{ $products->appends(request()->query())->links() }}
                     </div>
                     @endif
                 </div>
@@ -526,17 +563,17 @@
             });
 
             // Generate product code
-            function generateProductCode() {
-                const prefix = 'PRD-';
-                const timestamp = Date.now().toString().slice(-6);
-                const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-                return prefix + timestamp + random;
-            }
+            // function generateProductCode() {
+            //     const prefix = 'PRD-';
+            //     const timestamp = Date.now().toString().slice(-6);
+            //     const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            //     return prefix + timestamp + random;
+            // }
 
             // Prepare add-product modal when it is fully shown and focus the product name
             document.getElementById('addProductModal').addEventListener('shown.bs.modal', function () {
-                const codeInput = document.getElementById('add_prod_code');
-                codeInput.value = '';
+                // const codeInput = document.getElementById('add_prod_code');
+                // codeInput.value = generateProductCode();
                 setTimeout(() => {
                     const nameInput = document.getElementById('add_prod_name');
                     nameInput.focus({ preventScroll: true });
@@ -607,6 +644,19 @@
                     document.getElementById('delete_prod_name').textContent = name;
                     document.getElementById('deleteProductForm').action = `/products/${id}`;
                 });
+            });
+
+            // Auto-focus search input with keyboard shortcut (Ctrl+F or /)
+            document.addEventListener('keydown', function(event) {
+                // Check if Ctrl+F or '/' is pressed
+                if ((event.ctrlKey && event.key === 'f') || (event.key === '/' && !event.ctrlKey && !event.altKey && !event.metaKey)) {
+                    const searchInput = document.querySelector('input[name="search"]');
+                    if (searchInput && !document.querySelector('.modal.show')) {
+                        event.preventDefault();
+                        searchInput.focus();
+                        searchInput.select();
+                    }
+                }
             });
         });
 

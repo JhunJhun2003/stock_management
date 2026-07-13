@@ -16,9 +16,9 @@ class ProductService
         protected ProductRepositoryInterface $productRepository
     ) {}
 
-    public function getPaginatedProducts(int $perPage = 10): LengthAwarePaginator
+    public function getPaginatedProducts(int $perPage = 10, ?string $search = null): LengthAwarePaginator
     {
-        return $this->productRepository->paginate($perPage);
+        return $this->productRepository->paginate($perPage, $search);
     }
 
     public function getAllProducts(): Collection
@@ -78,5 +78,8 @@ class ProductService
         return $this->productRepository->findByCode($code);
     }
 
-    
+    public function searchProducts(string $searchTerm): Collection
+    {
+        return $this->productRepository->search($searchTerm);
+    }
 }

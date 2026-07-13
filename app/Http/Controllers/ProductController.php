@@ -13,9 +13,13 @@ class ProductController extends Controller
         protected ProductService $productService
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productService->getPaginatedProducts(PHP_INT_MAX);
+        // Get search term from request
+        $search = $request->input('search');
+        
+        // Get paginated products with search filter
+        $products = $this->productService->getPaginatedProducts(PHP_INT_MAX, $search);
         $lowStockProducts = $this->productService->getLowStockProducts();
 
         return view('pos.product_management', compact('products', 'lowStockProducts'));

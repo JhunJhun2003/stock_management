@@ -15,9 +15,22 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::all();
     }
 
-    public function paginate(int $perPage = 10): LengthAwarePaginator
+    public function paginate(int $perPage = 10, ?string $search = null): LengthAwarePaginator
     {
-        return Product::latest()->paginate($perPage);
+        $query = Product::query();
+
+        // Apply search filter if provided
+        if ($search && !empty(trim($search))) {
+            $searchTerm = trim($search);
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('product_name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('product_code', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('category', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('description', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        return $query->latest()->paginate($perPage);
     }
 
     public function getById($id): ?Product
@@ -73,9 +86,17 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function getActiveForPos(?string $role = null): Collection
     {
-        return Product::where('is_active', true)
-            ->orderBy('product_name')
-            ->get();
+        $query = Product::where('is_active', true);
+
+        // If role is not admin, only show products with stock
+        if ($role !== 'admin') {
+            $query->where(function ($q) {
+                $q->where('home_stock', '>', 0)
+                  ->orWhere('shop_stock', '>', 0);
+            });
+        }
+
+        return $query->orderBy('product_name')->get();
     }
 
     public function getLowStock(int $threshold): Collection
@@ -98,5 +119,15 @@ class ProductRepository implements ProductRepositoryInterface
             ->distinct()
             ->orderBy('category')
             ->pluck('category');
+    }
+
+    public function search(string $searchTerm): Collection
+    {
+        return Product::where(function ($q) use ($searchTerm) {
+            $q->where('product_name', 'LIKE', "%{$searchTerm}%")
+              ->orWhere('product_code', 'LIKE', "%{$searchTerm}%")
+              ->orWhere('category', 'LIKE', "%{$searchTerm}%")
+              ->orWhere('description', 'LIKE', "%{$searchTerm}%");
+        })->get();
     }
 }
