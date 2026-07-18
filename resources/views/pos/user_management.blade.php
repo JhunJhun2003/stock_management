@@ -126,7 +126,7 @@
                 <div class="card border-0 shadow-sm p-3">
                     <div class="table-responsive" style="max-height:60vh; overflow:auto;">
                         <table class="table table-hover align-middle mb-0" style="font-size: 16px">
-                            <thead class="table-light">
+                            <thead class="table-light" style="position: sticky; top: 0;">
                                 <tr>
                                     <th>ID</th>
                                     <th>အမည်အပြည့်အစုံ</th>

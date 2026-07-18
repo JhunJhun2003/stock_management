@@ -239,7 +239,7 @@
                     <div class="table-responsive report-table-scroll">
                         @if($reportType === 'sales')
                             <table class="table table-hover align-middle text-nowrap text-center custom-table mb-0" style="font-size: 14px">
-                                <thead class="table-light">
+                                <thead class="table-light" style="position: sticky; top: 0; ">
                                     <tr>
                                         <th>ဘောင်ချာနံပါတ်</th>
                                         <th>ရက်စွဲ</th>

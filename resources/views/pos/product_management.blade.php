@@ -186,7 +186,7 @@
                         <table class="table table-hover align-middle mb-0" style="font-size: 15px">
                             {{-- <thead class="table-light"> --}}
                             <thead class="table-light"
-                                style="position: sticky; top: 0; ">
+                                style="position: sticky; top: 0;">
                                 <tr class="text-center">
                                     <th>ကုဒ်အမှတ်</th>
                                     <th>ပစ္စည်းအမည်</th>
