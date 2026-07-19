@@ -178,17 +178,15 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="9" class="text-center text-muted py-4">
+                                        <td colspan="10" class="text-center text-muted py-4">
                                             <i class="bi bi-inbox fs-1 d-block text-muted"></i>
-                                            <p class="mt-2">XM ရှာဖွေမှုနှင့် ကိုက်ညီသော အရောင်းမှတ်တမ်းမရှိပါ။</p>
+                                            <p class="mt-2">ရှာဖွေမှုနှင့် ကိုက်ညီသော အရောင်းမှတ်တမ်းမရှိပါ။</p>
                                         </td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
-
-                    {{-- Pagination removed in favor of inner scroll for consistency --}}
                 </div>
             </div>
         </div>
@@ -208,12 +206,12 @@
                     <!-- Receipt Slip Container -->
                     <div id="receiptSlipArea" style="font-family: monospace;">
                         <div class="text-center">
-                            <h5 class="fw-bold mb-2">မသီတာပြုံး </h5>
-                            <h3 class="fw-bold mb-2">မုန့်မျိုးစုံရောင်းဝယ်ရေး </h3>
+                            <h5 class="fw-bold mb-2">မသီတာပြုံး</h5>
+                            <h6 class="fw-bold mb-2">မုန့်မျိုးစုံရောင်းဝယ်ရေး</h6>
                             <p class="small mb-2">
                                 ရန်ပယ်စျေး၊ မကွေး <br>
-                                095341934, 09965341934,
-                                09782878443 </p>
+                                095341934, 09965341934, 09782878443
+                            </p>
                             <div style="border-top: 1px dashed #000; margin: 10px 0;"></div>
                         </div>
 
@@ -253,10 +251,8 @@
 
                         <div class="small my-1" style="font-size: 12px;">
                             <div><strong>ငွေပေးချေမှု</strong> <span id="recMethod">ငွေသား</span></div>
-                            <div id="recReceivedLine"><strong>လက်ခံရရှိငွေ</strong> <span id="recReceived">၀
-                                    ကျပ်</span></div>
-                            <div id="recChangeLine"><strong>ပြန်အမ်းငွေ</strong> <span id="recChange">၀ ကျပ်</span>
-                            </div>
+                            <div id="recReceivedLine"><strong>လက်ခံရရှိငွေ</strong> <span id="recReceived">၀ ကျပ်</span></div>
+                            <div id="recChangeLine"><strong>ပြန်အမ်းငွေ</strong> <span id="recChange">၀ ကျပ်</span></div>
                         </div>
 
                         <div style="border-top: 1px dashed #000; margin: 10px 0;"></div>
@@ -280,8 +276,6 @@
         </div>
     </div>
 
-
-
     <!-- ===== SCRIPTS ===== -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -303,40 +297,46 @@
         });
 
         function formatMoney(amount) {
-            return ' ' + Number(amount).toLocaleString();
+            if (amount === undefined || amount === null) amount = 0;
+            return Number(amount).toLocaleString() + ' ကျပ်';
         }
 
         async function viewReceipt(id) {
             try {
                 const response = await fetch(`/sales/${id}`);
                 if (!response.ok) {
-                    alert('Failed to fetch receipt details.');
+                    alert('ဘောင်ချာအချက်အလက်များ ရယူ၍မရပါသဖြင့် ထပ်မံကြိုးစားကြည့်ပါ။');
                     return;
                 }
                 const sale = await response.json();
 
-                document.getElementById('recDate').textContent = sale.sale_date;
-                document.getElementById('recInvoice').textContent = sale.invoice_number;
-                document.getElementById('recCustomer').textContent = sale.customer_name || 'Walk-in';
-                document.getElementById('recCashier').textContent = sale.cashier;
+                // Populate receipt data
+                document.getElementById('recDate').textContent = sale.sale_date || '-';
+                document.getElementById('recInvoice').textContent = sale.invoice_number || '-';
+                document.getElementById('recCustomer').textContent = sale.customer_name || 'ပုံမှန်ဝယ်ယူသူ';
+                document.getElementById('recCashier').textContent = sale.cashier || '-';
 
                 const recItems = document.getElementById('recItems');
-                recItems.innerHTML = sale.items.map(item => `
-                    <tr>
-                      <td>${item.name}</td>
-                      <td class="text-center">${item.quantity}</td>
-                      <td class="text-end">${formatMoney(item.subtotal)}</td>
-                    </tr>
-                `).join('');
+                if (sale.items && sale.items.length > 0) {
+                    recItems.innerHTML = sale.items.map(item => `
+                        <tr>
+                            <td class="text-start">${item.name || 'N/A'}</td>
+                            <td class="text-center">${item.quantity || 0}</td>
+                            <td class="text-end">${formatMoney(item.subtotal || 0)}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    recItems.innerHTML = `<tr><td colspan="3" class="text-center">ပစ္စည်းများမရှိပါ</td></tr>`;
+                }
 
-                const subtotal = sale.items.reduce((sum, item) => sum + item.subtotal, 0);
+                const subtotal = sale.items ? sale.items.reduce((sum, item) => sum + (item.subtotal || 0), 0) : 0;
                 const discount = sale.discount || 0;
 
                 document.getElementById('recSubtotal').textContent = formatMoney(subtotal);
                 document.getElementById('recDiscount').textContent = formatMoney(discount);
-                document.getElementById('recTotal').textContent = formatMoney(sale.total_amount);
+                document.getElementById('recTotal').textContent = formatMoney(sale.total_amount || 0);
 
-                document.getElementById('recMethod').textContent = sale.payment_method.toUpperCase();
+                document.getElementById('recMethod').textContent = sale.payment_method ? sale.payment_method.toUpperCase() : 'ငွေသား';
 
                 const recReceivedLine = document.getElementById('recReceivedLine');
                 const recChangeLine = document.getElementById('recChangeLine');
@@ -344,8 +344,8 @@
                 if (sale.payment_method === 'cash') {
                     recReceivedLine.style.display = 'block';
                     recChangeLine.style.display = 'block';
-                    document.getElementById('recReceived').textContent = formatMoney(sale.payment_amount);
-                    document.getElementById('recChange').textContent = formatMoney(sale.change_amount);
+                    document.getElementById('recReceived').textContent = formatMoney(sale.payment_amount || 0);
+                    document.getElementById('recChange').textContent = formatMoney(sale.change_amount || 0);
                 } else {
                     recReceivedLine.style.display = 'none';
                     recChangeLine.style.display = 'none';
@@ -354,78 +354,70 @@
                 const modal = new bootstrap.Modal(document.getElementById('receiptModal'));
                 modal.show();
             } catch (e) {
-                alert('Something went wrong.');
+                console.error('Error:', e);
+                alert('တစ်စုံတစ်ရာ မှားယွင်းနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။');
             }
         }
 
-        // function printReceiptSlip() {
-        //     const printContent = document.getElementById('receiptSlipArea').innerHTML;
-        //     const printWindow = window.open('', '_blank', 'width=400,height=600');
-        //     printWindow.document.write('<html><head><title>Print Receipt</title>');
-        //     printWindow.document.write(
-        //         '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">'
-        //         );
-        //     printWindow.document.write(
-        //         '<style>body { padding: 4mm; margin: 0; font-family: "Courier New", Courier, monospace; font-size: 12px; width: 80mm; max-width: 80mm; box-sizing: border-box; } @page { size: 80mm auto; margin: 0mm; }</style>'
-        //         );
-        //     printWindow.document.write('<script>window.onload = function() { window.print(); }<\/script>');
-        //     printWindow.document.write('</head><body>');
-        //     printWindow.document.write(printContent);
-        //     printWindow.document.write('</body></html>');
-        //     printWindow.document.close();
-        //     printWindow.focus();
-        // }
-    function printReceiptSlip() {
-
-    const printContent = document.getElementById('receiptSlipArea').innerHTML;
-
-    const printWindow = window.open('', '_blank', 'width=400,height=600');
-
-    printWindow.document.write(`
-        <html>
-        <head>
-            <title>Print Receipt</title>
-
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-            <style>
-                body {
-                    padding: 4mm;
-                    margin: 0;
-                    font-family: "Courier New", Courier, monospace;
-                    font-size: 12px;
-                    width: 80mm;
-                    max-width: 80mm;
-                }
-
-                @page {
-                    size: 80mm auto;
-                    margin: 0mm;
-                }
-            </style>
-
-        </head>
-
-        <body>
-
-            ${printContent}
-
-            <script>
-                window.onload = function(){
-                    setTimeout(function(){
-                        window.print();
-                        window.close();
-                    },500);
-                }
-            <\/script>
-
-        </body>
-        </html>
-    `);
-
-    printWindow.document.close();
-}
-    
+        function printReceiptSlip() {
+            // Get the current receipt content with all populated data
+            const printContent = document.getElementById('receiptSlipArea').innerHTML;
+            
+            const printWindow = window.open('', '_blank', 'width=400,height=600');
+            
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>ဘောင်ချာထုတ်ရန်</title>
+                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                    <style>
+                        body {
+                            padding: 4mm;
+                            margin: 0;
+                            font-family: "Courier New", Courier, monospace;
+                            font-size: 12px;
+                            width: 80mm;
+                            max-width: 80mm;
+                            box-sizing: border-box;
+                        }
+                        @page {
+                            size: 80mm auto;
+                            margin: 0mm;
+                        }
+                        .text-center { text-align: center; }
+                        .fw-bold { font-weight: bold; }
+                        .small { font-size: 11px; }
+                        .mb-0 { margin-bottom: 0; }
+                        .mb-1 { margin-bottom: 4px; }
+                        .mb-2 { margin-bottom: 8px; }
+                        .mt-3 { margin-top: 12px; }
+                        .py-2 { padding-top: 8px; padding-bottom: 8px; }
+                        .my-1 { margin-top: 4px; margin-bottom: 4px; }
+                        .my-2 { margin-top: 8px; margin-bottom: 8px; }
+                        .w-100 { width: 100%; }
+                        .text-start { text-align: left; }
+                        .text-center { text-align: center; }
+                        .text-end { text-align: right; }
+                        .d-flex { display: flex; }
+                        .justify-content-between { justify-content: space-between; }
+                    </style>
+                </head>
+                <body>
+                    ${printContent}
+                    <script>
+                        window.onload = function() {
+                            setTimeout(function() {
+                                window.print();
+                                window.close();
+                            }, 500);
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+        }
     </script>
 </body>
 
