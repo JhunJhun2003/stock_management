@@ -133,9 +133,9 @@
 
                 <!-- Sales Table -->
                 <div class="card border-0 shadow-sm p-3">
-                    <div class="table-responsive table-scroll">
+                    <div class="table-responsive table-scroll" style="max-height: 70vh; overflow-y: auto;">
                         <table class="table table-hover align-middle text-nowrap text-center custom-table mb-0 p-5"
-                            style="font-size: 14px">
+                            style="font-size: 14px; margin-bottom: 0;">
                              <thead style="position: sticky; top: 0; ">
                                 <tr>
                                     <th>ဘောင်ချာနံပါတ်</th>

@@ -138,12 +138,20 @@
       .table-scroll {
             max-height: calc(100vh - 230px);
             overflow-y: auto;
+            overflow-x: auto;
+            border-radius: 8px;
         }
         .table-scroll thead th {
             position: sticky;
             top: 0;
-            background: #fff;
+            background: #eaeee1;
             z-index: 2;
+        }
+        .table-scroll thead th:first-child {
+            border-top-left-radius: 8px;
+        }
+        .table-scroll thead th:last-child {
+            border-top-right-radius: 8px;
         }
      
 
