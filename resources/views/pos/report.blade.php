@@ -242,6 +242,7 @@
                                 <thead class="table-light" style="position: sticky; top: 0; ">
                                     <tr>
                                         <th>ဘောင်ချာနံပါတ်</th>
+                                        <th>လုပ်ဆောင်ချက်</th>
                                         <th>ရက်စွဲ</th>
                                         <th>ဝယ်သူ</th>
                                         <th>အရောင်းဝန်ထမ်း</th>
@@ -252,7 +253,7 @@
                                         <th>ရင်းနှီးငွေ</th>
                                         <th>အမြတ်ငွေ</th>
                                         <th>ငွေပေးချေမှု</th>
-                                        <th>လုပ်ဆောင်ချက်</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -266,6 +267,11 @@
                                         @endphp
                                         <tr>
                                             <td><span class="fw-bold">{{ $sale->invoice_number }}</span></td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewReceipt({{ $sale->id }})">
+                                                    <i class="bi bi-receipt me-1"></i> ဘောင်ချာကြည့်ရန်
+                                                </button>
+                                            </td>
                                             <td>{{ $sale->sale_date->format('Y-m-d H:i') }}</td>
                                             <td>{{ $sale->customer_name ?? 'ပုံမှန်ဝယ်ယူသူ' }}</td>
                                             <td>
@@ -284,11 +290,7 @@
                                                     {{ ucfirst($sale->payment_method ?? 'လက်ငင်းငွေသား') }}
                                                 </span>
                                             </td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewReceipt({{ $sale->id }})">
-                                                    <i class="bi bi-receipt me-1"></i> ဘောင်ချာကြည့်ရန်
-                                                </button>
-                                            </td>
+                                            
                                         </tr>
                                     @empty
                                         <tr>
