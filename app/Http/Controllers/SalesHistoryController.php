@@ -50,7 +50,7 @@ class SalesHistoryController extends Controller
         }
 
         // Security check: seller can only see their own receipts
-        if (Auth::user()->isSeller() && $sale->user_id !== Auth::id()) {
+        if (Auth::user()->isSeller() && (int) $sale->user_id !== (int) Auth::id()) {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
 
