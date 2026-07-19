@@ -26,7 +26,7 @@
                             style="width: 56px; height: 56px; object-fit: cover;">
                         
                         <h5 class="fw-bold text-white p-3 mb-2" style="border-bottom: 1px solid #1e293b; width: 100%; text-align: center;">
-                            မသီတာပြုံး
+                            မသီတာပြုံး 
                         </h5>
                     </div>
 
