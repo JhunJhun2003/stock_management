@@ -136,7 +136,7 @@
                     <div class="table-responsive table-scroll">
                         <table class="table table-hover align-middle text-nowrap text-center custom-table mb-0 p-5"
                             style="font-size: 14px">
-                            <thead>
+                             <thead style="position: sticky; top: 0; ">
                                 <tr>
                                     <th>ဘောင်ချာနံပါတ်</th>
                                     <th>ရက်စွဲ</th>
