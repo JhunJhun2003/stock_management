@@ -139,6 +139,7 @@
                              <thead style="position: sticky; top: 0; ">
                                 <tr>
                                     <th>ဘောင်ချာနံပါတ်</th>
+                                    <th>လုပ်ဆောင်ချက်</th>
                                     <th>ရက်စွဲ</th>
                                     <th>ဝယ်သူ</th>
                                     <th>ပစ္စည်းအရေအတွက်</th>
@@ -147,7 +148,6 @@
                                     <th>စုစုပေါင်းကျသင့်ငွေ</th>
                                     <th>ငွေပေးချေမှု</th>
                                     <th>အခြေအနေ</th>
-                                    <th class="text-end">လုပ်ဆောင်ချက်</th>
                                 </tr>
                             </thead>
 
@@ -155,6 +155,12 @@
                                 @forelse($sales as $sale)
                                     <tr>
                                         <td><span class="fw-bold">{{ $sale->invoice_number }}</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"
+                                                onclick="viewReceipt({{ $sale->id }})">
+                                                <i class="bi bi-receipt me-1"></i> ဘောင်ချာကြည့်ရန်
+                                            </button>
+                                        </td>
                                         <td>{{ $sale->sale_date->format('d/m/Y h:i A') }}</td>
                                         <td>{{ $sale->customer_name ?? 'ပုံမှန်ဝယ်ယူသူ' }}</td>
                                         <td>{{ $sale->saleDetails->sum('quantity') }}</td>
@@ -168,12 +174,6 @@
                                         </td>
                                         <td>
                                             <span class="badge bg-success-subtle text-success">အောင်မြင်ပါသည်။</span>
-                                        </td>
-                                        <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-primary"
-                                                onclick="viewReceipt({{ $sale->id }})">
-                                                <i class="bi bi-receipt me-1"></i> ဘောင်ချာကြည့်ရန်
-                                            </button>
                                         </td>
                                     </tr>
                                 @empty
@@ -204,7 +204,7 @@
                 </div>
                 <div class="modal-body p-4 pt-2">
                     <!-- Receipt Slip Container -->
-                    <div id="receiptSlipArea" style="font-family: monospace;">
+                    <div id="receiptSlipArea" style="font-family: 'Pyidaungsu', 'Noto Sans Myanmar', 'Myanmar Text', 'Zawgyi-One', monospace;">
                         <div class="text-center">
                             <h5 class="fw-bold mb-2">မသီတာပြုံး</h5>
                             <h6 class="fw-bold mb-2">မုန့်မျိုးစုံရောင်းဝယ်ရေး</h6>
@@ -297,7 +297,7 @@
         });
 
         function formatMoney(amount) {
-            if (amount === undefined || amount === null) amount = 0;
+            if (amount === undefined || amount === null || isNaN(amount)) amount = 0;
             return Number(amount).toLocaleString() + ' ကျပ်';
         }
 
@@ -360,25 +360,24 @@
         }
 
         function printReceiptSlip() {
-            // Get the current receipt content with all populated data
             const printContent = document.getElementById('receiptSlipArea').innerHTML;
-            
             const printWindow = window.open('', '_blank', 'width=400,height=600');
             
             printWindow.document.write(`
                 <html>
                 <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>ဘောင်ချာထုတ်ရန်</title>
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
                     <style>
                         body {
-                            padding: 4mm;
-                            margin: 0;
-                            font-family: "Courier New", Courier, monospace;
-                            font-size: 12px;
+                            padding: 20px;
+                            font-family: 'Noto Sans Myanmar', 'Pyidaungsu', 'Myanmar Text', 'Zawgyi-One', monospace;
                             width: 80mm;
                             max-width: 80mm;
-                            box-sizing: border-box;
+                            margin: 0 auto;
                         }
                         @page {
                             size: 80mm auto;
@@ -400,16 +399,15 @@
                         .text-end { text-align: right; }
                         .d-flex { display: flex; }
                         .justify-content-between { justify-content: space-between; }
+                        table { border-collapse: collapse; width: 100%; }
+                        td, th { padding: 2px 4px; }
                     </style>
                 </head>
                 <body>
                     ${printContent}
                     <script>
                         window.onload = function() {
-                            setTimeout(function() {
-                                window.print();
-                                window.close();
-                            }, 500);
+                            window.print();
                         }
                     <\/script>
                 </body>
@@ -417,6 +415,7 @@
             `);
             
             printWindow.document.close();
+            printWindow.focus();
         }
     </script>
 </body>
